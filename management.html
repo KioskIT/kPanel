@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 
-<html>
+<html style="overflow-x: hidden">
 	
 	
     <head>
@@ -10,40 +10,127 @@
         <title>Administration interface</title>
         
         <link href="management.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="scripts.js"></script>
-    
+        <script type="text/javascript" src="management.js"></script>
+        
     </head>
     
     
     <body>
     	
-    	<div class="versionsList">
+    	<div id="versionsList">
 	    	
-	    	<div class="version" id="version1" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version2" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version3" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version4" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version5" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version6" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version7" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version8" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version9" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version10" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version11" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version12" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version13" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version14" onclick="selector(this)">The name of some version</div>
-	    	<div class="version" id="version15" onclick="selector(this)">The name of some version</div>
+	    	<div class="version" id="version1" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 1</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+    	    </div>
+    	    
 	    	
-    	</div>    	
+	    	<div class="version" id="version2" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 2</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
 	    	
-		<!--Spacer to make sure nothing gets hidden by the buttonsBar-->
-		<div class="spacer"></div>
+	    	<div class="version" id="version3" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 3</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version4" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 4</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version5" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 5</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    
+	    	<div class="version" id="version6" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 6</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    
+	    	<div class="version" id="version7" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 7</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version8" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 8</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version9" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 9</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version10" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 10</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version11" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 11</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version12" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 12</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version13" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 13</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+	    	<div class="version" id="version14" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 14</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    
+	    	<div class="version" id="version15" onclick="select(this)">
+	    	    <p class="versionName">The name of some version 15</p>
+                <div class="edit" onclick="edit()">Edit version</div>
+                <div class="edit" onclick="rename()">Rename version</div>
+                <div class="edit" onclick="copy()">Copy version</div>    
+            </div>
+	    	
+    	</div>
     	
     	<div class="buttonsBar">
-	    	<a href="#" class="button" id="newVersion">New version</a>
+	    	<a href="#" class="button" id="newVersion" onclick="createNewVersion()">New version</a>
 	    	<a href="#" class="button" id="setCurrent">Set version as current</a>
-	    	<a href="#" class="button" id="deleteVersion">Delete version</a>
+	    	<a href="#" class="button" id="deleteVersion" onclick="removeVersion()">Delete version</a>
     	</div>
     	
     </body>

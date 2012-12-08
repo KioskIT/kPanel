@@ -1,0 +1,123 @@
+body
+{
+    background-color:#9C9C9C; 
+    
+    -webkit-user-select: none; 
+}
+
+#toolbar
+{
+    background-color:#CCCCCC;
+    
+    position:absolute;
+    height:100%;
+    width:150px;
+    
+    left:0px;
+    top:0px;
+    
+    -webkit-box-shadow: 3px 0px 3px black;
+}
+
+#properties
+{
+    background-color:#CCCCCC;
+    
+    position:absolute;
+    height:100%;
+    width:300px;
+    
+    right:0px;
+    top:0px;
+    
+    -webkit-box-shadow: -3px 0px 3px black;
+}
+
+#canvas
+{
+    background-color:#FFFFFF;
+    
+    position:absolute;
+    min-height:615px;
+    min-width:820px;
+    max-height: 80%;
+    max-width: 80%;
+    
+    left:15%;
+    top:15%;
+    
+    -webkit-box-shadow: 3px 3px 10px black;
+}
+
+.title
+{
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    
+    text-align:center;
+}
+
+.toolbarItem
+{    
+    background-color:#000000;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:15px;
+    padding:13px 0px 6px 0px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    top:27px;
+    
+    width:134px;
+    height:26px;
+    
+    margin-left:5px;
+    margin-bottom:50px;
+    
+    -webkit-user-select: none;
+}
+
+.toolbarItem:hover
+{
+    background-color:#00A600;
+}
+
+.toolbarItem:active 
+{
+    background-color:#008A00;
+}
+
+.disabledToolbarItem
+{    
+    background-color:#666666;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:15px;
+    padding:13px 0px 6px 0px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    top:27px;
+    
+    width:134px;
+    height:26px;
+    
+    margin-left:5px;
+    margin-bottom:50px;
+    
+    -webkit-user-select: none;    
+}
