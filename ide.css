@@ -37,15 +37,6 @@ body
 {
     background-color:#FFFFFF;
     
-    position:absolute;
-    min-height:615px;
-    min-width:820px;
-    max-height: 80%;
-    max-width: 80%;
-    
-    left:15%;
-    top:15%;
-    
     -webkit-box-shadow: 3px 3px 10px black;
 }
 
@@ -80,7 +71,7 @@ body
     height:26px;
     
     margin-left:5px;
-    margin-bottom:50px;
+    margin-bottom:10%;
     
     -webkit-user-select: none;
 }
@@ -117,7 +108,7 @@ body
     height:26px;
     
     margin-left:5px;
-    margin-bottom:50px;
+    margin-bottom:10%;
     
     -webkit-user-select: none;    
 }
