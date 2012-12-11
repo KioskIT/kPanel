@@ -9,12 +9,13 @@ body
 {
     background-color:#CCCCCC;
     
-    position:absolute;
+    position:fixed;
     height:100%;
     width:150px;
     
     left:0px;
     top:0px;
+    z-index:2147483647;
     
     -webkit-box-shadow: 3px 0px 3px black;
 }
@@ -23,12 +24,13 @@ body
 {
     background-color:#CCCCCC;
     
-    position:absolute;
+    position:fixed;
     height:100%;
     width:300px;
     
     right:0px;
     top:0px;
+    z-index:2147483647;
     
     -webkit-box-shadow: -3px 0px 3px black;
 }
@@ -37,13 +39,17 @@ body
 {
     background-color:#FFFFFF;
     
+    width:1024px;
+    height:768px;
+    
     -webkit-box-shadow: 3px 3px 10px black;
+    -webkit-user-select: none;
 }
 
 .title
 {
     font-family:arial;
-    font-size:15px;
+    font-size:95%;
     font-weight:bold;
     
     text-align:center;
@@ -59,7 +65,7 @@ body
     
     color:#FFFFFF;
     font-family:arial;
-    font-size:15px;
+    font-size:95%;
     padding:13px 0px 6px 0px;
     text-decoration:none;
     text-align:center;
@@ -96,7 +102,7 @@ body
     
     color:#FFFFFF;
     font-family:arial;
-    font-size:15px;
+    font-size:95%;
     padding:13px 0px 6px 0px;
     text-decoration:none;
     text-align:center;
@@ -111,4 +117,79 @@ body
     margin-bottom:10%;
     
     -webkit-user-select: none;    
+}
+
+#gallery
+{ 
+    width:400px; 
+    height:300px;
+    background:#000000; 
+}
+
+#properties_title
+{
+    margin-top:50px;
+    margin-bottom:30px;    
+    
+    font-family:"arial";
+    font-size:150%;
+    text-align:center;
+    font-weight:bold;
+}
+
+#properties_form
+{
+    margin:0px 10px 0px 10px;
+}
+
+.properties_label
+{
+    margin-top:30px;
+    margin-bottom:10px;
+    font-family:"arial";
+    font-size:100%;
+    text-align:center;
+}
+
+.properties_input
+{
+    display:block;
+    margin: 0 auto;
+    text-align:center;
+}
+
+#delete_button
+{
+    background-color:#000000;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:95%;
+    padding:13px 24px 6px 24px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    top:27px;
+    
+    width:100px;
+    height:26px;
+    
+    margin:30px 0px 0px 63px;
+    
+    -webkit-user-select: none;    
+}
+
+#delete_button:hover
+{
+    background-color:#BF1E4B;
+}
+
+#delete_button:active
+{
+    background-color:#AC193D;
 }
