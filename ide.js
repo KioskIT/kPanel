@@ -14,6 +14,8 @@ var viewportWidth, viewportHeight;
 
 var elements = [];
 
+var selected = null;
+
 function initalizeCanvas()
 {
     canvas = document.getElementById("canvas");
@@ -24,7 +26,10 @@ function initalizeCanvas()
 
     width = 1024;
     height = 768;
- 
+    
+    canvas.style.backgroundColor = "rgb(255, 255, 255)";
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
     canvas.style.zoom = "100%";   
     canvas.style.position = "absolute";
     canvas.style.top = ((viewportHeight - height) / 2) + "px";
@@ -32,15 +37,12 @@ function initalizeCanvas()
     canvas.style.webkitUserSelect = "none";
     
     $("#canvas").draggable();
-}
-
-function select(index)
-{    
-}
-
-function deselect()
-{
     
+    elements.push({
+        type: "canvas",
+        width: width,
+        height: height,
+        color: canvas.style.backgroundColor});
 }
 
 function addText()
@@ -57,20 +59,23 @@ function addText()
     text.style.top = height / 2 + "px";
     text.style.webkitUserSelect = "none";
     
-    $(text).draggable({containment: "#canvas"});
-    $(text).click(function() {textSelect(text);});
-    $(text).bind("dragstart", function(event, ui) {textSelect(text);});
-    
     canvas.appendChild(text);
     
     elements.push({
-        width: text.style.width,
-        height: text.style.height,
+        type: "text",
         top: text.style.top,
         left: text.style.left,
+        zIndex: text.style.zIndex,
         font: text.style.fontFamily,
         fontsize: text.style.fontSize,
+        color: text.style.color,
         content: text.innerHTML});
+        
+    var index = elements.length - 1;
+    
+    $(text).draggable({containment: "#canvas"});
+    $(text).click(function() {textSelect(text, index);});
+    $(text).bind("dragstart", function(event, ui) {textSelect(text, index);});
 }
 
 function addImage()
@@ -85,18 +90,22 @@ function addImage()
     image.style.top = height / 2 + "px";
     image.style.webkitUserSelect = "none";
     
-    $(image).draggable({containment: "#canvas"});
-    $(image).click(function() {imageSelect(image);});
-    $(image).bind("dragstart", function(event, ui) {imageSelect(image);});
-    
     canvas.appendChild(image);
     
     elements.push({
+        type: "image",
         width: image.style.width,
         height: image.style.height,
         top: image.style.top,
         left: image.style.left,
+        zIndex: image.style.zIndex,
         src: image.src});
+    
+    var index = elements.length - 1;
+    
+    $(image).draggable({containment: "#canvas"});
+    $(image).click(function() {imageSelect(image, index);});
+    $(image).bind("dragstart", function(event, ui) {imageSelect(image, index);});
 }
 
 function addVideo()
@@ -112,18 +121,22 @@ function addVideo()
     video.style.top = height / 2 + "px";
     video.style.webkitUserSelect = "none";
     
-    $(video).draggable({containment: "#canvas"});
-    $(video).click(function() {videoSelect(video);});
-    $(video).bind("dragstart", function(event, ui) {videoSelect(video);});
-    
     canvas.appendChild(video);
     
     elements.push({
+        type: "video",
         width: video.style.width,
         height: video.style.height,
         top: video.style.top,
         left: video.style.left,
+        zIndex: video.style.zIndex,
         src: video.src});
+    
+    var index = elements.length - 1;
+    
+    $(video).draggable({containment: "#canvas"});
+    $(video).click(function() {videoSelect(video, index);});
+    $(video).bind("dragstart", function(event, ui) {videoSelect(video, index);});
 }
 
 function addButton()
@@ -146,21 +159,24 @@ function addHyperlink()
     a.style.top = height / 2 + "px";
     a.style.webkitUserSelect = "none";
     
-    $(a).draggable({containment: "#canvas"});
-    $(a).click(function() {hyperlinkSelect(a);});
-    $(a).bind("dragstart", function(event, ui) {hyperlinkSelect(a);});
-    
     canvas.appendChild(a);
     
     elements.push({
-        width: a.style.width,
-        height: a.style.height,
+        type: "hyperlink",
         top: a.style.top,
         left: a.style.left,
+        zIndex: a.style.zIndex,
         font: a.style.fontFamily,
         fontsize: a.style.fontSize,
+        color: a.style.color,
         content: a.innerHTML,
         href: a.href});
+    
+    var index = elements.length - 1;
+    
+    $(a).draggable({containment: "#canvas"});
+    $(a).click(function() {hyperlinkSelect(a, index);});
+    $(a).bind("dragstart", function(event, ui) {hyperlinkSelect(a, index);});
 }
 
 function addDropdownMenu()
@@ -170,11 +186,9 @@ function addDropdownMenu()
     dropdown.style.position = "absolute";
     dropdown.style.left = width / 2 + "px";
     dropdown.style.top = height / 2 + "px";
+    dropdown.style.fontFamily = DEFAULT_FONT;
+    dropdown.style.fontSize = DEFAULT_FONT_SIZE;
     dropdown.style.webkitUserSelect = "none";
-    
-    $(dropdown).draggable({containment: "#canvas"});
-    $(dropdown).click(function() {dropdownSelect(dropdown);});
-    $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown);});
     
     var option = document.createElement("option");
     option.setAttribute("value", "option1");
@@ -194,9 +208,19 @@ function addDropdownMenu()
     canvas.appendChild(dropdown);
     
     elements.push({
+        type: "dropdown",
         top: dropdown.style.top,
         left: dropdown.style.left,
+        zIndex: dropdown.stylezIndex,
+        font: dropdown.style.fontFamily,
+        fontsize: dropdown.style.fontSize,
         options: ["option1", "option2", "option3"]});
+    
+    var index = elements.length - 1;
+    
+    $(dropdown).draggable({containment: "#canvas"});
+    $(dropdown).click(function() {dropdownSelect(dropdown, index);});
+    $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
 }
 
 function addGallery()
@@ -227,28 +251,30 @@ function addGallery()
     
     Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
     Galleria.run("#gallery");
-      
-    $(gallery).draggable({containment: "#canvas"});
-    $(gallery).click(function() {gallerySelect(gallery);});
-    $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery);});
     
     canvas.appendChild(gallery);
     
     elements.push({
+        type: "gallery",
         width: gallery.style.width,
         height: gallery.style.height,
         top: gallery.style.top,
         left: gallery.style.left,
-        src: ["sample.png", "sample.png", "sample.png"]}); 
-        
-        alert("done");      
+        zIndex: gallery.style.zIndex,
+        src: ["sample.png", "sample.png", "sample.png"]});
+    
+    var index = elements.length - 1;
+      
+    $(gallery).draggable({containment: "#canvas"});
+    $(gallery).click(function() {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery, index);});
 }
 
 function zoomIn()
 {
-    if (parseInt(canvas.style.zoom) < 300)
+    if (parseInt(canvas.style.zoom) < 400)
     {
-        canvas.style.zoom = (parseInt(canvas.style.zoom) + 25) + "%";
+        canvas.style.zoom = (parseInt(canvas.style.zoom) + 10) + "%";
     }   
 }
 
@@ -256,15 +282,18 @@ function zoomOut()
 {
     if (parseInt(canvas.style.zoom) > 0)
     {
-        canvas.style.zoom = (parseInt(canvas.style.zoom) - 25) + "%";
+        canvas.style.zoom = (parseInt(canvas.style.zoom) - 10) + "%";
         
     }   
 }
 
-function textSelect(text)
+function textSelect(text, index)
 {
     deselect();
-        
+    
+    selected = text;
+    text.style.border = "2px solid grey";
+            
     // Title
     var title = document.createElement("div");
     title.id = "properties_title";
@@ -292,6 +321,7 @@ function textSelect(text)
                 { 
                     return old.replace(/\n/g, '<br />') 
                 });
+            elements[index].content = text.innerHTML;
         });
     form.appendChild(content);
     
@@ -306,7 +336,7 @@ function textSelect(text)
     color.className = "properties_input";
     color.id = "color";
     color.value = text.style.color;
-    $(color).change(function() {text.style.color = color.value;});
+    $(color).change(function() {elements[index].color = text.style.color = color.value;});
     form.appendChild(color);
     
     // X coord
@@ -320,7 +350,7 @@ function textSelect(text)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(text.style.left, 10);
-    $(x).change(function() {text.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = text.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -334,7 +364,7 @@ function textSelect(text)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(text.style.top, 10);
-    $(y).change(function() {text.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = text.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Z coord
@@ -348,22 +378,25 @@ function textSelect(text)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(text.style.zIndex, 10);
-    $(z).change(function() {text.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = text.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(text); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(text); deselect();});
     form.appendChild(del);
     
     properties.appendChild(form);
 }
 
-function imageSelect(image)
+function imageSelect(image, index)
 {
     deselect();
+    
+    selected = image;
+    image.style.border = "2px solid grey";
         
     // Title
     var title = document.createElement("div");
@@ -386,7 +419,7 @@ function imageSelect(image)
     source.className = "properties_input";
     source.id = "content";
     source.value = image.src;
-    $(source).change(function() {image.src = source.value;});
+    $(source).change(function() {elements[index].src = image.src = source.value;});
     form.appendChild(source);
     
     // X coord
@@ -400,7 +433,7 @@ function imageSelect(image)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(image.style.left, 10);
-    $(x).change(function() {image.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = image.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -414,7 +447,7 @@ function imageSelect(image)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(image.style.top, 10);
-    $(y).change(function() {image.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = image.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Width
@@ -428,7 +461,7 @@ function imageSelect(image)
     w.className = "properties_input";
     w.id = "w";
     w.value = parseInt(image.style.width, 10);
-    $(w).change(function() {image.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    $(w).change(function() {elements[index].width = image.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
     form.appendChild(w);
     
     // Height
@@ -442,7 +475,7 @@ function imageSelect(image)
     h.className = "properties_input";
     h.id = "h";
     h.value = parseInt(image.style.height, 10);
-    $(h).change(function() {image.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
+    $(h).change(function() {elements[index].height = image.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
     form.appendChild(h);
     
     // Z coord
@@ -456,22 +489,25 @@ function imageSelect(image)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(image.style.zIndex, 10);
-    $(z).change(function() {image.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = image.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(image); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(image); deselect();});
     form.appendChild(del);
     
     properties.appendChild(form);
 }
 
-function videoSelect(video)
+function videoSelect(video, index)
 {
     deselect();
+    
+    selected = video;
+    video.style.border = "2px solid grey";
     
     // Title
     var title = document.createElement("div");
@@ -494,7 +530,7 @@ function videoSelect(video)
     source.className = "properties_input";
     source.id = "content";
     source.value = video.src;
-    $(source).change(function() {video.src = source.value;});
+    $(source).change(function() {elements[index].src = video.src = source.value;});
     form.appendChild(source);
     
     // X coord
@@ -508,7 +544,7 @@ function videoSelect(video)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(video.style.left, 10);
-    $(x).change(function() {video.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = video.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -522,7 +558,7 @@ function videoSelect(video)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(video.style.top, 10);
-    $(y).change(function() {video.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = video.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Width
@@ -536,7 +572,7 @@ function videoSelect(video)
     w.className = "properties_input";
     w.id = "w";
     w.value = parseInt(video.style.width, 10);
-    $(w).change(function() {video.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    $(w).change(function() {elements[index].width = video.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
     form.appendChild(w);
     
     // Height
@@ -550,7 +586,7 @@ function videoSelect(video)
     h.className = "properties_input";
     h.id = "h";
     h.value = parseInt(video.style.height, 10);
-    $(h).change(function() {video.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
+    $(h).change(function() {elements[index].height = video.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
     form.appendChild(h);
     
     // Z coord
@@ -564,14 +600,14 @@ function videoSelect(video)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(video.style.zIndex, 10);
-    $(z).change(function() {video.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = video.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(video); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(video); deselect();});
     form.appendChild(del);
     
     properties.appendChild(form);
@@ -584,9 +620,12 @@ function buttonSelect(button)
     // TODO
 }
 
-function hyperlinkSelect(a)
+function hyperlinkSelect(a, index)
 {
     deselect();
+    
+    selected = a;
+    a.style.border = "2px solid grey";
         
     // Title
     var title = document.createElement("div");
@@ -604,12 +643,12 @@ function hyperlinkSelect(a)
     label.innerHTML = "Content";
     form.appendChild(label);
     
-    var content = document.createElement("textarea");
+    var content = document.createElement("input");
     content.type = "text";
     content.className = "properties_input";
     content.id = "content";
     content.value = a.innerHTML;
-    $(content).change(function() {a.innerHTML = content.value;});
+    $(content).change(function() {elements[index].innerHTML = a.innerHTML = content.value;});
     form.appendChild(content);
     
     // Href
@@ -623,7 +662,7 @@ function hyperlinkSelect(a)
     href.className = "properties_input";
     href.id = "content";
     href.value = a.href;
-    $(href).change(function() {a.href = href.value;});
+    $(href).change(function() {elements[index].href = a.href = href.value;});
     form.appendChild(href);
     
     // Color
@@ -637,7 +676,7 @@ function hyperlinkSelect(a)
     color.className = "properties_input";
     color.id = "color";
     color.value = a.style.color;
-    $(color).change(function() {a.style.color = color.value;});
+    $(color).change(function() {elements[index].color = a.style.color = color.value;});
     form.appendChild(color);
     
     // X coord
@@ -651,7 +690,7 @@ function hyperlinkSelect(a)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(a.style.left, 10);
-    $(x).change(function() {a.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = a.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -665,7 +704,7 @@ function hyperlinkSelect(a)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(a.style.top, 10);
-    $(y).change(function() {a.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = a.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Z coord
@@ -679,22 +718,25 @@ function hyperlinkSelect(a)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(a.style.zIndex, 10);
-    $(z).change(function() {a.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = a.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(a); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(a); deselect();});
     form.appendChild(del);
     
     properties.appendChild(form);
 }
 
-function dropdownSelect(dropdown)
+function dropdownSelect(dropdown, index)
 {
     deselect();
+    
+    selected = dropdown;
+    dropdown.style.border = "2px solid grey";
         
     // Title
     var title = document.createElement("div");
@@ -716,8 +758,30 @@ function dropdownSelect(dropdown)
     options.type = "text";
     options.className = "properties_input";
     options.id = "options";
-    options.value = dropdown.src;
-    $(options).change(function() {dropdown.src = options.value;});
+    for (var i = 0; i < elements[index].options.length - 1; ++i)
+    {
+        options.value += elements[index].options[i] + "<>";
+    }
+    options.value += elements[index].options[elements[index].options.length - 1];
+    $(options).change(function() 
+        {
+            elements[index].options.splice(0, elements[index].options.length);
+            
+            elements[index].options = options.value.split("<>");
+            
+            while (dropdown.childNodes.length > 0)
+            {
+                dropdown.removeChild(dropdown.lastChild);
+            }
+            
+            for (var i = 0; i < elements[index].options.length; ++i)
+            {    
+                var option = document.createElement("option");
+                option.setAttribute("value", i);
+                option.innerHTML = elements[index].options[i];
+                dropdown.appendChild(option);
+            }
+        });
     form.appendChild(options);
     
     // X coord
@@ -731,7 +795,7 @@ function dropdownSelect(dropdown)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(dropdown.style.left, 10);
-    $(x).change(function() {dropdown.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = dropdown.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -745,7 +809,7 @@ function dropdownSelect(dropdown)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(dropdown.style.top, 10);
-    $(y).change(function() {dropdown.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = dropdown.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Z coord
@@ -759,14 +823,14 @@ function dropdownSelect(dropdown)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(dropdown.style.zIndex, 10);
-    $(z).change(function() {dropdown.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = dropdown.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(dropdown); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(dropdown); deselect();});
     form.appendChild(del);
     
     properties.appendChild(form);
@@ -775,6 +839,9 @@ function dropdownSelect(dropdown)
 function gallerySelect(gallery)
 {
     deselect();
+    
+    selected = gallery;
+    gallery.style.border = "2px solid grey";
         
     // Title
     var title = document.createElement("div");
@@ -795,9 +862,30 @@ function gallerySelect(gallery)
     var source = document.createElement("input");
     source.type = "text";
     source.className = "properties_input";
-    source.id = "content";
-    source.value = gallery.src;
-    $(source).change(function() {gallery.src = source.value;});
+    source.id = "source";
+    for (var i = 0; i < elements[index].src.length - 1; ++i)
+    {
+        options.value += elements[index].src[i] + "<>";
+    }
+    source.value += elements[index].src[elements[index].src.length - 1];
+    $(source).change(function() 
+        {
+            elements[index].src.splice(0, elements[index].src.length);
+            
+            elements[index].src = source.value.split("<>");
+            
+            while (gallery.childNodes.length > 0)
+            {
+                gallery.removeChild(gallery.lastChild);
+            }
+            
+            for (var i = 0; i < elements[index].src.length; ++i)
+            {    
+                var image = document.createElement("img");
+                image.setAttribute("src", elements[index].src[i]);
+                gallery.appendChild(image);
+            }
+        });
     form.appendChild(source);
     
     // X coord
@@ -811,7 +899,7 @@ function gallerySelect(gallery)
     x.className = "properties_input";
     x.id = "x";
     x.value = parseInt(gallery.style.left, 10);
-    $(x).change(function() {gallery.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    $(x).change(function() {elements[index].left = gallery.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
     form.appendChild(x);
     
     // Y coord
@@ -825,7 +913,7 @@ function gallerySelect(gallery)
     y.className = "properties_input";
     y.id = "y";
     y.value = parseInt(gallery.style.top, 10);
-    $(y).change(function() {gallery.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    $(y).change(function() {elements[index].top = gallery.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
     form.appendChild(y);
     
     // Width
@@ -839,7 +927,7 @@ function gallerySelect(gallery)
     w.className = "properties_input";
     w.id = "w";
     w.value = parseInt(gallery.style.width, 10);
-    $(w).change(function() {gallery.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    $(w).change(function() {elements[index].width = gallery.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
     form.appendChild(w);
     
     // Height
@@ -853,7 +941,7 @@ function gallerySelect(gallery)
     h.className = "properties_input";
     h.id = "h";
     h.value = parseInt(gallery.style.height, 10);
-    $(h).change(function() {gallery.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
+    $(h).change(function() {elements[index].height = gallery.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
     form.appendChild(h);
     
     // Z coord
@@ -867,21 +955,85 @@ function gallerySelect(gallery)
     z.className = "properties_input";
     z.id = "z";
     z.value = parseInt(gallery.style.zIndex, 10);
-    $(z).change(function() {gallery.style.zIndex = parseInt(z.value, 10);});
+    $(z).change(function() {elements[index].zIndex = gallery.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
     del.innerHTML = "Delete";
-    $(del).click(function() {canvas.removeChild(gallery); deselect();});
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(gallery); deselect();});
     form.appendChild(del);
+    
+    properties.appendChild(form);
+}
+
+function canvasSelect()
+{
+    deselect();
+    
+    // Title
+    var title = document.createElement("div");
+    title.id = "properties_title";
+    title.innerHTML = "Canvas";
+    properties.appendChild(title);
+    
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    // Width
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Width";
+    form.appendChild(label);
+    
+    var w = document.createElement("input");
+    w.type = "text";
+    w.className = "properties_input";
+    w.id = "w";
+    w.value = parseInt(width, 10);
+    $(w).change(function() {width = parseInt(w.value, 10); elements[0].width = canvas.style.width = parseInt(w.value, 10) + "px";});
+    form.appendChild(w);
+    
+    // Height
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Height";
+    form.appendChild(label);
+    
+    var h = document.createElement("input");
+    h.type = "text";
+    h.className = "properties_input";
+    h.id = "h";
+    h.value = parseInt(height, 10);
+    $(h).change(function() {height = parseInt(h.value, 10); elements[0].height = canvas.style.height = parseInt(h.value, 10) + "px";});
+    form.appendChild(h);
+       
+    // Color
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Color";
+    form.appendChild(label);
+    
+    var color = document.createElement("input");
+    color.type = "text";
+    color.className = "properties_input";
+    color.id = "color";
+    color.value = canvas.style.backgroundColor;
+    $(color).change(function() {elements[0].color = canvas.style.backgroundColor = color.value;});
+    form.appendChild(color);
     
     properties.appendChild(form);
 }
 
 function deselect()
 {
+    if (selected != null)
+    {
+        selected.style.border = "0px";    
+    }
+    
     while (properties.childNodes.length > 2)
     {
         properties.removeChild(properties.lastChild);
