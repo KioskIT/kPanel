@@ -129,10 +129,12 @@ function setCurrentVersion()
     if (current != null)
     {
         current.style.backgroundColor = "#9C9C9C";
+        current.style.color = "#000000";
     }
     
     current = selected;
     current.style.backgroundColor = "#00A600";
+    current.style.color = "#FFFFFF";
 }
 
 function removeVersion()
