@@ -1039,4 +1039,3 @@ function deselect()
         properties.removeChild(properties.lastChild);
     }
 }
-

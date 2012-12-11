@@ -1,4 +1,6 @@
 var selected = null;
+var current = null;
+
 var numberOfVersions = 15;
 var renaming = false;
 
@@ -7,9 +9,12 @@ function select(toBeSelected)
 	// If there is a previously selected version
 	if (selected != null && renaming == false) // due to some bug, select() gets randomly run after rename()
 	{
-		// Apply unselected style
-		selected.style.background = "#9C9C9C";
-		selected.style.color = "#000000";
+	    if (selected != current)
+	    {
+    		// Apply unselected style
+    		selected.style.background = "#9C9C9C";
+    		selected.style.color = "#000000";
+		}
 		
 		// Hide buttons while the version isn't selected
         var buttons = selected.getElementsByClassName("edit");
@@ -22,9 +27,12 @@ function select(toBeSelected)
 	// Select version
 	selected = toBeSelected;	
 	
-	// Apply selected style
-	selected.style.background = "#094AB2";
-	selected.style.color = "#FFFFFF";
+    if (selected != current)
+    {
+    	// Apply selected style
+    	selected.style.background = "#094AB2";
+    	selected.style.color = "#FFFFFF";
+	}
 	
     // Show buttons when the version is selected
     if (renaming == false) // due to some bug, select() gets randomly run after rename()
@@ -114,6 +122,17 @@ function createNewVersion()
 	
 	// Scroll to the bottom of the page (.setTimeout workaround needed)
     window.setTimeout("window.scrollTo(0, 30000)",0);
+}
+
+function setCurrentVersion()
+{
+    if (current != null)
+    {
+        current.style.backgroundColor = "#9C9C9C";
+    }
+    
+    current = selected;
+    current.style.backgroundColor = "#00A600";
 }
 
 function removeVersion()
