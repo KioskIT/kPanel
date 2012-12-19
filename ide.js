@@ -76,6 +76,7 @@ function addText()
     $(text).draggable({containment: "#canvas"});
     $(text).click(function() {textSelect(text, index);});
     $(text).bind("dragstart", function(event, ui) {textSelect(text, index);});
+    $(text).bind("dragstop", function(event, ui) {textSelect(text, index);});
 }
 
 function addImage()
@@ -106,6 +107,7 @@ function addImage()
     $(image).draggable({containment: "#canvas"});
     $(image).click(function() {imageSelect(image, index);});
     $(image).bind("dragstart", function(event, ui) {imageSelect(image, index);});
+    $(image).bind("dragstop", function(event, ui) {imageSelect(image, index);});
 }
 
 function addVideo()
@@ -137,6 +139,7 @@ function addVideo()
     $(video).draggable({containment: "#canvas"});
     $(video).click(function() {videoSelect(video, index);});
     $(video).bind("dragstart", function(event, ui) {videoSelect(video, index);});
+    $(video).bind("dragstop", function(event, ui) {videoSelect(video, index);});
 }
 
 function addButton()
@@ -177,6 +180,7 @@ function addHyperlink()
     $(a).draggable({containment: "#canvas"});
     $(a).click(function() {hyperlinkSelect(a, index);});
     $(a).bind("dragstart", function(event, ui) {hyperlinkSelect(a, index);});
+    $(a).bind("dragstop", function(event, ui) {hyperlinkSelect(a, index);});
 }
 
 function addDropdownMenu()
@@ -221,12 +225,11 @@ function addDropdownMenu()
     $(dropdown).draggable({containment: "#canvas"});
     $(dropdown).click(function() {dropdownSelect(dropdown, index);});
     $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
+    $(dropdown).bind("dragstop", function(event, ui) {dropdownSelect(dropdown, index);});
 }
 
 function addGallery()
-{
-    // Function not working for some reason
-    
+{    
     var gallery = document.createElement("div");
 
     gallery.id = "gallery";
@@ -268,6 +271,7 @@ function addGallery()
     $(gallery).draggable({containment: "#canvas"});
     $(gallery).click(function() {gallerySelect(gallery, index);});
     $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstop", function(event, ui) {gallerySelect(gallery, index);});
 }
 
 function zoomIn()
@@ -290,6 +294,10 @@ function zoomOut()
 function textSelect(text, index)
 {
     deselect();
+    
+    // Update coords by dragging
+    elements[index].left = text.style.left;
+    elements[index].top = text.style.top;
     
     selected = text;
     text.style.border = "2px solid grey";
@@ -394,6 +402,10 @@ function textSelect(text, index)
 function imageSelect(image, index)
 {
     deselect();
+    
+    // Update coords by dragging
+    elements[index].left = image.style.left;
+    elements[index].top = image.style.top;
     
     selected = image;
     image.style.border = "2px solid grey";
@@ -505,6 +517,10 @@ function imageSelect(image, index)
 function videoSelect(video, index)
 {
     deselect();
+    
+    // Update coords by dragging
+    elements[index].left = video.style.left;
+    elements[index].top = video.style.top;
     
     selected = video;
     video.style.border = "2px solid grey";
@@ -624,6 +640,10 @@ function hyperlinkSelect(a, index)
 {
     deselect();
     
+    // Update coords by dragging
+    elements[index].left = a.style.left;
+    elements[index].top = a.style.top;
+    
     selected = a;
     a.style.border = "2px solid grey";
         
@@ -735,6 +755,10 @@ function dropdownSelect(dropdown, index)
 {
     deselect();
     
+    // Update coords by dragging
+    elements[index].left = dropdown.style.left;
+    elements[index].top = dropdown.style.top;
+    
     selected = dropdown;
     dropdown.style.border = "2px solid grey";
         
@@ -836,12 +860,16 @@ function dropdownSelect(dropdown, index)
     properties.appendChild(form);
 }
 
-function gallerySelect(gallery)
+function gallerySelect(gallery, index)
 {
     deselect();
     
     selected = gallery;
     gallery.style.border = "2px solid grey";
+    
+    // Update coords by dragging
+    elements[index].left = gallery.style.left;
+    elements[index].top = gallery.style.top;
         
     // Title
     var title = document.createElement("div");
@@ -863,28 +891,21 @@ function gallerySelect(gallery)
     source.type = "text";
     source.className = "properties_input";
     source.id = "source";
+    
     for (var i = 0; i < elements[index].src.length - 1; ++i)
     {
-        options.value += elements[index].src[i] + "<>";
+        source.value += elements[index].src[i] + "<>";
     }
+    
     source.value += elements[index].src[elements[index].src.length - 1];
+    
     $(source).change(function() 
         {
             elements[index].src.splice(0, elements[index].src.length);
             
             elements[index].src = source.value.split("<>");
-            
-            while (gallery.childNodes.length > 0)
-            {
-                gallery.removeChild(gallery.lastChild);
-            }
-            
-            for (var i = 0; i < elements[index].src.length; ++i)
-            {    
-                var image = document.createElement("img");
-                image.setAttribute("src", elements[index].src[i]);
-                gallery.appendChild(image);
-            }
+
+            refreshGallery(gallery, index);            
         });
     form.appendChild(source);
     
@@ -927,7 +948,7 @@ function gallerySelect(gallery)
     w.className = "properties_input";
     w.id = "w";
     w.value = parseInt(gallery.style.width, 10);
-    $(w).change(function() {elements[index].width = gallery.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    $(w).change(function() {elements[index].width = gallery.style.width = Math.min(parseInt(w.value, 10), width) + "px";refreshGallery(gallery, index);});
     form.appendChild(w);
     
     // Height
@@ -941,7 +962,7 @@ function gallerySelect(gallery)
     h.className = "properties_input";
     h.id = "h";
     h.value = parseInt(gallery.style.height, 10);
-    $(h).change(function() {elements[index].height = gallery.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
+    $(h).change(function() {elements[index].height = gallery.style.height = Math.min(parseInt(h.value, 10), height) + "px";refreshGallery(gallery, index);});
     form.appendChild(h);
     
     // Z coord
@@ -966,6 +987,41 @@ function gallerySelect(gallery)
     form.appendChild(del);
     
     properties.appendChild(form);
+}
+
+function refreshGallery(gallery, index)
+{
+    // Remove old gallery
+    canvas.removeChild(gallery);
+
+    // Create new gallery with updated parameters
+    gallery = document.createElement("div");
+
+    gallery.id = "gallery";
+    gallery.style.position = "absolute";
+    gallery.style.left = elements[index].left;
+    gallery.style.top = elements[index].top;
+    gallery.style.width = elements[index].width;
+    gallery.style.height = elements[index].height;
+    gallery.style.webkitUserSelect = "none";
+    
+    for (var i = 0; i < elements[index].src.length; ++i)
+    {    
+        var image = document.createElement("img");
+        image.setAttribute("src", elements[index].src[i]);
+        gallery.appendChild(image);
+    }
+    
+    Galleria.run("#gallery");
+    
+    canvas.appendChild(gallery);
+         
+    $(gallery).draggable({containment: "#canvas"});
+    $(gallery).click(function() {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstop", function(event, ui) {gallerySelect(gallery, index);});
+    
+    gallerySelect(gallery, index);
 }
 
 function canvasSelect()
@@ -1038,4 +1094,9 @@ function deselect()
     {
         properties.removeChild(properties.lastChild);
     }
+}
+
+function saveCanvas()
+{
+    
 }
