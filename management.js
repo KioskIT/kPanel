@@ -47,8 +47,8 @@ function select(toBeSelected)
 
 function edit()
 {
-    // TODO
     window.location = "ide.html"
+    document.cookie = "selected_version = " + selected.getElementsByClassName("versionName")[0].innerHTML;
 }
 
 function rename()

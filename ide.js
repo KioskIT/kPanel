@@ -13,6 +13,7 @@ var width, height;
 var viewportWidth, viewportHeight;
 
 var elements = [];
+_.observe(elements, function(new_array, old_array) {enableSave();});
 
 var selected = null;
 
@@ -35,14 +36,29 @@ function initalizeCanvas()
     canvas.style.top = ((viewportHeight - height) / 2) + "px";
     canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
     canvas.style.webkitUserSelect = "none";
-    
+        
     $("#canvas").draggable();
+    
+    var cookies = document.cookie.split(";");
+    var version_name = "";
+    for (var i = 0; i < cookies.length; ++i)
+    {
+        if (cookies[i].substr(0,cookies[i].indexOf("=")) == "selected_version")
+        {
+            version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
+            break;
+        }        
+    }
     
     elements.push({
         type: "canvas",
+        name: version_name,
         width: width,
         height: height,
         color: canvas.style.backgroundColor});
+
+    setInterval(function(){saveCanvas()}, 5000);
+        
 }
 
 function addText()
@@ -1098,5 +1114,28 @@ function deselect()
 
 function saveCanvas()
 {
-    
+    if (document.getElementById("saveButton").className == "toolbarItem")
+    {
+        document.getElementById("saveButton").innerHTML = "Saving..";
+        
+        document.cookie = "elements = " + JSON.stringify(elements);
+        $.ajax(
+            {
+                type: "POST", 
+                url: "save_version.php", 
+                success: function(message){disableSave();}
+            });
+    }
+}
+
+function disableSave()
+{
+    document.getElementById("saveButton").className = "disabledToolbarItem";
+    document.getElementById("saveButton").innerHTML = "Saved";
+}
+
+function enableSave()
+{
+    document.getElementById("saveButton").className = "toolbarItem";    
+    document.getElementById("saveButton").innerHTML = "Save";
 }
