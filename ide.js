@@ -18,8 +18,10 @@ var selected = null;
 
 function loadVersion()
 {
-    if (elements.length == 0)
+    if (elements == null || elements.length == 0)
     {
+        elements = [];
+        
         // Default canvas settings
         width = 1024;
         height = 768;
@@ -113,11 +115,10 @@ function loadVersion()
     setInterval(function(){saveCanvas();}, 5000);
 }
 
-function initalizeCanvas()
+function initializeCanvas()
 {
     canvas = document.getElementById("canvas");
     properties = document.getElementById("properties");
-        
     viewportWidth = window.innerWidth;
     viewportHeight = window.innerHeight;
     
@@ -125,7 +126,7 @@ function initalizeCanvas()
             {
                 type: "POST", 
                 url: "load_version.php", 
-                success: function(array){elements = $.parseJSON(array); loadVersion();}
+                success: function(array){alert(array); elements = $.parseJSON(array); alert("going");loadVersion();}
             });
 
     $("#canvas").draggable();

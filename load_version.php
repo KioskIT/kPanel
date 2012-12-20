@@ -8,6 +8,10 @@
     {
         print(fgets($file));
     }
+    else
+    {
+        print("dasdas");    
+    }
     
     fclose($file);
 

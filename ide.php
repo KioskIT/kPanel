@@ -21,7 +21,7 @@
     </head>
     
     
-    <body onload="initalizeCanvas()">
+    <body onload="initializeCanvas()">
         
         <div id="canvas"></div>
        

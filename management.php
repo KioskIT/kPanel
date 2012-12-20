@@ -10,34 +10,19 @@
         <title>Administration interface</title>
         
         <link href="management.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="jquery-ui.js"></script>
         <script type="text/javascript" src="management.js"></script>
         
     </head>
     
     
-    <body onload="populateVersionsList()">
-    	
-    	<?PHP
-           $handle = opendir("versions");
-           
-           // Skip . ..
-           $entry = readdir($handle);
-           $entry = readdir($handle);
-           
-           $versionsList = "";
-           while (false !== ($entry = readdir($handle)))
-           {
-               $versionsList .= $entry . ":";
-           }
-           
-           setcookie("versions_list", $versionsList);
-    	?>
+    <body onload="getVersions()">
     	
     	<div id="versionsList"></div>
     	
     	<div class="buttonsBar">
-	    	<a href="#" class="button" id="newVersion" onclick="createNewVersion()">New version</a>
-	    	<a href="#" class="button" id="deleteVersion" onclick="removeVersion()">Delete version</a>
+	    	<a href="#" class="button" id="newVersion" onclick="createNewVersion()">Create a new version</a>
     	</div>
     	
     </body>

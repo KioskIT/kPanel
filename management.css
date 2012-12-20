@@ -53,24 +53,7 @@
 
 #newVersion
 {
-	position:absolute;
-	left:250px;
-}
-
-#deleteVersion
-{
-	position:absolute;
-	right:250px;
-}
-
-#deleteVersion:hover
-{
-	background-color:#BF1E4B;
-}
-
-#deleteVersion:active
-{
-	background-color:#AC193D;
+	text-align:center;	
 }
 
 .version
