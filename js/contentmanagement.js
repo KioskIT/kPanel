@@ -31,7 +31,7 @@ function populateVersionsList()
             {
                 var versionName = unescape(versions[j].split(".version")[0]).split("+").join(" ");
                 var version = document.createElement("div");
-                version.innerHTML = "The name of some version you have created";
+                version.innerHTML = "Loading version..";
                 version.setAttribute("class", "version");
                 version.setAttribute("id", "version" + numberOfVersions);   
                 version.setAttribute("onmouseover", "select(this)");
@@ -44,6 +44,13 @@ function populateVersionsList()
             break;
         }
     }
+}
+
+function goHome()
+{
+    selected = null;
+    document.cookie = "selected_version=";
+    window.location = "index.html";
 }
 
 function select(toBeSelected)
@@ -173,7 +180,7 @@ function createNewVersion()
 	++numberOfVersions;
 	
 	var version = document.createElement("div");
-	version.innerHTML = "The name of some version you have created";
+	version.innerHTML = "Creating version..";
 	version.setAttribute("class", "version");
 	version.setAttribute("id", "version" + numberOfVersions);	
 	version.setAttribute("onmouseover", "select(this)");
@@ -204,6 +211,8 @@ function removeVersion()
                     url: "remove_version.php", 
                     success: function(message)
                     {
+                        --numberOfVersions;
+                        
                         while (versionsList.childNodes.length > 0)
                         {
                             versionsList.removeChild(versionsList.lastChild);

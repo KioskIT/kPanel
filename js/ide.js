@@ -126,7 +126,7 @@ function initializeCanvas()
             {
                 type: "POST", 
                 url: "load_version.php", 
-                success: function(array){alert(array); elements = $.parseJSON(array); alert("going");loadVersion();}
+                success: function(array){elements = $.parseJSON(array);loadVersion();}
             });
 
     $("#canvas").draggable();
@@ -326,7 +326,7 @@ function addImage()
 {
     var image = document.createElement("img");
     
-    image.setAttribute("src", "sample.png");
+    image.setAttribute("src", "images/sample.png");
     image.style.position = "absolute";
     image.style.width = DEFAULT_IMAGE_WIDTH + "px";
     image.style.height = DEFAULT_IMAGE_HEIGHT + "px";
@@ -357,7 +357,7 @@ function addVideo()
 {
     var video = document.createElement("img");
     
-    video.setAttribute("src", "video_sample.png");
+    video.setAttribute("src", "images/video_sample.png");
     
     video.style.position = "absolute";
     video.style.width = DEFAULT_IMAGE_WIDTH + "px";
@@ -484,15 +484,15 @@ function addGallery()
     gallery.style.webkitUserSelect = "none";
              
     var image = document.createElement("img");
-    image.setAttribute("src", "sample.png");  
+    image.setAttribute("src", "images/sample.png");  
     gallery.appendChild(image);
     
     image = document.createElement("img");
-    image.setAttribute("src", "sample.png");  
+    image.setAttribute("src", "images/sample.png");  
     gallery.appendChild(image);
     
     image = document.createElement("img");
-    image.setAttribute("src", "sample.png");  
+    image.setAttribute("src", "images/sample.png");  
     gallery.appendChild(image);
     
     Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
@@ -507,7 +507,7 @@ function addGallery()
         top: gallery.style.top,
         left: gallery.style.left,
         zIndex: gallery.style.zIndex,
-        src: ["sample.png", "sample.png", "sample.png"]});
+        src: ["images/sample.png", "images/sample.png", "images/sample.png"]});
     
     var index = elements.length - 1;
       

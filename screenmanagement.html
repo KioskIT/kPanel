@@ -1,0 +1,85 @@
+<HTML>
+    
+    
+	<head>
+    
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    
+		<title>kPanel - Screen management</title>
+		
+        <link href="css/screenmanagement.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="js/screenmanagement.js"></script>
+
+	</head>
+	
+	<body>
+	    
+		<div id = 'content'>
+
+			<div id = 'screens'>
+				<div class = 'screen' id = 'screen_1' onClick = 'totalSelected = tick(1,totalSelected)'>
+					<img src = 'images/tick.png' class = 'tick' id = 'tick_1' style = 'visibility:hidden'/>
+					<div class = 'number'><img class = 'screen_img' src = 'images/screen.png' />#<span class = 'no_size'>1</span></div>
+					<div class = 'title'>Front-door</div>
+					<div class = 'desc'>This is for the screen's description</div>
+				</div>
+
+				<div class = 'screen' id = 'screen_2' onClick = 'totalSelected = tick(2,totalSelected)' >
+					<img src = 'images/tick.png' class = 'tick' id = 'tick_2' style = 'visibility:hidden'/>
+					<div class = 'number'><img class = 'screen_img' src = 'images/screen.png' />#<span class = 'no_size'>2</span></div>
+					<div class = 'title'>Front-door</div>
+					<div class = 'desc'>This is for the screen's description</div>
+				</div>
+				
+				<div class = 'screen' id = 'screen_3' onClick = 'totalSelected = tick(3,totalSelected)'>
+					<img src = 'images/tick.png' class = 'tick' id = 'tick_3' style = 'visibility:hidden'/>
+					<div class = 'number'><img class = 'screen_img' src = 'images/screen.png' />#<span class = 'no_size'>3</span></div>
+					<div class = 'title'>Front-door</div>
+					<div class = 'desc'>This is for the screen's description</div>
+				</div>
+				
+				<!--Add Screen -->
+				<div class = 'addscreen' id = 'addScreen' style = 'font-weight:bold;color:white'>
+					<span style = 'font-size:4.0em'>+</span> <span style = 'font-size:1.0em'>Add Screen</span>
+				
+				</div>
+			</div>
+			<!--
+				<div onClick = 'alert("total="+total)'>
+					show Total
+				</div>
+				<div onClick = 'alert("totalSelected="+totalSelected)'>
+					show totalSelected
+				</div>		
+				<div onClick = 'alert("totalDeleted="+totalDeleted)'>
+					show totalDeleted
+				</div>		-->
+			<div id = 'charms_bar'>
+				<div class = 'status'> <span class = 'status' id = 'noSelected'>0</span> selected</div>
+				<div class = 'button' onCLick = 'selectAll(total);totalSelected=total'>
+					Select All
+				</div>
+				
+				<div class = 'button' onClick = 'totalDeleted=deleteScreen(totalSelected,total);totalSelected = totalSelected - totalDeleted;totalDeleted=0'>
+					Delete
+				</div>
+				
+				<div class = 'button'>
+					Properties
+				</div>
+
+				<div class = 'button' onClick = 'cancel(total);totalSelected=0'>
+					Deselect all
+				</div>
+
+                <div class = 'button' onClick = 'goHome()'>
+                    Home
+                </div>
+			</div>
+
+		</div>
+
+	</body>
+	
+	
+</HTML>

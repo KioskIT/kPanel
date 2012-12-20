@@ -7,16 +7,16 @@
     
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
-        <title>Administration interface</title>
+        <title>kPanel - Version editor</title>
         
-        <link href="ide.css" type="text/css" rel="stylesheet" />
-        <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="jquery-ui.js"></script>
-        <script type="text/javascript" src="underscore.js"></script>
-        <script type="text/javascript" src="json2.js"></script>
-        <script type="text/javascript" src="underscore.observable.js"></script>
+        <link href="css/ide.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/underscore.js"></script>
+        <script type="text/javascript" src="js/json2.js"></script>
+        <script type="text/javascript" src="js/underscore.observable.js"></script>
         <script type="text/javascript" src="galleria/galleria-1.2.8.js"></script>
-        <script type="text/javascript" src="ide.js"></script>
+        <script type="text/javascript" src="js/ide.js"></script>
         
     </head>
     
