@@ -13,9 +13,105 @@ var width, height;
 var viewportWidth, viewportHeight;
 
 var elements = [];
-_.observe(elements, function(new_array, old_array) {enableSave();});
 
 var selected = null;
+
+function loadVersion()
+{
+    if (elements.length == 0)
+    {
+        // Default canvas settings
+        width = 1024;
+        height = 768;
+        
+        canvas.style.backgroundColor = "rgb(255, 255, 255)";
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        canvas.style.zoom = "100%";   
+        canvas.style.position = "absolute";
+        canvas.style.top = ((viewportHeight - height) / 2) + "px";
+        canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
+        canvas.style.webkitUserSelect = "none";
+            
+        
+        var cookies = document.cookie.split("; ");
+        var version_name = "";
+       
+        for (var i = 0; i < cookies.length; ++i)
+        {
+            if (cookies[i].substr(0, cookies[i].indexOf("=")) == "selected_version")
+            {
+                version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
+                break;
+            }        
+        }
+        
+        elements.push({
+            type: "canvas",
+            name: version_name,
+            width: width,
+            height: height,
+            color: canvas.style.backgroundColor});   
+    }
+    else
+    {
+        // Load existing settings
+        width = parseInt(elements[0].width);
+        height = parseInt(elements[0].height);
+        
+        canvas.style.backgroundColor = elements[0].color;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        
+        canvas.style.zoom = "100%";   
+        canvas.style.position = "absolute";
+        canvas.style.top = ((viewportHeight - height) / 2) + "px";
+        canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
+        canvas.style.webkitUserSelect = "none";
+        
+        for (var i = 1; i < elements.length; ++i)
+        {
+            if (elements[i].type == "text")
+            {
+                loadText(i);
+            }
+            else
+            if (elements[i].type == "image")
+            {
+                loadImage(i);
+            }
+            else
+            if (elements[i].type == "video")
+            {
+                loadVideo(i);
+            }
+            else
+            if (elements[i].type == "button")
+            {
+                loadButton(i);
+            }
+            else
+            if (elements[i].type == "hyperlink")
+            {
+                loadHyperlink(i);
+            }
+            else
+            if (elements[i].type == "dropdown")
+            {
+                loadDropdown(i);
+            }
+            else
+            if (elements[i].type == "gallery")
+            {
+                loadGallery(i);
+            }
+        }
+    }
+    
+    _.observe(elements, function(new_array, old_array) {enableSave();});
+    
+    setInterval(function(){saveCanvas();}, 5000);
+}
 
 function initalizeCanvas()
 {
@@ -24,41 +120,171 @@ function initalizeCanvas()
         
     viewportWidth = window.innerWidth;
     viewportHeight = window.innerHeight;
+    
+    $.ajax(
+            {
+                type: "POST", 
+                url: "load_version.php", 
+                success: function(array){elements = $.parseJSON(array); loadVersion();}
+            });
 
-    width = 1024;
-    height = 768;
-    
-    canvas.style.backgroundColor = "rgb(255, 255, 255)";
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
-    canvas.style.zoom = "100%";   
-    canvas.style.position = "absolute";
-    canvas.style.top = ((viewportHeight - height) / 2) + "px";
-    canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
-    canvas.style.webkitUserSelect = "none";
-        
     $("#canvas").draggable();
+}
+
+function loadText(index)
+{
+    var text = document.createElement("div");
+    text.style.fontFamily = elements[index].font;
+    text.style.fontSize = elements[index].fontsize;
+    text.style.color = elements[index].color;
     
-    var cookies = document.cookie.split(";");
-    var version_name = "";
-    for (var i = 0; i < cookies.length; ++i)
-    {
-        if (cookies[i].substr(0,cookies[i].indexOf("=")) == "selected_version")
-        {
-            version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
-            break;
-        }        
+    text.innerHTML = elements[index].content;
+    
+    text.style.position = "absolute";
+    text.style.left = elements[index].left;
+    text.style.top = elements[index].top;
+    text.style.zIndex = elements[index].zIndex;
+    text.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(text);
+    
+    $(text).draggable({containment: "#canvas"});
+    $(text).click(function() {textSelect(text, index);});
+    $(text).bind("dragstart", function(event, ui) {textSelect(text, index);});
+    $(text).bind("dragstop", function(event, ui) {textSelect(text, index);});    
+}
+
+function loadImage(index)
+{
+    var image = document.createElement("img");
+    
+    image.setAttribute("src", elements[index].src);
+    image.style.position = "absolute";
+    image.style.width = elements[index].width;
+    image.style.height = elements[index].height;
+    image.style.left = elements[index].left;
+    image.style.top = elements[index].top;
+    image.style.zIndex = elements[index].zIndex;
+    image.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(image);
+    
+    $(image).draggable({containment: "#canvas"});
+    $(image).click(function() {imageSelect(image, index);});
+    $(image).bind("dragstart", function(event, ui) {imageSelect(image, index);});
+    $(image).bind("dragstop", function(event, ui) {imageSelect(image, index);});    
+}
+
+function loadVideo(index)
+{
+    var video = document.createElement("img");
+    
+    video.setAttribute("src", elements[index].src);
+    
+    video.style.position = "absolute";
+    video.style.width = elements[index].width;
+    video.style.height = elements[index].height;
+    video.style.left = elements[index].left;
+    video.style.top = elements[index].top;
+    video.style.zIndex = elements[index].zIndex;
+    video.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(video);
+    
+    $(video).draggable({containment: "#canvas"});
+    $(video).click(function() {videoSelect(video, index);});
+    $(video).bind("dragstart", function(event, ui) {videoSelect(video, index);});
+    $(video).bind("dragstop", function(event, ui) {videoSelect(video, index);});    
+}
+
+function loadButton(index)
+{
+    // Button disabled
+}
+
+function loadHyperlink(index)
+{
+    var a = document.createElement("a");
+    a.style.fontFamily = elements[index].font;
+    a.style.fontSize = elements[index].fontsize;
+    a.style.color = elements[index].color;
+    
+    a.innerHTML = elements[index].content;
+    a.setAttribute("href", elements[index].href);
+    
+    a.style.position = "absolute";
+    a.style.left = elements[index].left;
+    a.style.top = elements[index].top;
+    a.style.zIndex = elements[index].zIndex;
+    a.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(a);
+    
+    $(a).draggable({containment: "#canvas"});
+    $(a).click(function() {hyperlinkSelect(a, index);});
+    $(a).bind("dragstart", function(event, ui) {hyperlinkSelect(a, index);});
+    $(a).bind("dragstop", function(event, ui) {hyperlinkSelect(a, index);});    
+}
+
+function loadDropdown(index)
+{    
+    var dropdown = document.createElement("select");
+    
+    dropdown.style.position = "absolute";
+    dropdown.style.left = elements[index].left;
+    dropdown.style.top = elements[index].top;
+    dropdown.style.zIndex = elements[index].zIndex;
+    dropdown.style.fontFamily = elements[index].font;
+    dropdown.style.fontSize = elements[index].fontsize;
+    dropdown.style.webkitUserSelect = "none";
+    
+    for (var i = 0; i < elements[index].options.length; ++i)
+    {        
+        var option = document.createElement("option");
+        option.setAttribute("value", elements[index].options[i]);
+        option.innerHTML = elements[index].options[i];
+        dropdown.appendChild(option);
     }
     
-    elements.push({
-        type: "canvas",
-        name: version_name,
-        width: width,
-        height: height,
-        color: canvas.style.backgroundColor});
+    canvas.appendChild(dropdown);
+    
+    $(dropdown).draggable({containment: "#canvas"});
+    $(dropdown).click(function() {dropdownSelect(dropdown, index);});
+    $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
+    $(dropdown).bind("dragstop", function(event, ui) {dropdownSelect(dropdown, index);});    
+}
 
-    setInterval(function(){saveCanvas()}, 5000);
+function loadGallery(index)
+{    
+    var gallery = document.createElement("div");
+
+    gallery.id = "gallery";
+    gallery.style.position = "absolute";
+    gallery.style.left = elements[index].left;
+    gallery.style.top = elements[index].top;
+    gallery.style.zIndex = elements[index].zIndex;
+    gallery.style.width = elements[index].width;
+    gallery.style.height = elements[index].height;
+    gallery.style.webkitUserSelect = "none";
         
+    for (var i = 0; i < elements[index].src.length; ++i)
+    {        
+        var image = document.createElement("img");
+        image.setAttribute("src", elements[index].src[i]);  
+        gallery.appendChild(image);
+    }
+        
+    Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
+    Galleria.run("#gallery");
+    
+    canvas.appendChild(gallery);
+    
+    var index = elements.length - 1;
+      
+    $(gallery).draggable({containment: "#canvas"});
+    $(gallery).click(function() {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery, index);});
+    $(gallery).bind("dragstop", function(event, ui) {gallerySelect(gallery, index);});    
 }
 
 function addText()
@@ -117,7 +343,7 @@ function addImage()
         left: image.style.left,
         zIndex: image.style.zIndex,
         src: image.src});
-    
+        
     var index = elements.length - 1;
     
     $(image).draggable({containment: "#canvas"});

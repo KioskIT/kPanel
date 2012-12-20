@@ -4,6 +4,35 @@ var current = null;
 var numberOfVersions = 15;
 var renaming = false;
 
+function populateVersionsList()
+{
+    var versionsList = document.getElementById("versionsList");
+    
+    var cookies = document.cookie.split("; ");
+    
+    for (var i = 0; i < cookies.length; ++i)
+    {
+        if (cookies[i].substr(0, cookies[i].indexOf("=")) == "versions_list")
+        {
+            var versions = unescape(cookies[i].substr(cookies[i].indexOf("=") + 1)).split(":");
+            
+            for (var j = 0; j < versions.length - 1; ++j)
+            {
+                var versionName = unescape(versions[j].split(".version")[0]).split("+").join(" ");
+                var version = document.createElement("div");
+                version.innerHTML = "The name of some version you have created";
+                version.setAttribute("class", "version");
+                version.setAttribute("id", "version" + numberOfVersions);   
+                version.setAttribute("onmouseover", "select(this)");
+                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div>';
+                document.getElementById("versionsList").appendChild(version);
+            }
+            
+            break;
+        }
+    }
+}
+
 function select(toBeSelected)
 {
 	// If there is a previously selected version
@@ -47,7 +76,7 @@ function select(toBeSelected)
 
 function edit()
 {
-    window.location = "ide.html"
+    window.location = "ide.php"
     document.cookie = "selected_version = " + selected.getElementsByClassName("versionName")[0].innerHTML;
 }
 
@@ -105,7 +134,7 @@ function copy()
     document.getElementById("versionsList").appendChild(version);   
     
     // Scroll to the bottom of the page (.setTimeout workaround needed)
-    window.setTimeout("window.scrollTo(0, 30000)",0);
+    window.setTimeout("window.scrollTo(0, 30000)", 0);
 }
 
 function createNewVersion()
@@ -116,25 +145,12 @@ function createNewVersion()
 	version.innerHTML = "The name of some version you have created";
 	version.setAttribute("class", "version");
 	version.setAttribute("id", "version" + numberOfVersions);	
-	version.setAttribute("onclick", "select(this)");
+	version.setAttribute("onmouseover", "select(this)");
 	version.innerHTML = '<p class="versionName">The name of some version you just created</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div>';
 	document.getElementById("versionsList").appendChild(version);	
 	
 	// Scroll to the bottom of the page (.setTimeout workaround needed)
     window.setTimeout("window.scrollTo(0, 30000)",0);
-}
-
-function setCurrentVersion()
-{
-    if (current != null)
-    {
-        current.style.backgroundColor = "#9C9C9C";
-        current.style.color = "#000000";
-    }
-    
-    current = selected;
-    current.style.backgroundColor = "#00A600";
-    current.style.color = "#FFFFFF";
 }
 
 function removeVersion()

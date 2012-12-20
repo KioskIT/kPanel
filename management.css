@@ -54,13 +54,13 @@
 #newVersion
 {
 	position:absolute;
-	left:150px;
+	left:250px;
 }
 
 #deleteVersion
 {
 	position:absolute;
-	right:150px;
+	right:250px;
 }
 
 #deleteVersion:hover

@@ -1,1 +1,1 @@
-[{"type":"canvas","name":"The name of some version 1","width":1024,"height":768,"color":"rgb(255, 255, 255)"},{"type":"image","width":"400px","height":"300px","top":"162px","left":"269px","zIndex":"","src":"http://127.0.0.1:8080/kPanel/sample.png"}]
+[{"type":"canvas","name":"The name of some version 1","width":1024,"height":768,"color":"rgb(255, 255, 255)"},{"type":"gallery","width":"400px","height":"300px","top":"113px","left":"235px","zIndex":"","src":["sample.png","sample.png","sample.png"]}]
