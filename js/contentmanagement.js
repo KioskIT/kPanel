@@ -35,7 +35,7 @@ function populateVersionsList()
                 version.setAttribute("class", "version");
                 version.setAttribute("id", "version" + numberOfVersions);   
                 version.setAttribute("onmouseover", "select(this)");
-                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';
+                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
                 document.getElementById("versionsList").appendChild(version);
             }
             
@@ -92,6 +92,11 @@ function select(toBeSelected)
 function edit()
 {
     window.location = "ide.php"
+}
+
+function view()
+{
+    window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + ".html";
 }
 
 function rename()
@@ -152,7 +157,7 @@ function copy()
     version.setAttribute("class", "version");
     version.setAttribute("id", "version" + numberOfVersions);   
     version.setAttribute("onmouseover", "select(this)");
-    version.innerHTML = '<p class="versionName">Copy of ' + selected.getElementsByClassName("versionName")[0].innerHTML + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';
+    version.innerHTML = '<p class="versionName">Copy of ' + selected.getElementsByClassName("versionName")[0].innerHTML + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
     document.getElementById("versionsList").appendChild(version);   
     
     // Scroll to the bottom of the page (.setTimeout workaround needed)
@@ -193,7 +198,7 @@ function createNewVersion()
         {
             type: "POST", 
             url: "create_version.php",
-            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';}
+            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';}
         });
 }
 

@@ -9,7 +9,10 @@
     $versionsList = "";
     while (false !== ($entry = readdir($handle)))
     {
-       $versionsList .= $entry . ":";
+        if (substr($entry, strrpos($entry, '.') + 1) == "version")
+        {
+            $versionsList .= $entry . ":";
+        }
     }
 
     setcookie("versions_list", $versionsList);

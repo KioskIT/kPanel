@@ -101,34 +101,7 @@ body
     -webkit-user-select: none;    
 }
 
-.closeButton
-{
-    background-color:#000000;
-    
-    border:2px solid #FFFFFF;
-    
-    display:block;
-    
-    color:#FFFFFF;
-    font-family:arial;
-    font-size:90%;
-    padding:9px 0px 6px 0px;
-    text-decoration:none;
-    text-align:center;
-    
-    position:relative;
-    
-    width:134px;
-    height:20px;
-    
-    margin-left:5px;
-    margin-bottom:10px;
-    margin-top:8px;
-    
-    -webkit-user-select: none;    
-}
-
-.saveButton
+.closeButton, .compileButton, .saveButton
 {
     background-color:#000000;
     
@@ -295,12 +268,12 @@ body
     background-color:#AC193D;
 }
 
-#apply_button:hover, .toolbarItem:hover, .saveButton:hover
+#apply_button:hover, .toolbarItem:hover, .saveButton:hover, .compileButton:hover
 {
     background-color:#00A600;
 }
 
-#apply_button:active, .toolbarItem:active, .saveButton:active
+#apply_button:active, .toolbarItem:active, .saveButton:active, .compileButton:active
 {
     background-color:#008A00;
 }

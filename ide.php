@@ -17,6 +17,7 @@
         <script type="text/javascript" src="js/underscore.observable.js"></script>
         <script type="text/javascript" src="galleria/galleria-1.2.8.js"></script>
         <script type="text/javascript" src="js/ide.js"></script>
+        <script type="text/javascript" src="js/JSONtoHTML.js"></script>
         
     </head>
     
@@ -41,6 +42,7 @@
             <div class="spacer"></div>
             <div id="saveButton" class="saveButton" onclick="saveCanvas()">Save</div>
             <div class="closeButton" onclick="goBack()">Close</div>
+            <div class="compileButton" onclick="compile()">Compile</div>
         </div>
        
         <div id="properties">
