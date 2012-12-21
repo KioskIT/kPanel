@@ -7,7 +7,7 @@ body
 
 #toolbar
 {
-    background-color:#CCCCCC;
+    background-color:#094AB2;
     
     position:fixed;
     height:100%;
@@ -22,7 +22,7 @@ body
 
 #properties
 {
-    background-color:#CCCCCC;
+    background-color:#094AB2;
     
     position:fixed;
     height:100%;
@@ -45,6 +45,7 @@ body
 {
     font-family:arial;
     font-size:95%;
+    color:white;
     font-weight:bold;
     
     text-align:center;
@@ -56,39 +57,53 @@ body
     
     border:2px solid #FFFFFF;
     
-    display:block;
+    display:inline-block;
     
     color:#FFFFFF;
     font-family:arial;
     font-size:90%;
-    padding:0px 0px 6px 0px;
     text-decoration:none;
     text-align:center;
     
     position:relative;
     
-    width:134px;
-    height:10px;
+    width:50px;
+    height:40px;
     
-    margin-left:5px;
-    margin-bottom:10px;
+    margin-left:12px;
+    margin-top:10px;
     
     -webkit-user-select: none;
 }
 
-.toolbarItem:hover
-{
-    background-color:#00A600;
-}
-
-.toolbarItem:active 
-{
-    background-color:#008A00;
-}
-
 .disabledToolbarItem
 {    
-    background-color:#666666;
+    background-color:#9C9C9C;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:90%;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    
+    width:50px;
+    height:40px;
+    
+    margin-left:12px;
+    margin-top:10px;
+    
+    -webkit-user-select: none;    
+}
+
+.closeButton
+{
+    background-color:#000000;
     
     border:2px solid #FFFFFF;
     
@@ -97,19 +112,74 @@ body
     color:#FFFFFF;
     font-family:arial;
     font-size:90%;
-    padding:0px 0px 6px 0px;
+    padding:9px 0px 6px 0px;
     text-decoration:none;
     text-align:center;
     
     position:relative;
     
     width:134px;
-    height:10px;
+    height:20px;
     
     margin-left:5px;
     margin-bottom:10px;
+    margin-top:8px;
     
     -webkit-user-select: none;    
+}
+
+.saveButton
+{
+    background-color:#000000;
+    
+    border:2px solid #FFFFFF;
+    
+    display:block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:90%;
+    padding:9px 0px 6px 0px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    
+    width:134px;
+    height:20px;
+    
+    margin-left:5px;
+    margin-bottom:10px;
+    margin-top:8px;
+    
+    -webkit-user-select: none;    
+}
+
+.disabledSaveButton
+{
+    background-color:#9C9C9C;
+    
+    border:2px solid #FFFFFF;
+    
+    display:block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:90%;
+    padding:9px 0px 6px 0px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    
+    width:134px;
+    height:20px;
+    
+    margin-left:5px;
+    margin-bottom:10px;
+    margin-top:8px;
+    
+    -webkit-user-select: none;          
 }
 
 .spacer
@@ -117,7 +187,7 @@ body
     display:inline-block;
     text-align:center;
     width:125px;
-    border:1px solid black;
+    border:1px solid white;
     margin:0px 15px 0px 10px;    
 }
 
@@ -130,11 +200,12 @@ body
 
 #properties_title
 {
-    margin-top:50px;
-    margin-bottom:30px;    
+    margin-top:30px;
+    margin-bottom:10px;    
     
     font-family:"arial";
     font-size:150%;
+    color:white;
     text-align:center;
     font-weight:bold;
 }
@@ -146,9 +217,11 @@ body
 
 .properties_label
 {
+    display:block;
     margin-top:20px;
     margin-bottom:5px;
     font-family:"arial";
+    color:white;    
     font-size:100%;
     text-align:center;
 }
@@ -166,7 +239,7 @@ body
     
     border:2px solid #FFFFFF;
     
-    display:block;
+    display:inline-block;
     
     color:#FFFFFF;
     font-family:arial;
@@ -181,17 +254,53 @@ body
     width:100px;
     height:20px;
     
-    margin:30px 0px 0px 90px;
+    margin:10px 10px 200px 10px;
     
     -webkit-user-select: none;    
 }
 
-#delete_button:hover
+#apply_button
+{
+    background-color:#000000;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:95%;
+    padding:9px 0px 6px 0px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    top:27px;
+    
+    width:100px;
+    height:20px;
+    
+    margin:10px 10px 200px 25px;
+    
+    -webkit-user-select: none;    
+}
+
+#delete_button:hover, .closeButton:hover
 {
     background-color:#BF1E4B;
 }
 
-#delete_button:active
+#delete_button:active, .closeButton:active
 {
     background-color:#AC193D;
+}
+
+#apply_button:hover, .toolbarItem:hover, .saveButton:hover
+{
+    background-color:#00A600;
+}
+
+#apply_button:active, .toolbarItem:active, .saveButton:active
+{
+    background-color:#008A00;
 }

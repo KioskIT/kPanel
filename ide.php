@@ -27,19 +27,20 @@
        
         <div id="toolbar">
             <p class="title">Items toolbar</p>
-            <div class="toolbarItem" onclick="addText()">Text</div>
-            <div class="toolbarItem" onclick="addImage()">Image</div>
-            <div class="toolbarItem" onclick="addVideo()">Video</div>
-            <div class="disabledToolbarItem" onclick="addButton()">Button</div>
-            <div class="toolbarItem" onclick="addHyperlink()">Hyperlink</div>    
-            <div class="toolbarItem" onclick="addDropdownMenu()">Dropdown menu</div>
-            <div class="toolbarItem" onclick="addGallery()">Gallery</div>
+            <div class="toolbarItem" title="Add text" onclick="addText()"><img src="images/text_icon.png"></img></div>
+            <div class="toolbarItem" title="Add image" onclick="addImage()"><img src="images/image_icon.png"></div>
+            <div class="toolbarItem" title="Add video" onclick="addVideo()"><img src="images/video_icon.png"></div>
+            <div class="disabledToolbarItem" title="Add button" onclick="addButton()"><img src="images/button_icon.png"></div>
+            <div class="toolbarItem" title="Add hyperlink" onclick="addHyperlink()"><img src="images/hyperlink_icon.png"></div>    
+            <div class="toolbarItem" title="Add dropdown menu" onclick="addDropdownMenu()"><img src="images/dropdown_icon.png"></div>
+            <div class="toolbarItem" title="Add gallery" onclick="addGallery()"><img src="images/gallery_icon.png"></div>
             <div class="spacer"></div>
-            <div class="toolbarItem" onclick="zoomIn()">Zoom in</div>
-            <div class="toolbarItem" onclick="zoomOut()">Zoom out</div>
-            <div class="toolbarItem" onclick="canvasSelect()">Canvas</div>
+            <div class="toolbarItem" title="Zoom in" onclick="zoomIn()"><img src="images/zoom_in_icon.png"></div>
+            <div class="toolbarItem" title="Zoom out" onclick="zoomOut()"><img src="images/zoom_out_icon.png"></div>
+            <div class="toolbarItem" title="Configure canvas" onclick="canvasSelect()"><img src="images/canvas_icon.png"></div>
             <div class="spacer"></div>
-            <div id="saveButton" class="toolbarItem" onclick="saveCanvas()">Save</div>
+            <div id="saveButton" class="saveButton" onclick="saveCanvas()">Save</div>
+            <div class="closeButton" onclick="goBack()">Close</div>
         </div>
        
         <div id="properties">

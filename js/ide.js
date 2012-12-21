@@ -256,10 +256,10 @@ function loadDropdown(index)
 }
 
 function loadGallery(index)
-{    
+{   
     var gallery = document.createElement("div");
 
-    gallery.id = "gallery";
+    gallery.id = "gallery" + index;
     gallery.style.position = "absolute";
     gallery.style.left = elements[index].left;
     gallery.style.top = elements[index].top;
@@ -267,20 +267,18 @@ function loadGallery(index)
     gallery.style.width = elements[index].width;
     gallery.style.height = elements[index].height;
     gallery.style.webkitUserSelect = "none";
-        
+    
     for (var i = 0; i < elements[index].src.length; ++i)
-    {        
+    {
         var image = document.createElement("img");
-        image.setAttribute("src", elements[index].src[i]);  
+        image.setAttribute("src", elements[index].src[i]);
         gallery.appendChild(image);
     }
-        
+
     Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
-    Galleria.run("#gallery");
+    Galleria.run("#gallery" + index);
     
     canvas.appendChild(gallery);
-    
-    var index = elements.length - 1;
       
     $(gallery).draggable({containment: "#canvas"});
     $(gallery).click(function() {gallerySelect(gallery, index);});
@@ -576,6 +574,34 @@ function textSelect(text, index)
         });
     form.appendChild(content);
     
+    // Font family
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font";
+    form.appendChild(label);
+    
+    var font = document.createElement("input");
+    font.type = "text";
+    font.className = "properties_input";
+    font.id = "font";
+    font.value = text.style.fontFamily;
+    $(font).change(function() {elements[index].font = text.style.fontFamily = font.value;});
+    form.appendChild(font);
+    
+    // Font size
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font size";
+    form.appendChild(label);
+    
+    var fontsize = document.createElement("input");
+    fontsize.type = "text";
+    fontsize.className = "properties_input";
+    fontsize.id = "fontsize";
+    fontsize.value = text.style.fontSize;
+    $(fontsize).change(function() {elements[index].fontsize = text.style.fontSize = fontsize.value;});
+    form.appendChild(fontsize);
+    
     // Color
     label = document.createElement("div");
     label.className = "properties_label";
@@ -631,6 +657,13 @@ function textSelect(text, index)
     z.value = parseInt(text.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = text.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
     
     // Delete button    
     var del = document.createElement("div");
@@ -747,6 +780,13 @@ function imageSelect(image, index)
     $(z).change(function() {elements[index].zIndex = image.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
+    
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
@@ -862,6 +902,13 @@ function videoSelect(video, index)
     $(z).change(function() {elements[index].zIndex = video.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
+    
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
@@ -893,15 +940,43 @@ function hyperlinkSelect(a, index)
     // Title
     var title = document.createElement("div");
     title.id = "properties_title";
-    title.innerHTML = "Text item";
+    title.innerHTML = "Hyperlink item";
     properties.appendChild(title);
     
     
     var form = document.createElement("form");
     form.id = "properties_form";
     
-    // Content
+    // Font family
     var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font";
+    form.appendChild(label);
+    
+    var font = document.createElement("input");
+    font.type = "text";
+    font.className = "properties_input";
+    font.id = "font";
+    font.value = a.style.fontFamily;
+    $(font).change(function() {elements[index].font = a.style.fontFamily = font.value;});
+    form.appendChild(font);
+    
+    // Font size
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font size";
+    form.appendChild(label);
+    
+    var fontsize = document.createElement("input");
+    fontsize.type = "text";
+    fontsize.className = "properties_input";
+    fontsize.id = "fontsize";
+    fontsize.value = a.style.fontSize;
+    $(fontsize).change(function() {elements[index].fontsize = a.style.fontSize = fontsize.value;});
+    form.appendChild(fontsize);
+    
+    // Content
+    label = document.createElement("div");
     label.className = "properties_label";
     label.innerHTML = "Content";
     form.appendChild(label);
@@ -983,6 +1058,13 @@ function hyperlinkSelect(a, index)
     z.value = parseInt(a.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = a.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
     
     // Delete button    
     var del = document.createElement("div");
@@ -1092,6 +1174,13 @@ function dropdownSelect(dropdown, index)
     z.value = parseInt(dropdown.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = dropdown.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
     
     // Delete button    
     var del = document.createElement("div");
@@ -1222,6 +1311,13 @@ function gallerySelect(gallery, index)
     $(z).change(function() {elements[index].zIndex = gallery.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
+    
     // Delete button    
     var del = document.createElement("div");
     del.id = "delete_button";
@@ -1323,6 +1419,13 @@ function canvasSelect()
     $(color).change(function() {elements[0].color = canvas.style.backgroundColor = color.value;});
     form.appendChild(color);
     
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
+    
     properties.appendChild(form);
 }
 
@@ -1341,7 +1444,7 @@ function deselect()
 
 function saveCanvas()
 {
-    if (document.getElementById("saveButton").className == "toolbarItem")
+    if (document.getElementById("saveButton").className == "saveButton")
     {
         document.getElementById("saveButton").innerHTML = "Saving..";
         
@@ -1357,12 +1460,17 @@ function saveCanvas()
 
 function disableSave()
 {
-    document.getElementById("saveButton").className = "disabledToolbarItem";
+    document.getElementById("saveButton").className = "disabledSaveButton";
     document.getElementById("saveButton").innerHTML = "Saved";
 }
 
 function enableSave()
 {
-    document.getElementById("saveButton").className = "toolbarItem";    
+    document.getElementById("saveButton").className = "saveButton";    
     document.getElementById("saveButton").innerHTML = "Save";
+}
+
+function goBack()
+{
+    document.location = "contentmanagement.php"
 }
