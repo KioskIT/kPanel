@@ -128,7 +128,7 @@ body
     -webkit-user-select: none;    
 }
 
-.disabledSaveButton
+.disabledSaveButton, .disabledCompileButton
 {
     background-color:#9C9C9C;
     

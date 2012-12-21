@@ -52,7 +52,11 @@ function compile()
         {
             type: "POST", 
             url: "compile.php", 
-            success: function(message){alert("compiled!");}
+            success: function(message)
+                {
+                    document.getElementById("compileButton").className = "disabledCompileButton";
+                    document.getElementById("compileButton").innerHTML = "Compiled";
+                }
         });
 }
 
@@ -98,7 +102,7 @@ function createImage(index)
 function createVideo(index)
 {
     // Parameters
-    html += '<video ' +
+    html += '<iframe ' +
             'src="' + elements[index].src + '" ' +
             'style="' +
             'position:absolute; ' +
@@ -110,7 +114,7 @@ function createVideo(index)
             '">\n\n\t\t';
             
     // Closing tag
-    html += '</video>\n\n\t\t';      
+    html += '</iframe>\n\n\t\t';      
 }
 
 function createButton(index)

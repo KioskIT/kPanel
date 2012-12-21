@@ -57,6 +57,20 @@ function loadVersion()
     }
     else
     {
+        var cookies = document.cookie.split("; ");
+        var version_name = "";
+       
+        for (var i = 0; i < cookies.length; ++i)
+        {
+            if (cookies[i].substr(0, cookies[i].indexOf("=")) == "selected_version")
+            {
+                version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
+                break;
+            }        
+        }
+        
+        elements[0].name = version_name;
+        
         // Load existing settings
         width = parseInt(elements[0].width);
         height = parseInt(elements[0].height);
@@ -299,6 +313,7 @@ function addText()
     text.style.left = width / 2 + "px";
     text.style.top = height / 2 + "px";
     text.style.webkitUserSelect = "none";
+    text.zIndex = "2147483646";
     
     canvas.appendChild(text);
     
@@ -331,6 +346,7 @@ function addImage()
     image.style.left = width / 2 + "px";
     image.style.top = height / 2 + "px";
     image.style.webkitUserSelect = "none";
+    image.style.zIndex = "2147483646";
     
     canvas.appendChild(image);
     
@@ -363,6 +379,7 @@ function addVideo()
     video.style.left = width / 2 + "px";
     video.style.top = height / 2 + "px";
     video.style.webkitUserSelect = "none";
+    video.style.zIndex = "2147483646";
     
     canvas.appendChild(video);
     
@@ -402,6 +419,7 @@ function addHyperlink()
     a.style.left = width / 2 + "px";
     a.style.top = height / 2 + "px";
     a.style.webkitUserSelect = "none";
+    a.style.zIndex = "2147483646";
     
     canvas.appendChild(a);
     
@@ -434,6 +452,7 @@ function addDropdownMenu()
     dropdown.style.fontFamily = DEFAULT_FONT;
     dropdown.style.fontSize = DEFAULT_FONT_SIZE;
     dropdown.style.webkitUserSelect = "none";
+    dropdown.style.zIndex = "2147483646";
     
     var option = document.createElement("option");
     option.setAttribute("value", "option1");
@@ -480,6 +499,7 @@ function addGallery()
     gallery.style.width = DEFAULT_IMAGE_WIDTH + "px";
     gallery.style.height = DEFAULT_IMAGE_HEIGHT + "px";
     gallery.style.webkitUserSelect = "none";
+    gallery.style.zIndex = "2147483646";
              
     var image = document.createElement("img");
     image.setAttribute("src", "images/sample.png");  
@@ -1466,6 +1486,9 @@ function disableSave()
 
 function enableSave()
 {
+    document.getElementById("compileButton").className = "compileButton";
+    document.getElementById("compileButton").innerHTML = "Compile";
+    
     document.getElementById("saveButton").className = "saveButton";    
     document.getElementById("saveButton").innerHTML = "Save";
 }

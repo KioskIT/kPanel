@@ -42,7 +42,7 @@
             <div class="spacer"></div>
             <div id="saveButton" class="saveButton" onclick="saveCanvas()">Save</div>
             <div class="closeButton" onclick="goBack()">Close</div>
-            <div class="compileButton" onclick="compile()">Compile</div>
+            <div id="compileButton" class="compileButton" onclick="compile()">Compile</div>
         </div>
        
         <div id="properties">
