@@ -2,7 +2,7 @@ var html;
 
 function compile()
 {    
-    html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\t\t<title>kioskIt</title>";\n\n\t</head>\n\n\t<body ';
+    html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\t\t<title>kioskIt</title>\n\n\t</head>\n\n\t<body ';
         
     html += 'style="color:' + elements[0].color + '";>\n\n\t\t';
     
