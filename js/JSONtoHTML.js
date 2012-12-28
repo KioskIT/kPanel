@@ -5,7 +5,7 @@ function compile()
     html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\n\t\t<title>kioskIt</title>\n\n\t\t<link href="css/global.css" type="text/css" rel="stylesheet" />\n\n\t</head>\n\n\t<body>\n\n\t\t';
     
     // The webpage resides inside a container for centering and setting width
-    html += '<div id="container" style="position:absolute; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px">\n\n\t\t\t';
+    html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px">\n\n\t\t\t';
     
     for (var i = 1; i < elements.length; ++i)
     {
