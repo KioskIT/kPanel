@@ -69,6 +69,7 @@ function createText(index)
             'position:absolute; ' +
             'top:' + elements[index].top + '; ' +
             'left:' + elements[index].left + '; ' +
+            'width:' + elements[index].width + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
@@ -132,6 +133,7 @@ function createHyperlink(index)
             'position:absolute; ' +
             'top:' + elements[index].top + '; ' +
             'left:' + elements[index].left + '; ' +
+            'width:' + elements[index].width + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +

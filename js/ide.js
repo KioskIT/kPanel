@@ -158,6 +158,7 @@ function loadText(index)
     text.style.position = "absolute";
     text.style.left = elements[index].left;
     text.style.top = elements[index].top;
+    text.style.width = elements[index].width;
     text.style.zIndex = elements[index].zIndex;
     text.style.webkitUserSelect = "none";
     
@@ -230,6 +231,7 @@ function loadHyperlink(index)
     a.style.position = "absolute";
     a.style.left = elements[index].left;
     a.style.top = elements[index].top;
+    a.style.width = elements[index].width;
     a.style.zIndex = elements[index].zIndex;
     a.style.webkitUserSelect = "none";
     
@@ -312,8 +314,9 @@ function addText()
     text.style.position = "absolute";
     text.style.left = width / 2 + "px";
     text.style.top = height / 2 + "px";
+    text.style.width = width > 300 ? "300px" : (width + "px");
     text.style.webkitUserSelect = "none";
-    text.zIndex = "2147483646";
+    text.style.zIndex = "2147483646";
     
     canvas.appendChild(text);
     
@@ -321,6 +324,7 @@ function addText()
         type: "text",
         top: text.style.top,
         left: text.style.left,
+        width: text.style.width,
         zIndex: text.style.zIndex,
         font: text.style.fontFamily,
         fontsize: text.style.fontSize,
@@ -418,6 +422,7 @@ function addHyperlink()
     a.style.position = "absolute";
     a.style.left = width / 2 + "px";
     a.style.top = height / 2 + "px";
+    a.style.width = width > 300 ? "300px" : (width + "px");
     a.style.webkitUserSelect = "none";
     a.style.zIndex = "2147483646";
     
@@ -427,6 +432,7 @@ function addHyperlink()
         type: "hyperlink",
         top: a.style.top,
         left: a.style.left,
+        width: a.style.width,
         zIndex: a.style.zIndex,
         font: a.style.fontFamily,
         fontsize: a.style.fontSize,
@@ -678,7 +684,21 @@ function textSelect(text, index)
     $(z).change(function() {elements[index].zIndex = text.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
-    // Apply button    
+    // Width
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Width";
+    form.appendChild(label);
+    
+    var w = document.createElement("input");
+    w.type = "text";
+    w.className = "properties_input";
+    w.id = "w";
+    w.value = parseInt(text.style.width, 10);
+    $(w).change(function() {elements[index].width = text.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    form.appendChild(w);
+    
+    // Apply button   
     var apply = document.createElement("div");
     apply.id = "apply_button";
     apply.innerHTML = "Apply";
@@ -1078,6 +1098,20 @@ function hyperlinkSelect(a, index)
     z.value = parseInt(a.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = a.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Width
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Width";
+    form.appendChild(label);
+    
+    var w = document.createElement("input");
+    w.type = "text";
+    w.className = "properties_input";
+    w.id = "w";
+    w.value = parseInt(a.style.width, 10);
+    $(w).change(function() {elements[index].width = a.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    form.appendChild(w);
     
     // Apply button    
     var apply = document.createElement("div");
