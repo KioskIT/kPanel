@@ -20,10 +20,9 @@ body
 	position:relative;
 	height:100%;
 	width:100%;
-	top:106px;
-	font-family: arial;
-	background:white;t
-	margin:0 auto;
+	font-family:arial;
+	background:white;
+	padding:106px 0px 106px 0px;
 }
 
 #screens
@@ -69,11 +68,6 @@ body
     -webkit-user-select: none;
 }
 
-.screen:hover
-{
-    background-color:#FA6800;
-}
-
 .screen .number
 {
 	font-size:1.2em;
@@ -117,12 +111,13 @@ body
 	left:10px;
 }
 
-#charms_bar
+#bottom_bar
 {
     position:fixed;
     left:0px;
     width:100%;
     height:100px;
+    z-index:2147000000;
     
     bottom:0px;
     background:#094AB2;

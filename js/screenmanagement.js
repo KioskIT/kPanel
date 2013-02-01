@@ -1,5 +1,3 @@
-var totalSelected = 0;
-
 var kiosk_counter = 0;
 
 var current_ip = "";
@@ -7,6 +5,8 @@ var current_kiosk;
 
 var selected_background = '#FA6800';
 var deselected_background = '#9C9C9C';
+
+var ip_regex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
 function goHome()
 {
@@ -36,19 +36,12 @@ function loadKiosks(list)
         
         var new_kiosk = document.createElement("div");
         
-        if (kiosks[i]["ip"] == "")
-        {
-            new_kiosk.setAttribute("name", "0.0.0.0");
-        }
-        else
-        {
-            new_kiosk.setAttribute("name", kiosks[i]["ip"]);        
-        }
+        new_kiosk.setAttribute("name", kiosks[i]["ip"]);
         
         new_kiosk.setAttribute("id", "screen_" + kiosk_counter);
         new_kiosk.setAttribute("class", "screen");
         new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
-    
+   
         new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>Kiosk</div><div class = 'description'>The Kiosk's description</div>";
     
         screens.appendChild(new_kiosk);
@@ -57,35 +50,22 @@ function loadKiosks(list)
     }
 }
 
-function displaySelectedNo()
-{
-    document.getElementById('noSelected').innerHTML = totalSelected;		
-}
-
 function selectAll()
 {
-    totalSelected = kiosk_counter;
-    
     for(i = 0; i < kiosk_counter; ++i)
     {
         document.getElementById('screen_' + i).style.background = selected_background;
         document.getElementById('tick_' + i).style.visibility = 'visible';
     }
-    
-    displaySelectedNo();
 }
 
 function cancel()
 {
-    totalSelected = 0;
-    
     for(i = 0; i < kiosk_counter; ++i)
     {		
         document.getElementById('screen_'+i).style.background = deselected_background;
         document.getElementById('tick_'+i).style.visibility = 'hidden';
     }
-    
-    displaySelectedNo();
 }
 
 function tickScreen(id)
@@ -105,16 +85,10 @@ function select(id)
     if(document.getElementById('tick_'+id).style.visibility == 'hidden')
     {
         tickScreen(id);
-        
-        ++totalSelected;
-        displaySelectedNo();
     }
     else
     {
         untickScreen(id);
-        
-        --totalSelected;
-        displaySelectedNo();
     }
 }
 
@@ -135,8 +109,7 @@ function deleteScreen()
                     {
                         type: "POST", 
                         url: "kiosks/delete_kiosk.php",
-                        data: "ip=" + current_kiosk.getAttribute("name"),
-                        success: function(e) {alert(e);}
+                        data: "ip=" + current_kiosk.getAttribute("name")
                     });
             }
         }
@@ -146,22 +119,20 @@ function deleteScreen()
 function removeKiosk()
 {
     document.getElementById("screens").removeChild(current_kiosk);
-    --totalSelected;
-    displaySelectedNo();
 }
 
 function addScreen()
 {
     current_ip = prompt("Please enter the IP address:");
     
-    if (current_ip != null)
+    if (ip_regex.test(current_ip))
     {
         $.ajax(
             {
                 type: "POST", 
                 url: "kiosks/add_kiosk.php",
                 data: "ip=" + current_ip,
-                success: function(e) 
+                success: function() 
                 {
                     createKiosk();
                 }
@@ -174,22 +145,13 @@ function createKiosk()
     var screens = document.getElementById("screens");
     
     var new_kiosk = document.createElement("div");
-    
-    if (current_ip == "")
-    {
-        new_kiosk.setAttribute("name", "0.0.0.0");
-    }
-    else
-    {
-        new_kiosk.setAttribute("name", current_ip);        
-    }
+
+    new_kiosk.setAttribute("name", current_ip);
     
     new_kiosk.setAttribute("id", "screen_" + kiosk_counter);
     new_kiosk.setAttribute("class", "screen");
     new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
-    
-    //new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><div class = 'number'><img class = 'screen_img' src = 'images/screen.png' />#<span class = 'no_size'>" + kiosk_counter + "</span></div><div class = 'title'>Kiosk</div><div class = 'desc'>The Kiosk's description</div>";
-    
+  
     new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>Kiosk</div><div class = 'description'>The Kiosk's description</div>";
     
     screens.appendChild(new_kiosk);
