@@ -1,5 +1,6 @@
 <?PHP
 
+    // TODO:CHANGE TO GET PARAMETER FROM DATABASE
     $name = $_GET["name"];
     $parameter = $_GET["parameter"];  
         

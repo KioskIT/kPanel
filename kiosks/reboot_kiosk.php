@@ -1,16 +1,16 @@
 <?PHP
 
-    $kiosk_ip = $_GET["kiosk_ip"];  
-        
-    $ssh_ex = exec("ssh user@$kiosk_ip", $ssh_output, $ssh_return);
+    set_include_path('../lib/phpseclib');
+    include('Net/SSH2.php');
     
-    if ($ssh_return == 0)
-    {        
-        $ssh_ex = exec("sudo shutdown -r now", $ssh_output, $ssh_return);
-    }
-    else 
+    $kiosk_ip = $_GET["kiosk_ip"];
+    
+    $ssh = new Net_SSH2($kiosk_ip, 8082);
+    if (!$ssh->login('xxx', 'password')) 
     {
-        print($ssh_return);
-    }    
+        exit('Login Failed');
+    }
+
+    echo $ssh->exec('date'); // CHANGE TO 'sudo reboot'
     
 ?>

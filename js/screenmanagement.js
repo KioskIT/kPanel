@@ -1,112 +1,209 @@
 var totalSelected = 0;
-var total = 3;
-var totalDeleted = 0;
+
+var kiosk_counter = 0;
+
+var current_ip = "";
+var current_kiosk;
+
+var selected_background = '#FA6800';
+var deselected_background = '#9C9C9C';
 
 function goHome()
 {
     document.location = "index.html";    
 }
 
-function displaySelectedNo(number)
-{
-    document.getElementById('noSelected').innerHTML = number;		
+function getKiosks()
+{   
+    $.ajax(
+        {
+            type: "POST", 
+            url: "kiosks/get_kiosks.php",
+            success: function(list)
+            {
+                loadKiosks(list);            
+            }
+        });
 }
 
-function selectAll(total)
+function loadKiosks(list)
 {
-    for(i = 1;i <= total;i++)
+    var kiosks = JSON.parse(list);
+    
+    for (i = 0; i < kiosks.length; ++i)
     {
-        document.getElementById('screen_'+i).style.background = '#094AB2';
-        document.getElementById('tick_'+i).style.visibility = 'visible';
-        document.getElementById('charms_bar').style.visibility = 'visible';
+        var screens = document.getElementById("screens");
+        
+        var new_kiosk = document.createElement("div");
+        
+        if (kiosks[i]["ip"] == "")
+        {
+            new_kiosk.setAttribute("name", "0.0.0.0");
+        }
+        else
+        {
+            new_kiosk.setAttribute("name", kiosks[i]["ip"]);        
+        }
+        
+        new_kiosk.setAttribute("id", "screen_" + kiosk_counter);
+        new_kiosk.setAttribute("class", "screen");
+        new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
+    
+        new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>Kiosk</div><div class = 'description'>The Kiosk's description</div>";
+    
+        screens.appendChild(new_kiosk);
+        
+        ++kiosk_counter;        
     }
-    displaySelectedNo(total);
-
 }
 
-function cancel(total)
+function displaySelectedNo()
 {
-    for(i = 1;i <= total;i++)
+    document.getElementById('noSelected').innerHTML = totalSelected;		
+}
+
+function selectAll()
+{
+    totalSelected = kiosk_counter;
+    
+    for(i = 0; i < kiosk_counter; ++i)
+    {
+        document.getElementById('screen_' + i).style.background = selected_background;
+        document.getElementById('tick_' + i).style.visibility = 'visible';
+    }
+    
+    displaySelectedNo();
+}
+
+function cancel()
+{
+    totalSelected = 0;
+    
+    for(i = 0; i < kiosk_counter; ++i)
     {		
-        document.getElementById('screen_'+i).style.background = '#9C9C9C';
+        document.getElementById('screen_'+i).style.background = deselected_background;
         document.getElementById('tick_'+i).style.visibility = 'hidden';
     }
     
-    displaySelectedNo(0);
-    enableAddScreen();
+    displaySelectedNo();
 }
 
 function tickScreen(id)
 {
-        document.getElementById('screen_'+id).style.background = '#094AB2';
+        document.getElementById('screen_'+id).style.background = selected_background;
         document.getElementById('tick_'+id).style.visibility = 'visible';		
 }
 
 function untickScreen(id)
 {
-        document.getElementById('screen_'+id).style.background = '#9C9C9C';
+        document.getElementById('screen_'+id).style.background = deselected_background;
         document.getElementById('tick_'+id).style.visibility = 'hidden';			
 }
 
-function tick(id,totalSelected)
+function select(id)
 {		
     if(document.getElementById('tick_'+id).style.visibility == 'hidden')
     {
         tickScreen(id);
-        document.getElementById('charms_bar').style.visibility = 'visible';
-        totalSelected = totalSelected+1;
-        displaySelectedNo(totalSelected);
-        disableAddScreen();
-        return totalSelected;
-    }else{
+        
+        ++totalSelected;
+        displaySelectedNo();
+    }
+    else
+    {
         untickScreen(id);
-        totalSelected = totalSelected - 1;
-        displaySelectedNo(totalSelected);
-        if(totalSelected == 0)
-        {
-            enableAddScreen();
-        }
-        return totalSelected;
+        
+        --totalSelected;
+        displaySelectedNo();
     }
 }
 
-function enableAddScreen()
-{
-    document.getElementById('addScreen').style.background = 'black';
-    document.getElementById('addScreen').style.cursor='pointer';		
-}
-function disableAddScreen()
-{
-    document.getElementById('addScreen').style.background = '#9C9C9C';
-    document.getElementById('addScreen').style.cursor='default';		
-}
-
-function deleteScreen(totalSelected,total)
-{
-    totalDeleted = 0;
-    for(i = 1;i <=total;i++)
+function deleteScreen()
+{   
+    var initial_kiosk_counter = kiosk_counter;
+    for (i = 0; i < initial_kiosk_counter; ++i)
     {
-        var screen = document.getElementById('screen_' + i);
-        if(document.getElementById('tick_'+i).style.visibility != 'hidden'){					
-            document.getElementById('screen_' + i).style.display = 'none';
-            untickScreen(i);
-            totalSelected=totalSelected-1
-            displaySelectedNo(totalSelected);
-            totalDeleted = totalDeleted + 1;
-
+        current_kiosk = document.getElementById("screen_" + i);
+        
+        if (current_kiosk)
+        {
+            if (document.getElementById("tick_" + i).style.visibility == "visible")
+            {
+                removeKiosk();
+                
+                $.ajax(
+                    {
+                        type: "POST", 
+                        url: "kiosks/delete_kiosk.php",
+                        data: "ip=" + current_kiosk.getAttribute("name"),
+                        success: function(e) {alert(e);}
+                    });
+            }
         }
-    };
-    return totalDeleted;
+    }
 }
-function addH3() {
-      // creates a H3 element, class and html content
-      var new_h3 = document.createElement('h3');
-      new_h3.className = 'cls';
-      new_h3.innerHTML = 'The <i>html text</i> content';
 
-      // gets the reference tag
-      var reference = document.getElementById('idiv');
-
-      // add 'new_h3' before 'reference', inside body
-      document.body.insertBefore(new_h3, reference);
+function removeKiosk()
+{
+    document.getElementById("screens").removeChild(current_kiosk);
+    --totalSelected;
+    displaySelectedNo();
 }
+
+function addScreen()
+{
+    current_ip = prompt("Please enter the IP address:");
+    
+    if (current_ip != null)
+    {
+        $.ajax(
+            {
+                type: "POST", 
+                url: "kiosks/add_kiosk.php",
+                data: "ip=" + current_ip,
+                success: function(e) 
+                {
+                    createKiosk();
+                }
+            });
+   }
+}
+
+function createKiosk()
+{
+    var screens = document.getElementById("screens");
+    
+    var new_kiosk = document.createElement("div");
+    
+    if (current_ip == "")
+    {
+        new_kiosk.setAttribute("name", "0.0.0.0");
+    }
+    else
+    {
+        new_kiosk.setAttribute("name", current_ip);        
+    }
+    
+    new_kiosk.setAttribute("id", "screen_" + kiosk_counter);
+    new_kiosk.setAttribute("class", "screen");
+    new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
+    
+    //new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><div class = 'number'><img class = 'screen_img' src = 'images/screen.png' />#<span class = 'no_size'>" + kiosk_counter + "</span></div><div class = 'title'>Kiosk</div><div class = 'desc'>The Kiosk's description</div>";
+    
+    new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>Kiosk</div><div class = 'description'>The Kiosk's description</div>";
+    
+    screens.appendChild(new_kiosk);
+    
+    ++kiosk_counter;
+}
+
+function screenConfiguration()
+{
+    $.ajax(
+            {
+                type: "POST", 
+                url: "kiosks/kiosk_configuration.php",
+                data: "ip=" + current_ip
+            });    
+}
+

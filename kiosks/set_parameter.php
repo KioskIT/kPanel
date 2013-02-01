@@ -1,38 +1,21 @@
 <?PHP
 
+    // TODO:CHANGE TO SET PARAMETER IN DATABASE         
+        
+    set_include_path('../lib/phpseclib');
+    include('Net/SSH2.php');
+    
     $kiosk_ip = $_GET["kiosk_ip"];
     $name = $_GET["name"];
     $parameter = $_GET["parameter"];
-    $value = $_GET["value"];         
-        
-    $ssh_ex = exec("ssh user@$kiosk_ip", $ssh_output, $ssh_return);
+    $value = $_GET["value"];
     
-    if ($ssh_return == 0)
-    {        
-        $ssh_ex = exec("cd ~/kioskIt;./set_parameter $parameter $value;logout", $ssh_output, $ssh_return);
-        
-        if ($ssh_return == 0)
-        {    
-    
-            // Update server-side kiosk info as well
-            $file = fopen($name . ".json", "r");
-            
-            $json = json_decode(fgets($file), true);
-            
-            fclose($file);
-            
-            
-            $file = fopen($name . ".json", "w");
-            
-            $json[$parameter] = $value;
-            fwrite($file, json_encode($json));  
-            
-            fclose($file);        
-        }
-    }
-    else 
+    $ssh = new Net_SSH2($kiosk_ip, 8082);
+    if (!$ssh->login('xxx', 'password')) 
     {
-        print($ssh_return);
-    }    
-    
+        exit('Login Failed');
+    }
+   
+    // TODO:SET PARAMETERS
+    echo $ssh->exec('');
 ?>

@@ -7,7 +7,7 @@
     if ($ping_return == 0)
     {
         preg_match_all('!\d+!', $ping_output[7], $ping_times);
-        
+
         print($ping_times[0][2]);
     }
     else

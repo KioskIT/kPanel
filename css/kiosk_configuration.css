@@ -32,20 +32,20 @@ body
 	height:auto;
 }
 
-.addScreen
+.addscreen
 {
     display:block;
     float:left;
     margin:1%;
     position:relative;
-    width:250px;
+    width:220px;
     height:112px;
     border:3px solid black;
     background:black;
     
     font-weight:bold;
     color:white;
-    padding:1.5% 2% 2.5% 2%;
+    padding:2%;
     cursor:pointer;
     
     -webkit-user-select: none;
@@ -57,7 +57,7 @@ body
     float:left;
     margin:1%;
     position:relative;
-    width:250px;
+    width:220px;
     height:112px;
     border:3px solid black;
     background:#9C9C9C;
@@ -67,11 +67,6 @@ body
     padding:2%;
     cursor:pointer;
     -webkit-user-select: none;
-}
-
-.screen:hover
-{
-    background-color:#FA6800;
 }
 
 .screen .number
@@ -84,37 +79,30 @@ body
 	font-size:1.5em;
 }
 
-.screen
+.screen .title
 {
-	padding-left:2%;
+	padding-left:5%;
+	font-size:1.3em;
 }
 
-.name
+.desc
 {
-    display: inline;
-    margin-left:15px;
-    font-size:2.0em;
-}
-
-.description
-{
-	font-size:1.0em;
+	font-size:0.75em;
 	padding-left:8%;
-	padding-top:10%;
+	padding-top:2%;
 	font-style:italic;
 }
 
 .screen_img
 {
-    display: inline;
 	width:20%;
+	vertical-align:middle;
 }
-
 .tick
 {
 	position:absolute;
-	top:10px;
-	left:10px;
+	top:-0.2%;
+	left:0.2%;
 }
 
 #charms_bar
@@ -138,7 +126,6 @@ body
     width:100%;
     height:100px;
     z-index:2147000000;
-    
     top:0px;
     background:#094AB2;
     border:3px solid white;
@@ -180,12 +167,12 @@ body
 }
 
 
-.button:hover, .addScreen:hover
+.button:hover .addscreen:hover
 {
     background-color:#00A600;
 }
 
-.button:active, .addScreen:active
+.button:active .addscren:active
 {
     background-color:#008A00;
 }

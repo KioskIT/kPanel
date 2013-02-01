@@ -1,42 +1,21 @@
 <?PHP
 
-    // Check if kiosk is already added
-    if (!file_exists($_GET["name"]))
-    {
-        // Retrieve kiosk mac address from arp table
-        $kiosk_ip = $_SERVER['REMOTE_ADDR'];
-        $kiosk_mac = "NaN";
-        
-        $arp_lines=explode("\n", `arp -a $kiosk_ip`);
-        
-        foreach($arp_lines as $line)
-        {
-           $columns = preg_split('/\s+/', trim($line));
-           
-           if ($columns[0] == $kiosk_ip)
-           {
-               $kiosk_mac = $columns[1];
-           }
-        }
+    $connection = new MongoClient();
     
+    $collection = $connection->kioskIt->kiosks;
     
-        $file = fopen(strval($_GET["name"]) . ".json", "w");
-        
-        $kiosk = array(
-                'name' => $_GET["name"],
-                'description' => $_GET["description"],
-                'width' => $_GET["width"],
-                'height' => $_GET["height"],
-                'sync_stream' => $_GET["sync_stream"],
-                'version' => $_GET["version"],
-                'server_ip' => $_GET["server_ip"],
-                'kiosk_ip' => $kiosk_ip,
-                'kiosk_mac' => $kiosk_mac
-                );
-                
-        fwrite($file, json_encode($kiosk));
-        
-        fclose($file);
-    }
+    $kiosk = array("name" => "Kiosk", 
+                   "description" => "The Kiosk description", 
+                   "category" => "default", 
+                   "video_mode" => "CEA 2", 
+                   "sync_stream" => $_SERVER["SERVER_ADDR"], 
+                   "version" => "default", 
+                   "server_ip" => $_SERVER["SERVER_ADDR"] . ":8080",
+                   "ip" => $_POST['ip']);
 
+    $collection->insert($kiosk);
+    
+    $connection->close();
+    
+    print_r($_POST);
 ?>
