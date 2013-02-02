@@ -15,132 +15,45 @@ body
 	font-family: arial;
 }
 
-#content
+#top_bar
 {
-	position:relative;
-	height:100%;
-	width:100%;
-	top:106px;
-	font-family: arial;
-	background:white;t
-	margin:0 auto;
-}
-
-#screens
-{
-	padding:1%;
-	height:auto;
-}
-
-.addscreen
-{
-    display:block;
-    float:left;
-    margin:1%;
-    position:relative;
-    width:220px;
-    height:112px;
-    border:3px solid black;
-    background:black;
-    
-    font-weight:bold;
-    color:white;
-    padding:2%;
-    cursor:pointer;
-    
-    -webkit-user-select: none;
+    overflow:auto;
+    overflow-x:scroll;
+    white-space: nowrap; 
+    width:100%;
+    height:100px;
+    background-color:#094AB2;
 }
 
 .screen
 {
-    display:block;
-    float:left;
-    margin:1%;
+    display:inline;
+    margin:25px 0px 25px 5px;
     position:relative;
-    width:220px;
-    height:112px;
+    top:35px;
+    left:5px;
     border:3px solid black;
-    background:#9C9C9C;
+    background:#FA6800;
     
     font-weight:bold;
     color:white;
-    padding:2%;
-    cursor:pointer;
+    padding:10px;
     -webkit-user-select: none;
 }
 
-.screen .number
-{
-	font-size:1.2em;
-}
-
-.screen .no_size
-{
-	font-size:1.5em;
-}
-
-.screen .title
-{
-	padding-left:5%;
-	font-size:1.3em;
-}
-
-.desc
-{
-	font-size:0.75em;
-	padding-left:8%;
-	padding-top:2%;
-	font-style:italic;
-}
-
-.screen_img
-{
-	width:20%;
-	vertical-align:middle;
-}
-.tick
-{
-	position:absolute;
-	top:-0.2%;
-	left:0.2%;
-}
-
-#charms_bar
+#bottom_bar
 {
     position:fixed;
     left:0px;
     width:100%;
     height:100px;
+    z-index:214700000;
     
     bottom:0px;
     background:#094AB2;
     border:3px solid white;
     
     text-align:center;
-}
-
-#top_bar
-{
-    position:fixed;
-    left:0px;
-    width:100%;
-    height:100px;
-    z-index:2147000000;
-    top:0px;
-    background:#094AB2;
-    border:3px solid white;
-    
-    text-align:center;
-}
-
-.status
-{
-    display:inline-block;
-    color:white;
-    font-weight:bold;    
-    font-size:100%;
-    
-    margin-top:20px;
 }
 
 .button
@@ -167,12 +80,49 @@ body
 }
 
 
-.button:hover .addscreen:hover
+.button:hover
 {
     background-color:#00A600;
 }
 
-.button:active .addscren:active
+.button:active
 {
     background-color:#008A00;
+}
+
+#properties
+{
+    float:right;
+    width:50%;
+    padding-bottom:100px;
+}
+
+.property
+{
+    display:block;
+    margin-top:30px;
+    margin-bottom:30px;
+    clear:both;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.label
+{
+    font-size:1.5em;
+}
+
+.input
+{
+    font-size:1.5em;
+    width:500px;
+}
+
+#logo
+{
+    position:fixed;
+    top:50%;
+    margin-top:-300px;
+    left:30px;
+    width:500px;
 }

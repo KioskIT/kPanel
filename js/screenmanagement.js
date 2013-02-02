@@ -161,11 +161,23 @@ function createKiosk()
 
 function screenConfiguration()
 {
-    $.ajax(
+    var ips = "";
+    
+    for (i = 0; i < kiosk_counter; ++i)
+    {
+        current_kiosk = document.getElementById("screen_" + i);
+        
+        if (current_kiosk)
+        {
+            if (document.getElementById("tick_" + i).style.visibility == "visible")
             {
-                type: "POST", 
-                url: "kiosks/kiosk_configuration.php",
-                data: "ip=" + current_ip
-            });    
+                ips += current_kiosk.getAttribute("name") + "|";
+            }   
+        }
+    }
+    
+    if (ips != "")
+    {
+        window.location = "kiosks/kiosk_configuration.php?ips=" + ips.substring(0, ips.length - 1);
+    }
 }
-

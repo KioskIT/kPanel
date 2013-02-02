@@ -8,4 +8,5 @@
     echo json_encode($cursor->getNext());
     
     $connection->close();
+    
 ?>

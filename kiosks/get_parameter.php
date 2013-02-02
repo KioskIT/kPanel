@@ -1,13 +1,29 @@
 <?PHP
 
-    // TODO:CHANGE TO GET PARAMETER FROM DATABASE
-    $name = $_GET["name"];
-    $parameter = $_GET["parameter"];  
+    $connection = new MongoClient();
+    
+    $collection = $connection->kioskIt->kiosks;
+    
+    $ips = explode("|", $_POST["ips"]);
+    
+    $kiosk = $collection->findOne(array("ip" => $ips[0]));
+    $value = $kiosk[$_POST["property"]];
+    
+    foreach ($ips as $ip)
+    {
+        $kiosk = $collection->findOne(array("ip" => $ip));
         
-    $file = fopen($name . ".json", "r");
+        if ($value != $kiosk[$_POST["property"]])
+        {
+            echo json_encode(array("property" => $_POST["property"], "value" => "(multiple)"));
+            
+            $connection->close();
+            exit();     
+        }        
+    }
     
-    $json = json_decode(fgets($file), true);
+    echo json_encode(array("property" => $_POST["property"], "value" => $value));
     
-    print($json[$parameter]);
-    
+    $connection->close();
+        
 ?>
