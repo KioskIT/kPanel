@@ -162,6 +162,7 @@ function createKiosk()
 function screenConfiguration()
 {
     var ips = "";
+    var names = "";
     
     for (i = 0; i < kiosk_counter; ++i)
     {
@@ -172,12 +173,13 @@ function screenConfiguration()
             if (document.getElementById("tick_" + i).style.visibility == "visible")
             {
                 ips += current_kiosk.getAttribute("name") + "|";
+                names += current_kiosk.getElementsByClassName("name")[0].innerHTML + "|"; 
             }   
         }
     }
     
     if (ips != "")
     {
-        window.location = "kiosks/kiosk_configuration.php?ips=" + ips.substring(0, ips.length - 1);
+        window.location = "kiosks/kiosk_configuration.php?ips=" + ips.substring(0, ips.length - 1) + "&names=" + escape(names.substring(0, names.length - 1));
     }
 }

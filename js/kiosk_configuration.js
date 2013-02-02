@@ -3,8 +3,22 @@ var properties = new Array("name", "description", "category", "video_mode", "syn
 
 var IPs;
 
-function populateFields(ips)
+function populateFields(ips, names)
 {
+    // Add kiosks in the top_bar
+    var names_array = unescape(names).split("|");
+    console.log(names_array);
+    var top_bar = document.getElementById("top_bar");
+    for (i = 0; i < names_array.length; ++i)
+    {
+        var screen = document.createElement("div");
+        screen.setAttribute("class", "screen");
+        
+        screen.innerHTML = names_array[i];    
+        top_bar.appendChild(screen);
+    }
+    
+     
     IPs = ips;
     
     // Use different logo for multple kiosks

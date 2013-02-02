@@ -18,69 +18,9 @@
 
     </head>
     
-    <body onload="populateFields('<?PHP echo $_GET["ips"]; ?>');">
+    <body onload="populateFields('<?PHP echo $_GET["ips"]; ?>', '<?PHP echo $_GET["names"]; ?>');">
         
         <div id="top_bar">
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some dasdasdasdasdadasd</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
-            <div class="screen">Some screen</div>
         </div>
                
         <img id="logo" src=""></img>
