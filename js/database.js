@@ -14,6 +14,7 @@ function showCollection(collection)
     emptyTable();
     
     var results = JSON.parse(collection);
+    var keys = [];
     
     if (results.length > 0)
     {        
@@ -27,33 +28,34 @@ function showCollection(collection)
             {
                 var value = document.createElement("th");
                 value.innerHTML = key;
+                keys.push(key);
                 row.appendChild(value);
             }        
         }
             
         document.getElementById("thead").appendChild(row);
-        
+        console.log(keys);
         // Populate contents        
         for (i = 0; i < results.length; ++i)
         {
             var row = document.createElement("tr");
             row.setAttribute("id", "body_row");
             
-            for(var key in results[i])
+            for(j = 0; j < keys.length; ++j)
             {
-                if(results[i].hasOwnProperty(key))
+                if(results[i].hasOwnProperty(keys[j]))
                 {
                     // _id is stored as an object with a single key ($id)
-                    if (key == "_id")
+                    if (keys[j] == "_id")
                     {
                         var value = document.createElement("td");
-                        value.innerHTML = results[i][key]["$id"];
+                        value.innerHTML = results[i][keys[j]]["$id"];
                         row.appendChild(value);
                     }
                     else
                     {   
                         var value = document.createElement("td");
-                        value.innerHTML = results[i][key];
+                        value.innerHTML = results[i][keys[j]];
                         row.appendChild(value);
                     }
                 }

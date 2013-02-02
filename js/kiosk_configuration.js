@@ -1,8 +1,12 @@
 var values = new Array();
 var properties = new Array("name", "description", "category", "video_mode", "sync_stream", "ip", "server_ip");
 
+var IPs;
+
 function populateFields(ips)
 {
+    IPs = ips;
+    
     // Use different logo for multple kiosks
     if (ips.split("|").length > 1)
     {
@@ -20,7 +24,7 @@ function populateFields(ips)
             {
                 type: "POST", 
                 url: "get_parameter.php",
-                data: "ips=" + ips + "&property=" + properties[i],
+                data: "ips=" + IPs + "&property=" + properties[i],
                 success: function(data) 
                 {
                     var json = JSON.parse(data);
@@ -52,13 +56,15 @@ function applyChanges()
 {
     for (i = 0; i < properties.length; ++i)
     {
+        console.log(getProperty(properties[i]) + " " + values[properties[i]]);
         if (getProperty(properties[i]) != values[properties[i]])
         {        
+            console.log("ips=" + IPs + "&property=" + properties[i] + "&value=" + getProperty(properties[i]));
             $.ajax(
                 {
                     type: "POST", 
                     url: "set_parameter.php",
-                    data: "ips=" + ips + "&parameter=" + properties[i] + "&value=" + values[properties[i]],
+                    data: "ips=" + IPs + "&property=" + properties[i] + "&value=" + getProperty(properties[i]),
                     success: function(property)
                     {
                         toastr.success(property + " changed");

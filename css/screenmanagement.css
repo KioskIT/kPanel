@@ -68,16 +68,6 @@ body
     -webkit-user-select: none;
 }
 
-.screen .number
-{
-	font-size:1.2em;
-}
-
-.screen .no_size
-{
-	font-size:1.5em;
-}
-
 .screen
 {
 	padding-left:2%;
@@ -87,12 +77,12 @@ body
 {
     display: inline;
     margin-left:15px;
-    font-size:2.0em;
+    font-size:1.0em;
 }
 
 .description
 {
-	font-size:1.0em;
+	font-size:0.8em;
 	padding-left:8%;
 	padding-top:10%;
 	font-style:italic;

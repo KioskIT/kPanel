@@ -125,8 +125,8 @@
         </div>               
                
         <div id="bottom_bar">
-                <div class = 'button'>Apply changes</div>
-                <div class = 'button' onclick = 'goBack();'>Back</div>
+                <div class = "button" onclick = "applyChanges();">Apply changes</div>
+                <div class = "button" onclick = "goBack();">Back</div>
         </div>
         
     </body>

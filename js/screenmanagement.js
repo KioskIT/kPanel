@@ -42,7 +42,7 @@ function loadKiosks(list)
         new_kiosk.setAttribute("class", "screen");
         new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
    
-        new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>Kiosk</div><div class = 'description'>The Kiosk's description</div>";
+        new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>" + kiosks[i]["name"] + "</div><div class = 'description'>" + kiosks[i]["description"] + "</div>";
     
         screens.appendChild(new_kiosk);
         
