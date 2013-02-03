@@ -20,6 +20,8 @@
     
     <body onload="populateFields('<?PHP echo $_GET["ips"]; ?>', '<?PHP echo $_GET["names"]; ?>');">
         
+        <div id="cover"></div>
+        
         <div id="top_bar">
         </div>
                
@@ -66,6 +68,7 @@
                
         <div id="bottom_bar">
                 <div class = "button" onclick = "applyChanges();">Apply changes</div>
+                <div id = "ping_button" class = "button" onclick = "pingKiosks();">Ping kiosk</div>
                 <div class = "button" onclick = "goBack();">Back</div>
         </div>
         
