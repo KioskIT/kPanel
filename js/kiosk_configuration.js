@@ -15,6 +15,7 @@ function populateFields(ips, names)
     {
         document.getElementById("logo").setAttribute("src", "../images/multiple_big_screens.png");
         document.getElementById("ping_button").innerHTML += "s";
+        document.getElementById("reboot_button").innerHTML += "s";
     }
     else
     {
@@ -90,8 +91,6 @@ function pingKiosks()
                 data: "kiosk_ip=" + ips_array[i] + "&id=" + i,
                 success: function(data) 
                 {
-                    console.log(data);
-                    
                     // If 'data' corrupted, uncover screen
                     try
                     {
@@ -146,10 +145,9 @@ function applyChanges()
 {
     for (i = 0; i < properties.length; ++i)
     {
-        console.log(getProperty(properties[i]) + " " + values[properties[i]]);
         if (getProperty(properties[i]) != values[properties[i]])
-        {        
-            console.log("ips=" + ips_string + "&property=" + properties[i] + "&value=" + getProperty(properties[i]));
+        {
+            values[properties[i]] = getProperty(properties[i]);
             $.ajax(
                 {
                     type: "POST", 
@@ -177,4 +175,19 @@ function showLoading()
 function hideLoading()
 {
     document.getElementById("cover").style.visibility = "hidden";    
+}
+
+function rebootKiosks()
+{ 
+    for (i = 0; i < names_array.length; ++i)
+    {
+        toastr.warning("Rebooting \"" + names_array[i] + "\"..");
+        
+        $.ajax(
+            {
+                type: "POST", 
+                url: "reboot_kiosk.php",
+                data: "kiosk_ip=" + ips_array[i]
+            });
+    }
 }

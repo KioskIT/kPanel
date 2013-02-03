@@ -69,6 +69,7 @@
         <div id="bottom_bar">
                 <div class = "button" onclick = "applyChanges();">Apply changes</div>
                 <div id = "ping_button" class = "button" onclick = "pingKiosks();">Ping kiosk</div>
+                <div id = "reboot_button" class = "button" onclick = "rebootKiosks();">Reboot kiosk</div>
                 <div class = "button" onclick = "goBack();">Back</div>
         </div>
         
