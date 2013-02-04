@@ -153,9 +153,16 @@ function applyChanges()
                     type: "POST", 
                     url: "set_parameter.php",
                     data: "ips=" + ips_string + "&property=" + properties[i] + "&value=" + getProperty(properties[i]),
-                    success: function(property)
+                    success: function(message)
                     {
-                        toastr.success(property + " changed");
+                        if (message.split(" ").length == 1)
+                        {
+                            toastr.success(message + " changed");
+                        }
+                        else
+                        {
+                            toastr.error(message);
+                        }
                     }
                 });        
         }
