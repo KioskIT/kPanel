@@ -18,7 +18,7 @@
 
     </head>
     
-    <body onload="populateFields('<?PHP echo $_GET["ips"]; ?>', '<?PHP echo $_GET["names"]; ?>');">
+    <body onload="populateFields('<?PHP echo $_GET["ips"]; ?>', '<?PHP echo urlencode($_GET["names"]); ?>');">
         
         <div id="cover"></div>
         

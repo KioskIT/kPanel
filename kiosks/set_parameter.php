@@ -11,6 +11,8 @@
     
     foreach ($ips as $ip)
     {
+        //$collection->update(array("ip" => $ip), array('$set' => array($_POST["property"] => $_POST["value"])));
+        
         $ssh = new Net_SSH2($ip, 22, 2);
         if ($ssh->login('pi', 'raspberry'))
         {        
@@ -18,6 +20,7 @@
             echo $ssh->exec('./kioskIt/kiosk_refresh');
             $collection->update(array("ip" => $ip), array('$set' => array($_POST["property"] => $_POST["value"])));
         }
+        
     }
     
     echo $_POST["property"];
