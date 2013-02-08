@@ -8,17 +8,20 @@ var deselected_background = '#9C9C9C';
 
 var ip_regex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
+var categories = [];
+
 function goHome()
 {
     document.location = "index.html";    
 }
 
-function getKiosks()
+function getKiosks(category)
 {   
     $.ajax(
         {
             type: "POST", 
             url: "kiosks/get_kiosks.php",
+            data: "category=" + category, 
             success: function(list)
             {
                 loadKiosks(list);            
@@ -26,9 +29,16 @@ function getKiosks()
         });
 }
 
+
+
 function loadKiosks(list)
 {
     var kiosks = JSON.parse(list);
+    
+    if (categories.length == 0)
+    {
+        loadCategories(kiosks);
+    }
     
     for (i = 0; i < kiosks.length; ++i)
     {
@@ -46,7 +56,19 @@ function loadKiosks(list)
     
         screens.appendChild(new_kiosk);
         
-        ++kiosk_counter;        
+        ++kiosk_counter;
+    }
+}
+
+function loadCategories(kiosks)
+{
+    for (i = 0; i < kiosks.length; ++i)
+    {        
+        if (categories.indexOf(kiosks[i]["category"]) <= -1)
+        {
+            addSpecificCategory(kiosks[i]["category"]);
+            categories.push(kiosks[i]["category"]);
+        }
     }
 }
 
@@ -182,4 +204,48 @@ function screenConfiguration()
     {
         window.location = "kiosks/kiosk_configuration.php?ips=" + ips.substring(0, ips.length - 1) + "&names=" + escape(names.substring(0, names.length - 1));
     }
+    
+    
+    
+    
+}
+
+function addCategory()
+{
+    var new_category = prompt("Please enter the name of the category:");
+    
+    var dropDownMenu = document.getElementById("dropDownMenu");
+    
+    var new_option = document.createElement("option");
+    
+    new_option.setAttribute("value", new_category);
+    new_option.innerHTML = new_category;
+    
+    dropDownMenu.appendChild(new_option);     
+}
+
+function addSpecificCategory(category)
+{   
+    var dropDownMenu = document.getElementById("dropDownMenu");
+    
+    var new_option = document.createElement("option");
+    
+    new_option.setAttribute("value", category);
+    new_option.innerHTML = category;
+    
+    dropDownMenu.appendChild(new_option);     
+}
+
+function filter()
+{   
+    var dropDownMenu = document.getElementById("dropDownMenu");
+    
+    var screens = document.getElementById("screens");
+    
+    while (screens.children.length > 1) 
+    {
+        screens.removeChild(screens.lastChild);
+    }
+    
+    getKiosks(dropDownMenu.options[dropDownMenu.selectedIndex].text);
 }

@@ -16,7 +16,7 @@
 
 	</head>
 	
-	<body onload="getKiosks();">
+	<body onload="getKiosks('(all)');">
 	    <div id = 'top_bar'>
 	        
                 <div class = 'button' onCLick = 'selectAll();'>
@@ -34,7 +34,10 @@
             </div>
 	    
 		<div id = 'content'>
-
+		    
+            <select id='dropDownMenu' onchange='filter();'>
+                <option value='(all)'>(all)</option>
+            </select>
 			<div id = 'screens'>
 				
 				<div class = 'addScreen' id = 'addScreen' onclick = 'addScreen();'>
@@ -45,7 +48,11 @@
 
 		</div>
 		
-        <div id = 'bottom_bar'>            
+        <div id = 'bottom_bar'>        
+            <div class = 'button' onclick='addCategory();'>
+               Add category
+            </div>
+                            
             <div class = 'button' onclick='screenConfiguration();'>
                 Properties
             </div>
