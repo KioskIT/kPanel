@@ -1,7 +1,6 @@
 var selected = null;
 
 var numberOfVersions = 0;
-var renaming = false;
 
 var versionsList;
 
@@ -35,7 +34,16 @@ function populateVersionsList()
                 version.setAttribute("class", "version");
                 version.setAttribute("id", "version" + numberOfVersions);   
                 version.setAttribute("onmouseover", "select(this)");
-                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
+                
+                if (isVersionCompiled(versionName))
+                {
+                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
+                }
+                else
+                {
+                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';                    
+                }
+                
                 document.getElementById("versionsList").appendChild(version);
             }
             
@@ -56,7 +64,7 @@ function goHome()
 function select(toBeSelected)
 {
 	// If there is a previously selected version
-	if (selected != null && renaming == false) // due to some bug, select() gets randomly run after rename()
+	if (selected != null)
 	{
 		// Apply unselected style
 		selected.style.background = "#9C9C9C";
@@ -79,13 +87,10 @@ function select(toBeSelected)
 	selected.style.color = "#FFFFFF";
 	
     // Show buttons when the version is selected
-    if (renaming == false) // due to some bug, select() gets randomly executed after rename()
+    var buttons = selected.getElementsByClassName("edit");
+    for (var i = 0; i < buttons.length; ++i)
     {
-        var buttons = selected.getElementsByClassName("edit");
-        for (var i = 0; i < buttons.length; ++i)
-        {
-            buttons[i].style.display = "inline";
-        }
+        buttons[i].style.display = "inline";
     }
 }
 
@@ -100,53 +105,23 @@ function view()
 }
 
 function rename()
-{        
-    // Hide buttons while renaming
-    var buttons = selected.getElementsByClassName("edit");
-    for (var i = 0; i < buttons.length; ++i)
+{  
+    var name = selected.getElementsByClassName("versionName");
+    var new_name = prompt("Enter the new name:", name[0].innerHTML);
+    
+    if (new_name.length > 0)
     {
-        buttons[i].style.display = "none";
-    }
-    
-    document.cookie = "old_name=" + selected.getElementsByClassName("versionName")[0].innerHTML;
+        document.cookie = "old_name=" + name[0].innerHTML;
+        name[0].innerHTML = new_name;
         
-    // Enable renaming
-    var name = selected.getElementsByClassName("versionName");
-    name[0].setAttribute("contenteditable", "true");
-    name[0].style.webkitUserSelect = "auto";
-    name[0].style.background="#666666";
-    renaming = true;
-    
-    // Add confirmButton
-    var confirmButton = document.createElement("div");
-    confirmButton.innerHTML = "Confirm";
-    confirmButton.setAttribute("class", "edit");
-    confirmButton.setAttribute("onclick", "confirmRename()");
-    confirmButton.style.display = "inline";
-    selected.appendChild(confirmButton);
-}
-
-function confirmRename()
-{
-    // Remove confirmButton
-    selected.removeChild(selected.lastChild);
-    
-    // Disable renaming
-    var name = selected.getElementsByClassName("versionName");
-    name[0].innerHTML = name[0].innerHTML.split("<br>").join("");
-    name[0].setAttribute("contenteditable", "false");
-    name[0].style.webkitUserSelect = "none";
-    name[0].style.background="inherit";
-    renaming = false;
-    
-    // Refresh selection
-    select(selected);
-    
-    $.ajax(
+        select(selected);
+        
+        $.ajax(
         {
             type: "POST", 
             url: "rename_version.php"
         });
+    }
 }
 
 function copy()
@@ -198,7 +173,7 @@ function createNewVersion()
         {
             type: "POST", 
             url: "create_version.php",
-            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';}
+            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';}
         });
 }
 
@@ -229,4 +204,25 @@ function removeVersion()
                 });
         }
     }
+}
+
+function isVersionCompiled(version) 
+{
+    var request = false;
+    
+    request = new XMLHttpRequest;
+    
+    if (request) 
+    {
+        console.log("https://rynx.no-ip.org/kPanel/versions/" + escape(version) + ".html");
+        request.open("GET", "https://rynx.no-ip.org/kPanel/versions/" + escape(version) + ".html", false);
+        request.send();
+        
+        if (request.status == 200)
+        { 
+            return true; 
+        }
+    }
+    
+    return false;
 }

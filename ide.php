@@ -32,7 +32,7 @@
             <div class="toolbarItem" title="Add text" onclick="addText()"><img src="images/text_icon.png"></img></div>
             <div class="toolbarItem" title="Add image" onclick="addImage()"><img src="images/image_icon.png"></div>
             <div class="toolbarItem" title="Add video" onclick="addVideo()"><img src="images/video_icon.png"></div>
-            <div class="disabledToolbarItem" title="Add button" onclick="addButton()"><img src="images/button_icon.png"></div>
+            <div class="toolbarItem" title="Add button" onclick="addButton()"><img src="images/button_icon.png"></div>
             <div class="toolbarItem" title="Add hyperlink" onclick="addHyperlink()"><img src="images/hyperlink_icon.png"></div>    
             <div class="toolbarItem" title="Add dropdown menu" onclick="addDropdownMenu()"><img src="images/dropdown_icon.png"></div>
             <div class="toolbarItem" title="Add gallery" onclick="addGallery()"><img src="images/gallery_icon.png"></div>

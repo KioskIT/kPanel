@@ -1,5 +1,7 @@
 // Defaults
 
+var animations = new Array("none", "fly_in_from_top", "fly_in_from_bottom", "fly_in_from_left", "fly_in_from_right", "fly_out_to_top", "fly_out_to_bottom", "fly_out_to_left", "fly_out_to_right", "fade_in", "fade_out", "wiggle", "scale_emphasis", "indent");
+
 var DEFAULT_FONT = "arial";
 var DEFAULT_FONT_SIZE = "95%";
 
@@ -45,7 +47,7 @@ function loadVersion()
             {
                 version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
                 break;
-            }        
+            }
         }
         
         elements.push({
@@ -215,7 +217,28 @@ function loadVideo(index)
 
 function loadButton(index)
 {
-    // Button disabled
+    var button = document.createElement("input");
+    button.type = "button";
+    button.style.fontFamily = elements[index].font;
+    button.style.fontSize = elements[index].fontsize;
+    button.style.color = elements[index].color;
+    
+    button.value = elements[index].content;
+    
+    button.style.position = "absolute";
+    button.style.left = elements[index].left;
+    button.style.top = elements[index].top;
+    button.style.height = elements[index].height;
+    button.style.width = elements[index].width;
+    button.style.zIndex = elements[index].zIndex;
+    button.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(button);
+    
+    $(button).draggable({containment: "#canvas", cancel: false});
+    $(button).click(function() {buttonSelect(button, index); return false;});
+    $(button).bind("dragstart", function(event, ui) {buttonSelect(button, index);});
+    $(button).bind("dragstop", function(event, ui) {buttonSelect(button, index);});    
 }
 
 function loadHyperlink(index)
@@ -329,7 +352,10 @@ function addText()
         font: text.style.fontFamily,
         fontsize: text.style.fontSize,
         color: text.style.color,
-        content: text.innerHTML});
+        content: text.innerHTML,
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
         
     var index = elements.length - 1;
     
@@ -361,7 +387,10 @@ function addImage()
         top: image.style.top,
         left: image.style.left,
         zIndex: image.style.zIndex,
-        src: image.src});
+        src: image.src,
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
         
     var index = elements.length - 1;
     
@@ -394,7 +423,10 @@ function addVideo()
         top: video.style.top,
         left: video.style.left,
         zIndex: video.style.zIndex,
-        src: video.src});
+        src: video.src,
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
     
     var index = elements.length - 1;
     
@@ -406,7 +438,44 @@ function addVideo()
 
 function addButton()
 {
-    // Button disabled    
+    var button = document.createElement("input");
+    button.style.fontFamily = DEFAULT_FONT;
+    button.style.fontSize = DEFAULT_FONT_SIZE;
+    button.style.color = "#000000";
+    
+    button.value = "Sample button";
+    button.type = "button";
+    
+    button.style.position = "absolute";
+    button.style.left = width / 2 + "px";
+    button.style.top = height / 2 + "px";
+    button.style.width = width > 150 ? "150px" : (width + "px");
+    button.style.webkitUserSelect = "none";
+    button.style.zIndex = "2147483646";
+    
+    canvas.appendChild(button);
+    
+    elements.push({
+        type: "button",
+        top: button.style.top,
+        left: button.style.left,
+        height: button.style.height,
+        width: button.style.width,
+        zIndex: button.style.zIndex,
+        font: button.style.fontFamily,
+        fontsize: button.style.fontSize,
+        color: button.style.color,
+        content: button.value,
+        target: "about:blank",
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
+    
+    var index = elements.length - 1;
+    $(button).draggable({containment: "#canvas", cancel: false});
+    $(button).click(function() {buttonSelect(button, index); return false;});
+    $(button).bind("dragstart", function(event, ui) {buttonSelect(button, index);});
+    $(button).bind("dragstop", function(event, ui) {buttonSelect(button, index);});   
 }
 
 function addHyperlink()
@@ -417,7 +486,7 @@ function addHyperlink()
     a.style.color = "#000000";
     
     a.innerHTML = "Sample hyperlink";
-    a.setAttribute("href", "#");
+    a.setAttribute("href", "about:blank");
     
     a.style.position = "absolute";
     a.style.left = width / 2 + "px";
@@ -438,12 +507,15 @@ function addHyperlink()
         fontsize: a.style.fontSize,
         color: a.style.color,
         content: a.innerHTML,
-        href: a.href});
+        href: a.href,
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
     
     var index = elements.length - 1;
     
     $(a).draggable({containment: "#canvas"});
-    $(a).click(function() {hyperlinkSelect(a, index);});
+    $(a).click(function() {hyperlinkSelect(a, index); return false;});
     $(a).bind("dragstart", function(event, ui) {hyperlinkSelect(a, index);});
     $(a).bind("dragstop", function(event, ui) {hyperlinkSelect(a, index);});
 }
@@ -484,11 +556,14 @@ function addDropdownMenu()
         zIndex: dropdown.stylezIndex,
         font: dropdown.style.fontFamily,
         fontsize: dropdown.style.fontSize,
-        options: ["option1", "option2", "option3"]});
+        options: ["option1", "option2", "option3"],
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
     
     var index = elements.length - 1;
     
-    $(dropdown).draggable({containment: "#canvas"});
+    $(dropdown).draggable({containment: "#canvas", cancel: false});
     $(dropdown).click(function() {dropdownSelect(dropdown, index);});
     $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
     $(dropdown).bind("dragstop", function(event, ui) {dropdownSelect(dropdown, index);});
@@ -531,7 +606,10 @@ function addGallery()
         top: gallery.style.top,
         left: gallery.style.left,
         zIndex: gallery.style.zIndex,
-        src: ["images/sample.png", "images/sample.png", "images/sample.png"]});
+        src: ["images/sample.png", "images/sample.png", "images/sample.png"],
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
     
     var index = elements.length - 1;
       
@@ -698,6 +776,58 @@ function textSelect(text, index)
     $(w).change(function() {elements[index].width = text.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
     form.appendChild(w);
     
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
+    
     // Apply button   
     var apply = document.createElement("div");
     apply.id = "apply_button";
@@ -819,6 +949,58 @@ function imageSelect(image, index)
     z.value = parseInt(image.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = image.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
     
     // Apply button    
     var apply = document.createElement("div");
@@ -942,6 +1124,58 @@ function videoSelect(video, index)
     $(z).change(function() {elements[index].zIndex = video.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
     
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
+    
     // Apply button    
     var apply = document.createElement("div");
     apply.id = "apply_button";
@@ -959,11 +1193,234 @@ function videoSelect(video, index)
     properties.appendChild(form);
 }
 
-function buttonSelect(button)
+function buttonSelect(button, index)
 {
     deselect();
     
-    // TODO
+    // Update coords by dragging
+    elements[index].left = button.style.left;
+    elements[index].top = button.style.top;
+    
+    selected = button;
+    button.style.border = "2px solid grey";
+        
+    // Title
+    var title = document.createElement("div");
+    title.id = "properties_title";
+    title.innerHTML = "Hyperlink item";
+    properties.appendChild(title);
+    
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    // Font family
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font";
+    form.appendChild(label);
+    
+    var font = document.createElement("input");
+    font.type = "text";
+    font.className = "properties_input";
+    font.id = "font";
+    font.value = button.style.fontFamily;
+    $(font).change(function() {elements[index].font = button.style.fontFamily = font.value;});
+    form.appendChild(font);
+    
+    // Font size
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Font size";
+    form.appendChild(label);
+    
+    var fontsize = document.createElement("input");
+    fontsize.type = "text";
+    fontsize.className = "properties_input";
+    fontsize.id = "fontsize";
+    fontsize.value = button.style.fontSize;
+    $(fontsize).change(function() {elements[index].fontsize = button.style.fontSize = fontsize.value;});
+    form.appendChild(fontsize);
+    
+    // Content
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Content";
+    form.appendChild(label);
+    
+    var content = document.createElement("input");
+    content.type = "text";
+    content.className = "properties_input";
+    content.id = "content";
+    content.value = button.value;
+    $(content).change(function() {elements[index].content = button.value = content.value;});
+    form.appendChild(content);
+    
+    // Target
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Target";
+    form.appendChild(label);
+    
+    var target = document.createElement("input");
+    target.type = "text";
+    target.className = "properties_input";
+    target.id = "target";
+    target.value = elements[index].target;
+    $(target).change(function() {elements[index].target = target.value;});
+    form.appendChild(target);
+    
+    // Color
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Color";
+    form.appendChild(label);
+    
+    var color = document.createElement("input");
+    color.type = "text";
+    color.className = "properties_input";
+    color.id = "color";
+    color.value = button.style.color;
+    $(color).change(function() {elements[index].color = button.style.color = color.value;});
+    form.appendChild(color);
+    
+    // X coord
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "X";
+    form.appendChild(label);
+    
+    var x = document.createElement("input");
+    x.type = "text";
+    x.className = "properties_input";
+    x.id = "x";
+    x.value = parseInt(button.style.left, 10);
+    $(x).change(function() {elements[index].left = button.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    form.appendChild(x);
+    
+    // Y coord
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Y";
+    form.appendChild(label);
+    
+    var y = document.createElement("input");
+    y.type = "text";
+    y.className = "properties_input";
+    y.id = "y";
+    y.value = parseInt(button.style.top, 10);
+    $(y).change(function() {elements[index].top = button.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    form.appendChild(y);
+    
+    // Z coord
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Depth level";
+    form.appendChild(label);
+    
+    var z = document.createElement("input");
+    z.type = "text";
+    z.className = "properties_input";
+    z.id = "z";
+    z.value = parseInt(button.style.zIndex, 10);
+    $(z).change(function() {elements[index].zIndex = button.style.zIndex = parseInt(z.value, 10);});
+    form.appendChild(z);
+    
+    // Width
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Width";
+    form.appendChild(label);
+    
+    var w = document.createElement("input");
+    w.type = "text";
+    w.className = "properties_input";
+    w.id = "w";
+    w.value = parseInt(button.style.width, 10);
+    $(w).change(function() {elements[index].width = button.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
+    form.appendChild(w);
+    
+    // Height
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Height";
+    form.appendChild(label);
+    
+    var h = document.createElement("input");
+    h.type = "text";
+    h.className = "properties_input";
+    h.id = "h";
+    h.value = parseInt(button.style.height, 10);
+    $(h).change(function() {elements[index].height = button.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
+    form.appendChild(h);
+    
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
+    
+    // Apply button    
+    var apply = document.createElement("div");
+    apply.id = "apply_button";
+    apply.innerHTML = "Apply";
+    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
+    form.appendChild(apply);
+    
+    // Delete button    
+    var del = document.createElement("div");
+    del.id = "delete_button";
+    del.innerHTML = "Delete";
+    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(button); deselect();});
+    form.appendChild(del);
+    
+    properties.appendChild(form);
 }
 
 function hyperlinkSelect(a, index)
@@ -1113,6 +1570,58 @@ function hyperlinkSelect(a, index)
     $(w).change(function() {elements[index].width = a.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
     form.appendChild(w);
     
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
+    
     // Apply button    
     var apply = document.createElement("div");
     apply.id = "apply_button";
@@ -1228,6 +1737,58 @@ function dropdownSelect(dropdown, index)
     z.value = parseInt(dropdown.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = dropdown.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
     
     // Apply button    
     var apply = document.createElement("div");
@@ -1364,6 +1925,58 @@ function gallerySelect(gallery, index)
     z.value = parseInt(gallery.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = gallery.style.zIndex = parseInt(z.value, 10);});
     form.appendChild(z);
+    
+    // Animations
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation name";
+    form.appendChild(label);
+    
+    var animation_name = document.createElement("select");
+    
+    for (var i = 0; i < animations.length; ++i)
+    {
+        var option = document.createElement("option");
+        option.value = option.innerHTML = animations[i];
+        
+        if (elements[index].animation_name == animations[i])
+        {
+            option.selected = true;
+        }
+        
+        animation_name.appendChild(option);
+    }
+    
+    animation_name.className = "properties_input";
+    animation_name.id = "animation_name";
+    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
+    form.appendChild(animation_name);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation duration";
+    form.appendChild(label);
+    
+    var animation_duration = document.createElement("input");
+    animation_duration.type = "text";
+    animation_duration.className = "properties_input";
+    animation_duration.id = "animation_duration";
+    animation_duration.value = elements[index].animation_duration;
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
+    form.appendChild(animation_duration);
+    
+    label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation mode";
+    form.appendChild(label);
+    
+    var animation_mode = document.createElement("input");
+    animation_mode.type = "text";
+    animation_mode.className = "properties_input";
+    animation_mode.id = "animation_mode";
+    animation_mode.value = elements[index].animation_mode;
+    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
+    form.appendChild(animation_mode);
     
     // Apply button    
     var apply = document.createElement("div");
@@ -1502,11 +2115,11 @@ function saveCanvas()
     {
         document.getElementById("saveButton").innerHTML = "Saving..";
         
-        document.cookie = "elements = " + JSON.stringify(elements);
         $.ajax(
             {
                 type: "POST", 
-                url: "save_version.php", 
+                url: "save_version.php",
+                data: "elements=" + encodeURIComponent(JSON.stringify(elements)),
                 success: function(message){disableSave();}
             });
     }

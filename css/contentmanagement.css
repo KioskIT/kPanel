@@ -97,19 +97,35 @@
     -webkit-user-select: none;    
 }
 
+.disabledEdit
+{
+    background-color:#9C9C9C;
+    color: #FFFFFF;
+    border:2px solid #FFFFFF;
+    text-align: right;
+    
+    width:50px;
+    height:15px;
+    padding: 5px 20px;
+    margin-left: 30px;
+    
+    display: none;
+    -webkit-user-select: none;
+}
+
 .edit
 {
-	background-color:#000000;
-	color: #FFFFFF;
-	border:2px solid #FFFFFF;
-	text-align: right;
-	
-	width:50px;
-	height:15px;
-	padding: 5px 20px;
-	margin-left: 30px;
-	
-	display: none;
+    background-color:#000000;
+    color: #FFFFFF;
+    border:2px solid #FFFFFF;
+    text-align: right;
+    
+    width:50px;
+    height:15px;
+    padding: 5px 20px;
+    margin-left: 30px;
+    
+    display: none;
     -webkit-user-select: none;
 }
 
