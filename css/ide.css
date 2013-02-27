@@ -18,6 +18,7 @@ body
     z-index:2147483647;
     
     -webkit-box-shadow: 3px 0px 3px black;
+    -webkit-animation: fly_in_from_left 0.5s, fade_in 0.5s;
 }
 
 #properties
@@ -33,12 +34,15 @@ body
     z-index:2147483647;
     
     -webkit-box-shadow: -3px 0px 3px black;
+    -webkit-animation: fly_in_from_right 0.5s, fade_in 0.5s;
 }
 
 #canvas
 {    
     -webkit-box-shadow: 3px 3px 10px black;
     -webkit-user-select: none;
+    
+    -webkit-animation: fade_in 1s;
 }
 
 .title

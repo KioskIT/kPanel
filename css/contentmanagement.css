@@ -1,6 +1,8 @@
 #versionsList
 {
-    margin-bottom:110px;    
+    margin-bottom:110px;
+    
+    -webkit-animation: fade_in 0.5s;
 }
 
 .buttonsBar
@@ -15,6 +17,8 @@
 	border:3px solid white;
 	
 	text-align:center;
+	
+    -webkit-animation: fly_in_from_bottom 0.5s, fade_in 0.5s;
 }
 
 .button
@@ -82,6 +86,9 @@
 .version:hover
 {
 	background-color:#2E8DEF;
+	
+    -webkit-animation: indent 0.2s, fade_in 0.3s;
+    -webkit-animation-fill-mode: forwards;
 }
 
 .versionName
@@ -96,8 +103,6 @@
 	color: #FFFFFF;
 	border:2px solid #FFFFFF;
 	text-align: right;
-	
-	display:inline;
 	
 	width:50px;
 	height:15px;
