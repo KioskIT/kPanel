@@ -5,10 +5,6 @@
     {
         bottom:-100px;
     }
-    to 
-    {
-        bottom:0px;
-    }
 }
 
 @-webkit-keyframes fly_in_from_top
@@ -16,10 +12,6 @@
     from 
     {
         top:-100px;
-    }
-    to 
-    {
-        top:0px;
     }
 }
 
@@ -29,10 +21,6 @@
     {
         left:-100%;
     }
-    to 
-    {
-        left:0;
-    }
 }
 
 @-webkit-keyframes fly_in_from_right
@@ -41,31 +29,19 @@
     {
         right:-100%;
     }
-    to 
-    {
-        right:0;
-    }
 }
 
 /* Fly out */
-@-webkit-keyframes fly_out_from_bottom
+@-webkit-keyframes fly_out_to_bottom
 {
-    from 
-    {
-        bottom:0px;
-    }
     to 
     {
         bottom:-100px;
     }
 }
 
-@-webkit-keyframes fly_out_from_top
+@-webkit-keyframes fly_out_to_top
 {
-    from 
-    {
-        top:0px;
-    }
     to 
     {
         top:-100px;
@@ -74,10 +50,6 @@
 
 @-webkit-keyframes fly_out_to_left
 {
-    from 
-    {
-        left:0;
-    }
     to 
     {
         left:-100%;
@@ -86,10 +58,6 @@
 
 @-webkit-keyframes fly_out_to_right
 {
-    from 
-    {
-        right:0;
-    }
     to 
     {
         right:-100%;
@@ -152,7 +120,7 @@
 
 @-webkit-keyframes indent
 {
-    100%
+    to
     {
         margin-left: 10px;
     }
