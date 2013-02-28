@@ -17,6 +17,7 @@ var viewportWidth, viewportHeight;
 var elements = [];
 
 var selected = null;
+var selected_version = "";
 
 function loadVersion()
 {
@@ -37,41 +38,16 @@ function loadVersion()
         canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
         canvas.style.webkitUserSelect = "none";
             
-        
-        var cookies = document.cookie.split("; ");
-        var version_name = "";
-       
-        for (var i = 0; i < cookies.length; ++i)
-        {
-            if (cookies[i].substr(0, cookies[i].indexOf("=")) == "selected_version")
-            {
-                version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
-                break;
-            }
-        }
-        
         elements.push({
             type: "canvas",
-            name: version_name,
+            name: selected_version,
             width: width,
             height: height,
             color: canvas.style.backgroundColor});   
     }
     else
-    {
-        var cookies = document.cookie.split("; ");
-        var version_name = "";
-       
-        for (var i = 0; i < cookies.length; ++i)
-        {
-            if (cookies[i].substr(0, cookies[i].indexOf("=")) == "selected_version")
-            {
-                version_name = cookies[i].substr(cookies[i].indexOf("=") + 1);
-                break;
-            }        
-        }
-        
-        elements[0].name = version_name;
+    {   
+        elements[0].name = selected_version;
         
         // Load existing settings
         width = parseInt(elements[0].width);
@@ -141,8 +117,9 @@ function initializeCanvas()
     $.ajax(
             {
                 type: "POST", 
-                url: "load_version.php", 
-                success: function(array){elements = $.parseJSON(array);loadVersion();}
+                url: "load_version.php",
+                data: "selected_version=" + selected_version,
+                success: function(array){elements = $.parseJSON(array); loadVersion();}
             });
 
     $("#canvas").draggable();

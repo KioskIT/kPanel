@@ -28,20 +28,33 @@ function populateVersionsList()
             
             for (var j = 0; j < versions.length - 1; ++j)
             {
-                var versionName = unescape(versions[j].split(".version")[0]).split("+").join(" ");
+                var dotIndex = versions[j].lastIndexOf(".");
+                var extension = versions[j].substring(dotIndex + 1);
+                var versionName = unescape(versions[j].substring(0, dotIndex)).split("+").join(" ");
                 var version = document.createElement("div");
                 version.innerHTML = "Loading version..";
-                version.setAttribute("class", "version");
-                version.setAttribute("id", "version" + numberOfVersions);   
+                version.setAttribute("data-extension", extension);
+                version.setAttribute("id", "version" + j);   
                 version.setAttribute("onmouseover", "select(this)");
                 
-                if (isVersionCompiled(versionName))
+                if (extension == "version")
                 {
-                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
+                    version.setAttribute("class", "version");
+                
+                    if (isVersionCompiled(versionName))
+                    {
+                        version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
+                    }
+                    else
+                    {
+                        version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';                    
+                    }
                 }
                 else
+                if (extension == "importedversion")
                 {
-                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';                    
+                    version.setAttribute("class", "importedVersion");
+                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
                 }
                 
                 document.getElementById("versionsList").appendChild(version);
@@ -57,7 +70,6 @@ function populateVersionsList()
 function goHome()
 {
     selected = null;
-    document.cookie = "selected_version=";
     window.location = "index.html";
 }
 
@@ -80,7 +92,6 @@ function select(toBeSelected)
 	
 	// Select version
 	selected = toBeSelected;
-	document.cookie = "selected_version = " + selected.getElementsByClassName("versionName")[0].innerHTML;
 	
 	// Apply selected style
 	selected.style.background = "#094AB2";
@@ -96,12 +107,20 @@ function select(toBeSelected)
 
 function edit()
 {
-    window.location = "ide.php"
+    window.location = "ide.php?selected_version=" + encodeURI(selected.getElementsByClassName("versionName")[0].innerHTML);
 }
 
 function view()
 {
-    window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + ".html";
+    if (selected.getAttribute("data-extension") == "version")
+    {
+        window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + ".html";
+    }
+    else
+    if (selected.getAttribute("data-extension") == "importedversion")
+    {
+        window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + "/index.php";        
+    }
 }
 
 function rename()
@@ -111,14 +130,15 @@ function rename()
     
     if (new_name.length > 0)
     {
-        document.cookie = "old_name=" + name[0].innerHTML;
+        var old_name = name[0].innerHTML;
         name[0].innerHTML = new_name;
         
         select(selected);
         
         $.ajax(
         {
-            type: "POST", 
+            type: "POST",
+            data: "old_name=" + old_name + "&new_name=" + new_name + "&extension=" + selected.getAttribute("data-extension"),
             url: "rename_version.php"
         });
     }
@@ -142,6 +162,7 @@ function copy()
         {
             type: "POST", 
             url: "copy_version.php",
+            data: "selected_version=" + selected.getElementsByClassName("versionName")[0].innerHTML,
             success: function()
             {
                 while (versionsList.childNodes.length > 0)
@@ -162,6 +183,7 @@ function createNewVersion()
 	var version = document.createElement("div");
 	version.innerHTML = "Creating version..";
 	version.setAttribute("class", "version");
+	version.setAttribute("data-extension", "version");
 	version.setAttribute("id", "version" + numberOfVersions);	
 	version.setAttribute("onmouseover", "select(this)");
 	document.getElementById("versionsList").appendChild(version);	
@@ -188,7 +210,8 @@ function removeVersion()
             $.ajax(
                 {
                     type: "POST", 
-                    url: "remove_version.php", 
+                    url: "remove_version.php",
+                    data: "selected_version=" + selected.getElementsByClassName("versionName")[0].innerHTML + "&extension=" + selected.getAttribute("data-extension"),
                     success: function(message)
                     {
                         --numberOfVersions;
@@ -214,7 +237,6 @@ function isVersionCompiled(version)
     
     if (request) 
     {
-        console.log("https://rynx.no-ip.org/kPanel/versions/" + escape(version) + ".html");
         request.open("GET", "https://rynx.no-ip.org/kPanel/versions/" + escape(version) + ".html", false);
         request.send();
         
@@ -225,4 +247,43 @@ function isVersionCompiled(version)
     }
     
     return false;
+}
+
+function importVersion()
+{ 
+    var file = document.getElementById("uploader").files[0];
+        
+    document.getElementById("form").style.display = "none";
+    document.getElementById("uploading").style.display = "block";
+    
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = sendFile;
+}
+
+function sendFile(event)
+{
+    var file = document.getElementById("uploader").files[0];      
+    $.post("tools/importVersion.php", 
+        { 
+            data: event.target.result, 
+            name: file.name,
+        }, uploadDone);
+}
+
+function uploadDone(msg)
+{
+    location.reload();
+}
+
+function hideImportPopup()
+{
+    document.getElementById("popup_bg").style.display = "none";
+}
+
+function showImportPopup()
+{
+    document.getElementById("popup_bg").style.display = "block";        
+    document.getElementById("form").style.display = "block";
+    document.getElementById("uploading").style.display = "none";
 }

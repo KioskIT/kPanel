@@ -1,3 +1,9 @@
+html
+{
+    font-family:arial;
+    -webkit-user-select: none;
+}
+
 body
 {
     background-color:#9C9C9C;
@@ -78,6 +84,8 @@ body
     margin-top:10px;
     
     -webkit-user-select: none;
+    
+    cursor:pointer;
 }
 
 .disabledToolbarItem
@@ -129,7 +137,9 @@ body
     margin-bottom:10px;
     margin-top:8px;
     
-    -webkit-user-select: none;    
+    -webkit-user-select: none; 
+    
+    cursor:pointer;   
 }
 
 .disabledSaveButton, .disabledCompileButton
@@ -234,6 +244,8 @@ body
     margin:10px 10px 200px 10px;
     
     -webkit-user-select: none;    
+    
+    cursor:pointer;
 }
 
 #apply_button
@@ -259,7 +271,9 @@ body
     
     margin:10px 10px 200px 25px;
     
-    -webkit-user-select: none;    
+    -webkit-user-select: none;
+    
+    cursor:pointer;    
 }
 
 #delete_button:hover, .closeButton:hover

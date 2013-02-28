@@ -23,10 +23,42 @@
     	<div id="versionsList"></div>
     	
     	<div class="buttonsBar">
+    	    
             <a href="#" class="button" id="newVersion" onclick="createNewVersion()">Create a new version</a>
+            <a href="#" class="button" id="importVersion" onclick="showImportPopup()">Import version from zip</a>
             <a href="#" class="button" id="home" onclick="goHome()">Home</a>
+            
     	</div>
     	
+    	<div id = "popup_bg">
+
+            <div id = "popup">
+        
+                <h1>Import version from zip</h1>
+                
+                <h2 id="uploading">Uploading..</h2>
+               
+                <div id="form">
+                    
+                    <h2>Note</h2>
+                    
+                    <h3>In order to successfully upload a version, the file must be a valid zip archive of the contents of the root folder of your version. The archive must contain an "index.php" file. Uploading a version with an already existing name will overwrite matching files.</h3>
+                        
+                    <input id="uploader" name="versionArchive" type="file" accept=".zip" />
+                    
+                    <div id="form_buttons_bar">
+                    
+                        <input class="form_button" type="button" onclick="importVersion()" value="Import version" />
+                        <input class="form_button" type="button" onclick="hideImportPopup()" value="Cancel" />
+                    
+                    </div>
+            
+                </div>
+                
+            </div>
+            
+        </div>
+
     </body>
     
  

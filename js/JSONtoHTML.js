@@ -47,12 +47,11 @@ function compile()
                 
     html += '\n\t\t</div>\n\n\t</body>\n\n\n</html>';
       
-    document.cookie = "html = " + escape(html);
-      
     $.ajax(
         {
             type: "POST", 
             url: "compile.php", 
+            data: "selected_version=" + selected_version + "&html=" + escape(html),
             success: function(message)
                 {
                     document.getElementById("compileButton").className = "disabledCompileButton";

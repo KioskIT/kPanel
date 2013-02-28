@@ -1,3 +1,9 @@
+html
+{
+    font-family:arial;
+    -webkit-user-select: none;
+}
+
 #logo
 {
     position:absolute;
@@ -32,6 +38,8 @@
     margin:0px 30px 0px 30px;
     
     -webkit-user-select: none;
+    
+    cursor:pointer;
 }
 
 .button:hover

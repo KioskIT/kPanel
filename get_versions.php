@@ -9,7 +9,8 @@
     $versionsList = "";
     while (false !== ($entry = readdir($handle)))
     {
-        if (substr($entry, strrpos($entry, '.') + 1) == "version")
+        $extension = substr($entry, strrpos($entry, '.') + 1);
+        if ($extension == "version" || $extension == "importedversion")
         {
             $versionsList .= $entry . ":";
         }

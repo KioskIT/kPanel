@@ -23,7 +23,7 @@
     </head>
     
     
-    <body onload="initializeCanvas()">
+    <body onload="selected_version = decodeURI('<?PHP echo $_GET["selected_version"]; ?>'); initializeCanvas();">
         
         <div id="canvas"></div>
        

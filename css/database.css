@@ -1,3 +1,9 @@
+html
+{
+    font-family:arial;
+    -webkit-user-select: none;
+}
+
 .button
 {
     background-color:#000000;
@@ -22,6 +28,8 @@
     margin:0px 30px 0px 30px;
     
     -webkit-user-select: none;
+    
+    cursor:pointer;
 }
 
 .button:hover
@@ -65,6 +73,7 @@
     margin:10px; 
     background:white; 
     font-size:0.8em; 
+    -webkit-user-select: text;
 }
 
 td 

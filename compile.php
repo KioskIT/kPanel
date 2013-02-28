@@ -1,8 +1,8 @@
 <?PHP
 
-    $file = fopen("versions/" . $_COOKIE["selected_version"] . ".html", "w");
+    $file = fopen("versions/" . $_POST["selected_version"] . ".html", "w");
     
-    fwrite($file, $_COOKIE["html"]);
+    fwrite($file, $_POST["html"]);
     
     fclose($file);
 
