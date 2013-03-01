@@ -43,7 +43,7 @@ body
     float:left;
     margin:1%;
     position:relative;
-    width:250px;
+    width:26.3%;
     height:112px;
     border:3px solid black;
     background:black;
@@ -56,16 +56,31 @@ body
     -webkit-user-select: none;
 }
 
+#add_screen_plus
+{
+    position:absolute;
+    top:0%;
+    font-size:10em;
+}
+
+#add_screen_label
+{
+    position:absolute;
+    top:60%;
+    left:40%;
+    font-size:2em;
+}
+
 .screen
 {
     display:block;
     float:left;
     margin:1%;
     position:relative;
-    width:250px;
+    width:26.3%;
     height:112px;
     border:3px solid black;
-    background:#9C9C9C;
+    background-color:#9C9C9C;
     
     font-weight:bold;
     color:white;
@@ -79,32 +94,52 @@ body
 	padding-left:2%;
 }
 
+.screen:hover
+{
+    background-color:#ff7e22!important;
+}
+
 .name
 {
-    display: inline;
-    margin-left:15px;
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:10%;
+    padding-right:7%;
     font-size:1.0em;
 }
 
 .description
 {
 	font-size:0.8em;
-	padding-left:8%;
-	padding-top:10%;
+	position:absolute;
+    left:35%;
+    top:40%;
+    padding-right:10%;
 	font-style:italic;
+}
+
+.screen_ip
+{
+    position:absolute;
+    font-size:1.0em;
+    top:80%;
+    font-weight:bold;
 }
 
 .screen_img
 {
-    display: inline;
-	width:20%;
+    display:inline;
+    position:absolute;
+    top:25%;
+	height:50%;
 }
 
 .tick
 {
 	position:absolute;
-	top:10px;
-	left:10px;
+	top:3%;
+	left:1%;
 }
 
 #bottom_bar
@@ -117,11 +152,13 @@ body
     
     bottom:0px;
     background:#094AB2;
-    border:3px solid white;
+    border:1px solid white;
     
     text-align:center;
     
     -webkit-animation: fly_in_from_bottom 0.5s, fade_in 0.5s;
+    
+    -webkit-box-shadow: 0px 0px 20px 5px #000000;
 }
 
 #top_bar
@@ -134,11 +171,13 @@ body
     
     top:0px;
     background:#094AB2;
-    border:3px solid white;
+    border:1px solid white;
     
     text-align:center;
     
     -webkit-animation: fly_in_from_top 0.5s, fade_in 0.5s;
+    
+    -webkit-box-shadow: 0px 0px 20px 5px #000000;
 }
 
 .status
@@ -185,4 +224,21 @@ body
 .button:active, .addScreen:active
 {
     background-color:#008A00;
+}
+
+#filters
+{
+    margin-left:2%;
+    margin-top:1%;
+    cursor:default;
+}
+
+.filter_label, .filter
+{
+    display:inline-block;
+}
+
+#screens_count
+{
+    padding-left:10px;
 }

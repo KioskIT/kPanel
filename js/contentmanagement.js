@@ -10,61 +10,52 @@ function getVersions()
         {
             type: "POST", 
             url: "get_versions.php",
-            success: function() {populateVersionsList();}
+            success: function(rawVersionsList) {populateVersionsList(rawVersionsList);}
         });
 }
 
-function populateVersionsList()
+function populateVersionsList(rawVersionsList)
 {           
     versionsList = document.getElementById("versionsList");
     
-    var cookies = document.cookie.split("; ");
+    var versions = unescape(rawVersionsList.substr(rawVersionsList.indexOf("=") + 1)).split(":");
     
-    for (var i = 0; i < cookies.length; ++i)
+    for (var j = 0; j < versions.length - 1; ++j)
     {
-        if (cookies[i].substr(0, cookies[i].indexOf("=")) == "versions_list")
+        var dotIndex = versions[j].lastIndexOf(".");
+        var extension = versions[j].substring(dotIndex + 1);
+        var versionName = unescape(versions[j].substring(0, dotIndex)).split("+").join(" ");
+        var version = document.createElement("div");
+        version.innerHTML = "Loading version..";
+        version.setAttribute("data-extension", extension);
+        version.setAttribute("id", "version" + j);   
+        version.setAttribute("onmouseover", "select(this)");
+        version.setAttribute("onmouseout", "deselect(this)");
+        
+        if (extension == "version")
         {
-            var versions = unescape(cookies[i].substr(cookies[i].indexOf("=") + 1)).split(":");
-            
-            for (var j = 0; j < versions.length - 1; ++j)
+            version.setAttribute("class", "version");
+        
+            if (isVersionCompiled(versionName))
             {
-                var dotIndex = versions[j].lastIndexOf(".");
-                var extension = versions[j].substring(dotIndex + 1);
-                var versionName = unescape(versions[j].substring(0, dotIndex)).split("+").join(" ");
-                var version = document.createElement("div");
-                version.innerHTML = "Loading version..";
-                version.setAttribute("data-extension", extension);
-                version.setAttribute("id", "version" + j);   
-                version.setAttribute("onmouseover", "select(this)");
-                
-                if (extension == "version")
-                {
-                    version.setAttribute("class", "version");
-                
-                    if (isVersionCompiled(versionName))
-                    {
-                        version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
-                    }
-                    else
-                    {
-                        version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';                    
-                    }
-                }
-                else
-                if (extension == "importedversion")
-                {
-                    version.setAttribute("class", "importedVersion");
-                    version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
-                }
-                
-                document.getElementById("versionsList").appendChild(version);
+                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
             }
-            
-            numberOfVersions = versions.length - 1;
-            
-            break;
+            else
+            {
+                version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="disabledEdit">View version</div>';                    
+            }
         }
+        else
+        if (extension == "importedversion")
+        {
+            version.setAttribute("class", "importedVersion");
+            version.innerHTML = '<p class="versionName">' + versionName + '</p><div class="disabledEdit">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="disabledEdit">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="edit" onclick="view()">View version</div>';
+        }
+        
+        document.getElementById("versionsList").appendChild(version);
     }
+    
+    numberOfVersions = versions.length - 1;
 }
 
 function goHome()
@@ -78,22 +69,17 @@ function select(toBeSelected)
 	// If there is a previously selected version
 	if (selected != null)
 	{
-		// Apply unselected style
-		selected.style.background = "#9C9C9C";
-		selected.style.color = "#000000";
-		
-		// Hide buttons while the version isn't selected
-        var buttons = selected.getElementsByClassName("edit");
-		for (var i = 0; i < buttons.length; ++i)
-		{
-    		buttons[i].style.display = "none";
-		}
+		deselect(selected);
 	}
+	
+    // Show cover
+    document.getElementById("cover").style.display = "block";
 	
 	// Select version
 	selected = toBeSelected;
 	
 	// Apply selected style
+	selected.style.zIndex = "2"; 
 	selected.style.background = "#094AB2";
 	selected.style.color = "#FFFFFF";
 	
@@ -103,6 +89,35 @@ function select(toBeSelected)
     {
         buttons[i].style.display = "inline";
     }
+    
+    buttons = selected.getElementsByClassName("disabledEdit");
+    for (var i = 0; i < buttons.length; ++i)
+    {
+        buttons[i].style.display = "inline";
+    }
+}
+
+function deselect(toBeDeselected)
+{
+    // Hide cover
+    document.getElementById("cover").style.display = "none";
+    
+    // Apply unselected style
+    selected.style.zIndex = "0"; 
+    selected.style.background = "#9C9C9C";
+    selected.style.color = "#000000";
+    
+    // Hide buttons while the version isn't selected
+    var buttons = selected.getElementsByClassName("edit");
+    for (var i = 0; i < buttons.length; ++i)
+    {
+        buttons[i].style.display = "none";
+    }    
+    buttons = selected.getElementsByClassName("disabledEdit");
+    for (var i = 0; i < buttons.length; ++i)
+    {
+        buttons[i].style.display = "none";
+    }    
 }
 
 function edit()
@@ -195,7 +210,7 @@ function createNewVersion()
         {
             type: "POST", 
             url: "create_version.php",
-            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div>';}
+            success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="disabledEdit">View version</div>';}
         });
 }
 

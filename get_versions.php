@@ -16,6 +16,6 @@
         }
     }
 
-    setcookie("versions_list", $versionsList);
+    echo $versionsList;
 
 ?>

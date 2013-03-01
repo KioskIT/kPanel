@@ -28,7 +28,7 @@
                     Deselect all
                 </div>
                 
-                <div class = 'button' onClick = 'deleteScreen();'>
+                <div class = 'button' onClick = 'deleteScreens();'>
                     Delete
                 </div>                              
             
@@ -36,13 +36,24 @@
 	    
 		<div id = 'content'>
 		    
-            <select id='dropDownMenu' onchange='filter();'>
-                <option value='(all)'>(all)</option>
-            </select>
+		    <div id="filters">
+		        
+		        <div class="filter_label">Filter by category: </div>
+                
+                <select class="filter" id='dropDownMenu' onchange='filter();'>
+                    <option value='(all)'>(all)</option>
+                </select>
+                
+                <div class="filter_label" id="screens_count"></div>
+                <div class="filter_label" id="screens_count_noun"></div>
+                
+            </div>
+            
 			<div id = 'screens'>
 				
 				<div class = 'addScreen' id = 'addScreen' onclick = 'addScreen();'>
-					<span style = 'font-size:6.5em'>+</span> <span style = 'font-size:1.0em'>Add Screen</span>
+					<span id = 'add_screen_plus'>+</span>
+					<span id = 'add_screen_label'>Add Screen</span>
 				</div>
 				
 			</div>

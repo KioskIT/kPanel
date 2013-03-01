@@ -122,6 +122,16 @@
 {
     to
     {
-        margin-left: 10px;
+        margin-left: 810px;
+    }
+}
+
+/* Expand */
+
+@-webkit-keyframes expand
+{
+    to
+    {
+        height: 70px;
     }
 }

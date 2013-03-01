@@ -1,7 +1,6 @@
 var kiosk_counter = 0;
 
 var current_ip = "";
-var current_kiosk;
 
 var selected_background = '#FA6800';
 var deselected_background = '#9C9C9C';
@@ -9,6 +8,7 @@ var deselected_background = '#9C9C9C';
 var ip_regex = /(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/;
 
 var categories = [];
+var current_category = "uncategorized";
 
 function goHome()
 {
@@ -17,6 +17,15 @@ function goHome()
 
 function getKiosks(category)
 {   
+    if (category == "(all)")
+    {
+        current_category = "uncategorized";        
+    }
+    else
+    {
+        current_category = category;
+    }
+    
     $.ajax(
         {
             type: "POST", 
@@ -33,6 +42,7 @@ function getKiosks(category)
 
 function loadKiosks(list)
 {
+    kiosk_counter = 0;
     var kiosks = JSON.parse(list);
     
     if (categories.length == 0)
@@ -52,12 +62,14 @@ function loadKiosks(list)
         new_kiosk.setAttribute("class", "screen");
         new_kiosk.setAttribute("onClick", "select(" + kiosk_counter + ")");
    
-        new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><img class = 'screen_img' src = 'images/screen.png' /><div class = 'name'>" + kiosks[i]["name"] + "</div><div class = 'description'>" + kiosks[i]["description"] + "</div>";
+        new_kiosk.innerHTML = "<img src = 'images/tick.png' class = 'tick' id = 'tick_" + kiosk_counter + "' style = 'visibility:hidden'/><div class = 'name'>" + kiosks[i]["name"] + "</div><img class = 'screen_img' src = 'images/screen.png' /><div class = 'description'>" + kiosks[i]["description"] + "</div><div class='screen_ip'>" + kiosks[i]["ip"] + "<div>";
     
         screens.appendChild(new_kiosk);
         
         ++kiosk_counter;
     }
+    
+    updateScreensCount("absolute", kiosk_counter);
 }
 
 function loadCategories(kiosks)
@@ -74,37 +86,41 @@ function loadCategories(kiosks)
 
 function selectAll()
 {
-    for(i = 0; i < kiosk_counter; ++i)
+    var kiosks = document.getElementsByClassName("screen");
+    
+    for(i = 0; i < kiosks.length; ++i)
     {
-        document.getElementById('screen_' + i).style.background = selected_background;
-        document.getElementById('tick_' + i).style.visibility = 'visible';
+        kiosks[i].style.background = selected_background;
+        kiosks[i].getElementsByClassName("tick")[0].style.visibility = 'visible';
     }
 }
 
 function cancel()
 {
-    for(i = 0; i < kiosk_counter; ++i)
-    {		
-        document.getElementById('screen_'+i).style.background = deselected_background;
-        document.getElementById('tick_'+i).style.visibility = 'hidden';
+    var kiosks = document.getElementsByClassName("screen");
+    
+    for(i = 0; i < kiosks.length; ++i)
+    {
+        kiosks[i].style.background = deselected_background;
+        kiosks[i].getElementsByClassName("tick")[0].style.visibility = 'hidden';
     }
 }
 
 function tickScreen(id)
 {
-        document.getElementById('screen_'+id).style.background = selected_background;
+        document.getElementById('screen_'+id).style.backgroundColor = selected_background;
         document.getElementById('tick_'+id).style.visibility = 'visible';		
 }
 
 function untickScreen(id)
 {
-        document.getElementById('screen_'+id).style.background = deselected_background;
+        document.getElementById('screen_'+id).style.backgroundColor = deselected_background;
         document.getElementById('tick_'+id).style.visibility = 'hidden';			
 }
 
 function select(id)
 {		
-    if(document.getElementById('tick_'+id).style.visibility == 'hidden')
+    if(document.getElementById('tick_' + id).style.visibility == 'hidden')
     {
         tickScreen(id);
     }
@@ -114,33 +130,31 @@ function select(id)
     }
 }
 
-function deleteScreen()
+function deleteScreens()
 {   
-    var initial_kiosk_counter = kiosk_counter;
-    for (i = 0; i < initial_kiosk_counter; ++i)
-    {
-        current_kiosk = document.getElementById("screen_" + i);
-        
-        if (current_kiosk)
-        {
-            if (document.getElementById("tick_" + i).style.visibility == "visible")
-            {
-                removeKiosk();
+    var kiosks = document.getElementsByClassName("screen");
+    
+    for (i = kiosks.length - 1; i >= 0; --i)
+    {    
+        if (kiosks[i].getElementsByClassName("tick")[0].style.visibility == "visible")
+        {            
+            $.ajax(
+                {
+                    type: "POST", 
+                    url: "kiosks/delete_kiosk.php",
+                    data: "ip=" + kiosks[i].getAttribute("name")
+                });
                 
-                $.ajax(
-                    {
-                        type: "POST", 
-                        url: "kiosks/delete_kiosk.php",
-                        data: "ip=" + current_kiosk.getAttribute("name")
-                    });
-            }
+            removeKiosk(kiosks[i]);
         }
     }
+    
+    updateScreensCount("relative", -1);
 }
 
-function removeKiosk()
+function removeKiosk(kiosk)
 {
-    document.getElementById("screens").removeChild(current_kiosk);
+    document.getElementById("screens").removeChild(kiosk);
 }
 
 function addScreen()
@@ -153,7 +167,7 @@ function addScreen()
             {
                 type: "POST", 
                 url: "kiosks/add_kiosk.php",
-                data: "ip=" + current_ip,
+                data: "ip=" + current_ip + "&category=" + current_category,
                 success: function() 
                 {
                     createKiosk();
@@ -179,24 +193,22 @@ function createKiosk()
     screens.appendChild(new_kiosk);
     
     ++kiosk_counter;
+    
+    updateScreensCount("relative", 1);
 }
 
 function screenConfiguration()
 {
+    var kiosks = document.getElementsByClassName("screen");
     var ips = "";
     var names = "";
     
-    for (i = 0; i < kiosk_counter; ++i)
+    for (i = 0; i < kiosks.length; ++i)
     {
-        current_kiosk = document.getElementById("screen_" + i);
-        
-        if (current_kiosk)
+        if (kiosks[i].getElementsByClassName("tick")[0].style.visibility == "visible")
         {
-            if (document.getElementById("tick_" + i).style.visibility == "visible")
-            {
-                ips += current_kiosk.getAttribute("name") + "|";
-                names += current_kiosk.getElementsByClassName("name")[0].innerHTML + "|"; 
-            }   
+            ips += kiosks[i].getAttribute("name") + "|";
+            names += kiosks[i].getElementsByClassName("name")[0].innerHTML + "|"; 
         }
     }
     
@@ -204,24 +216,16 @@ function screenConfiguration()
     {
         window.location = "kiosks/kiosk_configuration.php?ips=" + ips.substring(0, ips.length - 1) + "&names=" + escape(names.substring(0, names.length - 1));
     }
-    
-    
-    
-    
 }
 
 function addCategory()
 {
     var new_category = prompt("Please enter the name of the category:");
     
-    var dropDownMenu = document.getElementById("dropDownMenu");
-    
-    var new_option = document.createElement("option");
-    
-    new_option.setAttribute("value", new_category);
-    new_option.innerHTML = new_category;
-    
-    dropDownMenu.appendChild(new_option);     
+    if (new_category.length > 0)
+    {
+        addSpecificCategory(new_category);
+    }
 }
 
 function addSpecificCategory(category)
@@ -248,4 +252,28 @@ function filter()
     }
     
     getKiosks(dropDownMenu.options[dropDownMenu.selectedIndex].text);
+}
+
+function updateScreensCount(mode, amount)
+{
+    var screens_count = document.getElementById("screens_count");
+    
+    if (mode == "absolute")
+    {
+        screens_count.innerHTML = amount;
+    }
+    else
+    if (mode == "relative")
+    {
+        screens_count.innerHTML = parseInt(screens_count) + amount;
+    }
+    
+    if (parseInt(screens_count.innerHTML) == 1)
+    {
+        document.getElementById("screens_count_noun").innerHTML = " result";
+    }
+    else
+    {
+        document.getElementById("screens_count_noun").innerHTML = " results";
+    }    
 }
