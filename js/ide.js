@@ -174,7 +174,7 @@ function loadVideo(index)
 {
     var video = document.createElement("img");
     
-    video.setAttribute("src", elements[index].src);
+    video.setAttribute("src", "images/video_sample.png");
     
     video.style.position = "absolute";
     video.style.width = elements[index].width;
@@ -346,7 +346,7 @@ function addImage()
 {
     var image = document.createElement("img");
     
-    image.setAttribute("src", "images/sample.png");
+    image.setAttribute("src", "images/image_sample.png");
     image.style.position = "absolute";
     image.style.width = DEFAULT_IMAGE_WIDTH + "px";
     image.style.height = DEFAULT_IMAGE_HEIGHT + "px";
@@ -560,15 +560,15 @@ function addGallery()
     gallery.style.zIndex = "2147483646";
              
     var image = document.createElement("img");
-    image.setAttribute("src", "images/sample.png");  
+    image.setAttribute("src", "images/image_sample.png");  
     gallery.appendChild(image);
     
     image = document.createElement("img");
-    image.setAttribute("src", "images/sample.png");  
+    image.setAttribute("src", "images/image_sample.png");  
     gallery.appendChild(image);
     
     image = document.createElement("img");
-    image.setAttribute("src", "images/sample.png");  
+    image.setAttribute("src", "images/image_sample.png");  
     gallery.appendChild(image);
     
     Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
@@ -583,7 +583,7 @@ function addGallery()
         top: gallery.style.top,
         left: gallery.style.left,
         zIndex: gallery.style.zIndex,
-        src: ["images/sample.png", "images/sample.png", "images/sample.png"],
+        src: ["images/image_sample.png", "images/image_sample.png", "images/image_sample.png"],
         animation_name: "none",
         animation_duration: "0",
         animation_mode: ""});
@@ -1027,7 +1027,7 @@ function videoSelect(video, index)
     source.type = "text";
     source.className = "properties_input";
     source.id = "content";
-    source.value = video.src;
+    source.value = elements[index].src;
     $(source).change(function() {elements[index].src = video.src = source.value;});
     form.appendChild(source);
     
