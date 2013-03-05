@@ -72,9 +72,6 @@ function select(toBeSelected)
 		deselect(selected);
 	}
 	
-    // Show cover
-    document.getElementById("cover").style.display = "block";
-	
 	// Select version
 	selected = toBeSelected;
 	
@@ -98,10 +95,7 @@ function select(toBeSelected)
 }
 
 function deselect(toBeDeselected)
-{
-    // Hide cover
-    document.getElementById("cover").style.display = "none";
-    
+{    
     // Apply unselected style
     selected.style.zIndex = "0"; 
     selected.style.background = "#9C9C9C";

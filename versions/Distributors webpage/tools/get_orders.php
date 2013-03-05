@@ -1,7 +1,7 @@
 <?PHP
 
     $connection= new MongoClient();
-    $collection = $connection->kioskIt->$_POST['collection_name'];
+    $collection = $connection->kioskIt->meal_orders;
     
     $cursor = $collection->find();
     

@@ -1,132 +1,156 @@
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<link rel=stylesheet type="text/css" href="distributors.css">
-	   <script type="text/javascript" src="distributors.js"></script>
-	</head>
-	<body>
-	<div id="top-bar">
-	<a href="#menu1" class=button >1</a>
-	<a href="#menu2" class=button >2</a>
-	<a href="#menu3" class=button >3</a>
-	<input id=toMap class="button button2" onclick="switchToMap()" value="Map-View">
+<!DOCTYPE html>
 
-	<div id=toList class=hidden>
-	<input  class="button button2" onclick="switchToList()" value="List-View">
-	</div>
-	</div>
+<html>
 
-	<div id="list-content">
-	<table  class=table id="menu1" border="1">
-	 <tr>
-	 <td class=td> MENU </td>
-	 <td class=td> BED NO </td>
-	 <td class=td> OK</td>
-	 <td class=td> IN PROGRESS</td>
-	 </tr>
-	 <tr>
-	 <td> Chicken Salad </td>
-	 <td> 110 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Egg & Tomato Sandwich </td>
-	 <td> 108 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td>  Fruit Yogurt </td>
-	 <td>  106</td>
-	 <td> <input class="button button3" value="OK"></td>
-	  <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Mashed Potatoes </td>
-	 <td>  105 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 
-	 </table> 
 
-	 
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <title>kioskIt</title>
+        
+        <link rel=stylesheet type="text/css" href="css/distributors.css">
+        <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/distributors.js"></script>
+        
+    </head>
+    
+    
+    <body onload="getOrders();">
+        
+        <div id="top_bar">
+            
+            <a href="#" onclick="scrollTo(document.getElementById('floor1'));" class="button" >Floor 1</a>
+            <a href="#" onclick="scrollTo(document.getElementById('floor2'));" class="button" >Floor 2</a>
+            <a href="#" onclick="scrollTo(document.getElementById('floor3'));" class="button" >Floor 3</a>
+            <a href="#" onclick="scrollTo(document.getElementById('floor4'));" class="button" >Floor 4</a>
+            
+            <a href="#" id="clear_orders" class="button" onclick="">Clear orders</a>
+            
+            <a href="#" class="button" id="toggle_view" onclick="toggleView();">Toggle view</a>
+            
+        </div>
+        
+        <div id="list">
+            
+            <div id="floor1">
+                
+                <div class="floor_title">Floor 1</div>
+                
+                <hr>
+                
+                <table id="floor1_table">
+                
+                    <thead>
+                        <tr id="header_row">
+                            <th class="meal_name_column">Meal name</th>
+                            <th class="bed_number_column">Bed number</th>
+                            <th class="floor_column">Floor</th>
+                            <th class="status_column">Status</th>
+                            <th class="toggle_status_column">Toggle status</th>
+                            <th class="delivered_column">Delivered?</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="floor1_body">
+                    </tbody>
+                
+                </table>
+                
+            </div>
+            
+            <hr>
+            
+            <div id="floor2">
+                
+                <div class="floor_title">Floor 2</div>
+                
+                <hr>
+                
+                <table id="floor2_table">
+                
+                    <thead>
+                        <tr id="header_row">
+                            <th class="meal_name_column">Meal name</th>
+                            <th class="bed_number_column">Bed number</th>
+                            <th class="floor_column">Floor</th>
+                            <th class="status_column">Status</th>
+                            <th class="toggle_status_column">Toggle status</th>
+                            <th class="delivered_column">Delivered?</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="floor2_body">
+                    </tbody>
+                
+                </table>
+                
+            </div>
+            
+            <hr>
+            
+            <div id="floor3">
+                
+                <div class="floor_title">Floor 3</div>
+                
+                <hr>
+                
+                <table id="floor3_table">
+                
+                    <thead>
+                        <tr id="header_row">
+                            <th class="meal_name_column">Meal name</th>
+                            <th class="bed_number_column">Bed number</th>
+                            <th class="floor_column">Floor</th>
+                            <th class="status_column">Status</th>
+                            <th class="toggle_status_column">Toggle status</th>
+                            <th class="delivered_column">Delivered?</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="floor3_body">
+                    </tbody>
+                
+                </table>
+                
+            </div>
+            
+            <hr>
+            
+            <div id="floor4">
+                
+                <div class="floor_title">Floor 4</div>
+                
+                <hr>
+                
+                <table id="floor4_table">
+                
+                    <thead>
+                        <tr id="header_row">
+                            <th class="meal_name_column">Meal name</th>
+                            <th class="bed_number_column">Bed number</th>
+                            <th class="floor_column">Floor</th>
+                            <th class="status_column">Status</th>
+                            <th class="toggle_status_column">Toggle status</th>
+                            <th class="delivered_column">Delivered?</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="floor4_body">
+                    </tbody>
+                
+                </table>
+                
+            </div>
+            
+        </div>
+        
+        <div id="map">
+            <img src="images/floor-plan.png" height="800" width="1200" onload="document.getElementById('map').style.display = 'none';" > 
+        </div>
+        
+    </body>
 
-	<table  class=table id="menu2" border="1">
-	 <tr>
-	 <td class=td> MENU </td>
-	 <td class=td> BED NO </td>
-	 <td class=td> OK</td>
-	 <td class=td> IN PROGRESS</td>
-	 </tr>
-	 <tr>
-	   <tr>
-	 <td> Chicken Salad </td>
-	 <td> 209 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Egg & Tomato Sandwich </td>
-	 <td> 207 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td>  Fruit Yogurt </td>
-	 <td>  205</td>
-	 <td> <input class="button button3" value="OK"></td>
-	  <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Mashed Potatoes </td>
-	 <td>  204 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	  </table> 
-	  
-	  <table  class=table id="menu3" border="1">
-	 <tr>
-	 <td class=td> MENU </td>
-	 <td class=td> BED NO </td>
-	 <td class=td> OK</td>
-	 <td class=td> IN PROGRESS</td>
-	 </tr>
-	 <tr>
 
-	  <td> Chicken Salad </td>
-	 <td> 310 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Egg & Tomato Sandwich </td>
-	 <td> 309 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td>  Fruit Yogurt </td>
-	 <td>  303</td>
-	 <td> <input class="button button3" value="OK"></td>
-	  <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	  <tr>
-	 <td> Mashed Potatoes </td>
-	 <td>  302 </td>
-	 <td> <input class="button button3" value="OK"></td>
-	 <td> <input class="button button3 button4" value="IN PROGRESS"></td>
-	 </tr>
-	</table>
-	  
-	 </div>
-
-	<div class="hidden list-content" id=map>
-	 <img src="floor-plan.png" height="800" width="1200" > 
-	</div>
-	</body>
-	</html>
+</html>

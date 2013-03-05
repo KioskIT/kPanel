@@ -20,8 +20,6 @@
     
     <body onload="getVersions()">
     	
-    	<div id="cover"></div>
-    	
     	<div id="versionsList"></div>
     	
     	<div class="buttonsBar">

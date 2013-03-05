@@ -34,16 +34,16 @@ function showCollection(collection)
         }
             
         document.getElementById("thead").appendChild(row);
-        console.log(keys);
+        
         // Populate contents        
         for (i = 0; i < results.length; ++i)
         {
             var row = document.createElement("tr");
             row.setAttribute("id", "body_row");
             
-            for(j = 0; j < keys.length; ++j)
+            for (j = 0; j < keys.length; ++j)
             {
-                if(results[i].hasOwnProperty(keys[j]))
+                if (results[i].hasOwnProperty(keys[j]))
                 {
                     // _id is stored as an object with a single key ($id)
                     if (keys[j] == "_id")
