@@ -670,6 +670,15 @@ function showFontSettings(element, form, index)
     label.innerHTML = "Font";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     // Font family    
     var font = document.createElement("select");
     font.className = "properties_input";
@@ -698,7 +707,7 @@ function showFontSettings(element, form, index)
     }
     
     $(font).change(function() {elements[index].font = element.style.fontFamily = font.options[font.selectedIndex].text;});
-    wrapper.appendChild(font);
+    inner_wrapper.appendChild(font);
     
     // Font size    
     var fontsize = document.createElement("input");
@@ -709,9 +718,24 @@ function showFontSettings(element, form, index)
     fontsize.value = parseInt(element.style.fontSize);
     
     $(fontsize).change(function() {elements[index].fontsize = element.style.fontSize = fontsize.value + "%";});
-    wrapper.appendChild(fontsize);       
+    inner_wrapper.appendChild(fontsize);
+           
+    wrapper.appendChild(inner_wrapper);       
     
-    form.appendChild(wrapper); 
+    form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showColorSettings(element, form, index)
@@ -726,15 +750,39 @@ function showColorSettings(element, form, index)
     label.innerHTML = "Color";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     var color = document.createElement("input");
     color.type = "color";
     color.className = "properties_input";
     color.id = "color";
     color.value = element.style.color;
     $(color).change(function() {elements[index].color = element.style.color = color.value;});
-    wrapper.appendChild(color);
+    inner_wrapper.appendChild(color);
+           
+    wrapper.appendChild(inner_wrapper);       
     
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showCoordinatesSettings(element, form, index)
@@ -749,6 +797,15 @@ function showCoordinatesSettings(element, form, index)
     label.innerHTML = "Coordinates";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     // X coord    
     var x = document.createElement("input");
     x.type = "text";
@@ -756,13 +813,13 @@ function showCoordinatesSettings(element, form, index)
     x.id = "x";
     x.value = parseInt(element.style.left, 10);
     $(x).change(function() {elements[index].left = element.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    wrapper.appendChild(x);
+    inner_wrapper.appendChild(x);
     
-    label = document.createElement("div");
-    label.id = "coordinates_times";
-    label.className = "times";
-    label.innerHTML = "x";
-    wrapper.appendChild(label);
+    var times_label = document.createElement("div");
+    times_label.id = "coordinates_times";
+    times_label.className = "times";
+    times_label.innerHTML = "x";
+    inner_wrapper.appendChild(times_label);
     
     // Y coord
     var y = document.createElement("input");
@@ -771,9 +828,24 @@ function showCoordinatesSettings(element, form, index)
     y.id = "y";
     y.value = parseInt(element.style.top, 10);
     $(y).change(function() {elements[index].top = element.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    wrapper.appendChild(y);
+    inner_wrapper.appendChild(y);
+           
+    wrapper.appendChild(inner_wrapper);       
     
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showOrderSettings(element, form, index)
@@ -788,6 +860,15 @@ function showOrderSettings(element, form, index)
     label.innerHTML = "Order";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     var z = document.createElement("input");
     z.type = "number";
     z.className = "properties_input";
@@ -796,9 +877,24 @@ function showOrderSettings(element, form, index)
     z.min = "-2147483648";
     z.value = parseInt(element.style.zIndex, 10);
     $(z).change(function() {elements[index].zIndex = element.style.zIndex = parseInt(z.value, 10);});
-    wrapper.appendChild(z);
-       
-    form.appendChild(wrapper);   
+    inner_wrapper.appendChild(z);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
+    form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showSizeSettings(element, form, index)
@@ -812,6 +908,15 @@ function showSizeSettings(element, form, index)
     label.className = "properties_label";
     label.innerHTML = "Size";
     wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
     
     // Width    
     var w = document.createElement("input");
@@ -827,14 +932,14 @@ function showSizeSettings(element, form, index)
             }
             elements[index].width = element.style.width = Math.min(parseInt(w.value, 10), width) + "px";
         });
-    wrapper.appendChild(w);
+    inner_wrapper.appendChild(w);
         
     
-    label = document.createElement("div");
-    label.id = "size_times";
-    label.className = "times";
-    label.innerHTML = "x";
-    wrapper.appendChild(label);
+    var times_label = document.createElement("div");
+    times_label.id = "size_times";
+    times_label.className = "times";
+    times_label.innerHTML = "x";
+    inner_wrapper.appendChild(times_label);
     
     // Height
     var h = document.createElement("input");
@@ -850,9 +955,24 @@ function showSizeSettings(element, form, index)
             }
             elements[index].height = element.style.height = Math.min(parseInt(h.value, 10), height) + "px";
         });
-    wrapper.appendChild(h);
+    inner_wrapper.appendChild(h);
+           
+    wrapper.appendChild(inner_wrapper);       
     
-    form.appendChild(wrapper);   
+    form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showContentSettings(element, form, index)
@@ -866,6 +986,15 @@ function showContentSettings(element, form, index)
     label.className = "properties_label";
     label.innerHTML = "Content";
     wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
     
     var content = document.createElement("textarea");
     content.type = "text";
@@ -892,9 +1021,24 @@ function showContentSettings(element, form, index)
              
             elements[index].content = content.value;
         });
-    wrapper.appendChild(content);
+    inner_wrapper.appendChild(content);
+           
+    wrapper.appendChild(inner_wrapper);       
     
-    form.appendChild(wrapper);    
+    form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showAnimationSettings(element, form, index)
@@ -908,6 +1052,15 @@ function showAnimationSettings(element, form, index)
     label.className = "properties_label";
     label.innerHTML = "Animation";
     wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
     
     var animation_name = document.createElement("select");
     
@@ -927,7 +1080,7 @@ function showAnimationSettings(element, form, index)
     animation_name.className = "properties_input";
     animation_name.id = "animation_name";
     $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    wrapper.appendChild(animation_name);
+    inner_wrapper.appendChild(animation_name);
     
     var animation_duration = document.createElement("input");
     animation_duration.type = "number";
@@ -937,19 +1090,19 @@ function showAnimationSettings(element, form, index)
     animation_duration.id = "animation_duration";
     animation_duration.value = parseFloat(elements[index].animation_duration);
     $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value + "s";});
-    wrapper.appendChild(animation_duration);
+    inner_wrapper.appendChild(animation_duration);
     
     var animation_infinite_label = document.createElement("div");
     animation_infinite_label.className = "properties_label";
     animation_infinite_label.id = "animation_infinite_label";
     animation_infinite_label.innerHTML = "infinite";
-    wrapper.appendChild(animation_infinite_label);
+    inner_wrapper.appendChild(animation_infinite_label);
     
     var animation_mode = document.createElement("input");
     animation_mode.type = "checkbox";
     animation_mode.className = "properties_input";
     animation_mode.id = "animation_mode";
-    wrapper.appendChild(animation_mode);
+    inner_wrapper.appendChild(animation_mode);
     
     var animation_count = document.createElement("input");
     animation_count.style.display = "none";
@@ -959,7 +1112,7 @@ function showAnimationSettings(element, form, index)
     animation_count.id = "animation_count";
     animation_count.value = parseInt(elements[index].animation_mode);
     $(animation_count).change(function() {elements[index].animation_mode = animation_count.value;});
-    wrapper.appendChild(animation_count);
+    inner_wrapper.appendChild(animation_count);
     
     $(animation_mode).change(function() 
         {            
@@ -983,8 +1136,23 @@ function showAnimationSettings(element, form, index)
     {                
         animation_count.style.display = "inline-block";
     }
+           
+    wrapper.appendChild(inner_wrapper);       
     
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showImageSourceSettings(element, form, index)
@@ -999,15 +1167,39 @@ function showImageSourceSettings(element, form, index)
     label.innerHTML = "Source";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     var source = document.createElement("input");
     source.type = "text";
     source.className = "properties_input";
     source.id = "content";
     source.value = elements[index].src;
     $(source).change(function() {elements[index].src = element.src = source.value;});
-    wrapper.appendChild(source);
-        
+    inner_wrapper.appendChild(source);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showVideoSourceSettings(element, form, index)
@@ -1022,15 +1214,39 @@ function showVideoSourceSettings(element, form, index)
     label.innerHTML = "Source";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     var source = document.createElement("input");
     source.type = "text";
     source.className = "properties_input";
     source.id = "content";
     source.value = elements[index].src;
     $(source).change(function() {elements[index].src = source.value;});
-    wrapper.appendChild(source);
-        
+    inner_wrapper.appendChild(source);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showTargetSettings(element, form, index)
@@ -1045,15 +1261,39 @@ function showTargetSettings(element, form, index)
     label.innerHTML = "Target";
     wrapper.appendChild(label);
     
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
     var target = document.createElement("input");
     target.type = "text";
     target.className = "properties_input";
     target.id = "target";
     target.value = elements[index].target;
     $(target).change(function() {elements[index].target = target.value;});
-    wrapper.appendChild(target);
-        
+    inner_wrapper.appendChild(target);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showOptionsSettings(element, form, index)
@@ -1067,6 +1307,15 @@ function showOptionsSettings(element, form, index)
     label.className = "properties_label";
     label.innerHTML = "Options";
     wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
     
     var options = document.createElement("input");
     options.type = "text";
@@ -1096,9 +1345,24 @@ function showOptionsSettings(element, form, index)
                 element.appendChild(option);
             }
         });
-    wrapper.appendChild(options);
-        
+    inner_wrapper.appendChild(options);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function showImagesSettings(element, form, index)
@@ -1112,6 +1376,15 @@ function showImagesSettings(element, form, index)
     label.className = "properties_label";
     label.innerHTML = "Images";
     wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
     
     var source = document.createElement("input");
     source.type = "text";
@@ -1133,9 +1406,24 @@ function showImagesSettings(element, form, index)
 
             refreshGallery(element, index);            
         });
-    wrapper.appendChild(source);
-        
+    inner_wrapper.appendChild(source);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
     form.appendChild(wrapper);
+    
+    $(label).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
 }
 
 function textSelect(text, index)
