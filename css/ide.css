@@ -33,7 +33,7 @@ body
     
     position:fixed;
     height:100%;
-    width:300px;
+    width:250px;
     
     right:0px;
     top:0px;
@@ -187,7 +187,7 @@ body
 
 #properties_title
 {
-    margin-top:30px;
+    margin-top:15px;
     margin-bottom:10px;    
     
     font-family:"arial";
@@ -200,12 +200,15 @@ body
 #properties_form
 {
     margin:0px 10px 0px 10px;
+    top:0px;
+    height:-webkit-calc(100% - 155px);
+    bottom:0px;
+    overflow-y:auto;
 }
 
 .properties_label
 {
     display:block;
-    margin-top:20px;
     margin-bottom:5px;
     font-family:"arial";
     color:white;    
@@ -218,6 +221,12 @@ body
     display:block;
     margin: 0 auto;
     text-align:center;
+}
+
+#buttons_bar
+{
+    position:absolute;
+    top:-webkit-calc(100% - 90px);
 }
 
 #delete_button
@@ -269,7 +278,7 @@ body
     width:100px;
     height:20px;
     
-    margin:10px 10px 200px 25px;
+    margin:10px 10px 200px 10px;
     
     -webkit-user-select: none;
     
@@ -294,4 +303,74 @@ body
 #apply_button:active, .toolbarItem:active, .saveButton:active, .compileButton:active
 {
     background-color:#008A00;
+}
+
+#font
+{
+    width:150px;
+    display:inline-block;
+}
+
+#fontsize
+{
+    width:50px;
+    display:inline-block;
+}
+
+#x, #y, #w, #h
+{
+    display:inline-block;
+    width:80px; 
+}
+
+.times
+{
+    display:inline-block;
+    color:white;
+    width:20px;
+    text-align:center;
+}
+
+.wrapper
+{
+    margin-bottom:10px;
+    padding-bottom:10px;
+    padding-top:5px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#animation_wrapper, #coordinates_wrapper, #size_wrapper, #font_wrapper
+{
+    text-align:center;
+}
+
+#animation_name
+{
+    width:200px;
+    margin-bottom:5px;
+}
+
+#animation_duration
+{
+    display:inline-block;
+    width:50px;
+}
+
+#animation_infinite_label
+{
+    display:inline-block;
+    margin-left:15px;
+    margin-right:5px;
+}
+
+#animation_mode
+{
+    display:inline-block;
+}
+
+#animation_count
+{
+    display:inline-block;
+    width:50px;
+    margin-left:15px;
 }

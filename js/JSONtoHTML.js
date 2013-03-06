@@ -148,7 +148,7 @@ function createHyperlink(index)
 {
     // Parameters
     html += '<a ' +
-            'href="' + elements[index].href + '" ' +
+            'href="' + elements[index].target + '" ' +
             'style="' +
             'position:absolute; ' +
             'top:' + elements[index].top + '; ' +

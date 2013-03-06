@@ -35,7 +35,7 @@ function loadVersion()
         canvas.style.zoom = "100%";   
         canvas.style.position = "absolute";
         canvas.style.top = ((viewportHeight - height) / 2) + "px";
-        canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
+        canvas.style.left = ((viewportWidth - 150 - 250 - width) / 2 + 150) + "px";
         canvas.style.webkitUserSelect = "none";
             
         elements.push({
@@ -134,6 +134,7 @@ function loadText(index)
     
     text.innerHTML = elements[index].content;
     
+    text.style.cursor = "default";
     text.style.position = "absolute";
     text.style.left = elements[index].left;
     text.style.top = elements[index].top;
@@ -213,7 +214,7 @@ function loadButton(index)
     canvas.appendChild(button);
     
     $(button).draggable({containment: "#canvas", cancel: false});
-    $(button).click(function() {buttonSelect(button, index); return false;});
+    $(button).click(function() {buttonSelect(button, index);});
     $(button).bind("dragstart", function(event, ui) {buttonSelect(button, index);});
     $(button).bind("dragstop", function(event, ui) {buttonSelect(button, index);});    
 }
@@ -226,8 +227,9 @@ function loadHyperlink(index)
     a.style.color = elements[index].color;
     
     a.innerHTML = elements[index].content;
-    a.setAttribute("href", elements[index].href);
     
+    a.style.cursor = "default";
+    a.style.textDecoration = "underline";
     a.style.position = "absolute";
     a.style.left = elements[index].left;
     a.style.top = elements[index].top;
@@ -265,8 +267,8 @@ function loadDropdown(index)
     
     canvas.appendChild(dropdown);
     
-    $(dropdown).draggable({containment: "#canvas"});
-    $(dropdown).click(function() {dropdownSelect(dropdown, index);});
+    $(dropdown).draggable({containment: "#canvas", cancel: false});
+    $(dropdown).click(function() {dropdownSelect(dropdown, index); return false;});
     $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
     $(dropdown).bind("dragstop", function(event, ui) {dropdownSelect(dropdown, index);});    
 }
@@ -311,6 +313,7 @@ function addText()
     
     text.innerHTML = "Sample text";
     
+    text.style.cursor = "default";
     text.style.position = "absolute";
     text.style.left = width / 2 + "px";
     text.style.top = height / 2 + "px";
@@ -450,7 +453,7 @@ function addButton()
     
     var index = elements.length - 1;
     $(button).draggable({containment: "#canvas", cancel: false});
-    $(button).click(function() {buttonSelect(button, index); return false;});
+    $(button).click(function() {buttonSelect(button, index);});
     $(button).bind("dragstart", function(event, ui) {buttonSelect(button, index);});
     $(button).bind("dragstop", function(event, ui) {buttonSelect(button, index);});   
 }
@@ -463,8 +466,9 @@ function addHyperlink()
     a.style.color = "#000000";
     
     a.innerHTML = "Sample hyperlink";
-    a.setAttribute("href", "about:blank");
     
+    a.style.cursor = "default";
+    a.style.textDecoration = "underline"
     a.style.position = "absolute";
     a.style.left = width / 2 + "px";
     a.style.top = height / 2 + "px";
@@ -484,7 +488,7 @@ function addHyperlink()
         fontsize: a.style.fontSize,
         color: a.style.color,
         content: a.innerHTML,
-        href: a.href,
+        target: "about:blank",
         animation_name: "none",
         animation_duration: "0",
         animation_mode: ""});
@@ -541,7 +545,7 @@ function addDropdownMenu()
     var index = elements.length - 1;
     
     $(dropdown).draggable({containment: "#canvas", cancel: false});
-    $(dropdown).click(function() {dropdownSelect(dropdown, index);});
+    $(dropdown).click(function() {dropdownSelect(dropdown, index); return false;});
     $(dropdown).bind("dragstart", function(event, ui) {dropdownSelect(dropdown, index);});
     $(dropdown).bind("dragstop", function(event, ui) {dropdownSelect(dropdown, index);});
 }
@@ -613,325 +617,297 @@ function zoomOut()
     }   
 }
 
-function textSelect(text, index)
+function showButtonsBar(element, properties, index)
 {
-    deselect();
-    
-    // Update coords by dragging
-    elements[index].left = text.style.left;
-    elements[index].top = text.style.top;
-    
-    selected = text;
-    text.style.border = "2px solid grey";
-            
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Text item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Content
-    var label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Content";
-    form.appendChild(label);
-    
-    var content = document.createElement("textarea");
-    content.type = "text";
-    content.className = "properties_input";
-    content.id = "content";
-    content.value = text.innerHTML;
-    $(content).change(function() 
-        {
-            $(text).text($(content).val()).html(function(index, old) 
-                { 
-                    return old.replace(/\n/g, '<br />') 
-                });
-            elements[index].content = text.innerHTML;
-        });
-    form.appendChild(content);
-    
-    // Font family
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Font";
-    form.appendChild(label);
-    
-    var font = document.createElement("input");
-    font.type = "text";
-    font.className = "properties_input";
-    font.id = "font";
-    font.value = text.style.fontFamily;
-    $(font).change(function() {elements[index].font = text.style.fontFamily = font.value;});
-    form.appendChild(font);
-    
-    // Font size
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Font size";
-    form.appendChild(label);
-    
-    var fontsize = document.createElement("input");
-    fontsize.type = "text";
-    fontsize.className = "properties_input";
-    fontsize.id = "fontsize";
-    fontsize.value = text.style.fontSize;
-    $(fontsize).change(function() {elements[index].fontsize = text.style.fontSize = fontsize.value;});
-    form.appendChild(fontsize);
-    
-    // Color
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Color";
-    form.appendChild(label);
-    
-    var color = document.createElement("input");
-    color.type = "text";
-    color.className = "properties_input";
-    color.id = "color";
-    color.value = text.style.color;
-    $(color).change(function() {elements[index].color = text.style.color = color.value;});
-    form.appendChild(color);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(text.style.left, 10);
-    $(x).change(function() {elements[index].left = text.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(text.style.top, 10);
-    $(y).change(function() {elements[index].top = text.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(text.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = text.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(text.style.width, 10);
-    $(w).change(function() {elements[index].width = text.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
-    form.appendChild(w);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
-        
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
-    
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
-    
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
+    // Buttons bar
+    var buttons_bar = document.createElement("div");
+    buttons_bar.setAttribute("id", "buttons_bar");
     
     // Apply button   
     var apply = document.createElement("div");
     apply.id = "apply_button";
     apply.innerHTML = "Apply";
     $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
+    buttons_bar.appendChild(apply);
     
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(text); deselect();});
-    form.appendChild(del);
+    if (index != 0)
+    {
+        // Delete button    
+        var del = document.createElement("div");
+        del.id = "delete_button";
+        del.innerHTML = "Delete";
+        $(del).click(function() {elements.splice(index, 1); canvas.removeChild(element); deselect();});
+        buttons_bar.appendChild(del);
+    }
     
-    properties.appendChild(form);
+    properties.appendChild(buttons_bar);
 }
 
-function imageSelect(image, index)
+function showTitle(properties, title_content)
 {
-    deselect();
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "title_wrapper";
     
-    // Update coords by dragging
-    elements[index].left = image.style.left;
-    elements[index].top = image.style.top;
-    
-    selected = image;
-    image.style.border = "2px solid grey";
-        
-    // Title
     var title = document.createElement("div");
     title.id = "properties_title";
-    title.innerHTML = "Image item";
-    properties.appendChild(title);
+    title.innerHTML = title_content;
+    wrapper.appendChild(title);
     
+    properties.appendChild(wrapper);    
+}
+
+function showFontSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "font_wrapper";
     
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Src
     var label = document.createElement("div");
     label.className = "properties_label";
-    label.innerHTML = "Source";
-    form.appendChild(label);
+    label.innerHTML = "Font";
+    wrapper.appendChild(label);
     
-    var source = document.createElement("input");
-    source.type = "text";
-    source.className = "properties_input";
-    source.id = "content";
-    source.value = image.src;
-    $(source).change(function() {elements[index].src = image.src = source.value;});
-    form.appendChild(source);
+    // Font family    
+    var font = document.createElement("select");
+    font.className = "properties_input";
+    font.id = "font";
+    font.value = element.style.fontFamily;
+
+    var option = document.createElement("option");
+    option.value = option.innerHTML = "Arial, Verdana, Geneva, Helvetica, sans-serif";
+    font.appendChild(option);
     
-    // X coord
-    label = document.createElement("div");
+    option = document.createElement("option");
+    option.value = option.innerHTML = "Georgia, 'Times New Roman', Times, serif";
+    font.appendChild(option);
+    
+    option = document.createElement("option");
+    option.value = option.innerHTML = "'Courier New', Courier, monospace";
+    font.appendChild(option);    
+    
+    for (var i = 0; i < font.options.length; ++i)
+    {
+        if (elements[index].font == font.options[i].text)
+        {
+            font.options[i].selected = true;
+            break;
+        }
+    }
+    
+    $(font).change(function() {elements[index].font = element.style.fontFamily = font.options[font.selectedIndex].text;});
+    wrapper.appendChild(font);
+    
+    // Font size    
+    var fontsize = document.createElement("input");
+    fontsize.type = "number";
+    fontsize.className = "properties_input";
+    fontsize.id = "fontsize";
+    
+    fontsize.value = parseInt(element.style.fontSize);
+    
+    $(fontsize).change(function() {elements[index].fontsize = element.style.fontSize = fontsize.value + "%";});
+    wrapper.appendChild(fontsize);       
+    
+    form.appendChild(wrapper); 
+}
+
+function showColorSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "color_wrapper";
+    
+    var label = document.createElement("div");
     label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
+    label.innerHTML = "Color";
+    wrapper.appendChild(label);
     
+    var color = document.createElement("input");
+    color.type = "color";
+    color.className = "properties_input";
+    color.id = "color";
+    color.value = element.style.color;
+    $(color).change(function() {elements[index].color = element.style.color = color.value;});
+    wrapper.appendChild(color);
+    
+    form.appendChild(wrapper);
+}
+
+function showCoordinatesSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "coordinates_wrapper";  
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Coordinates";
+    wrapper.appendChild(label);
+    
+    // X coord    
     var x = document.createElement("input");
     x.type = "text";
     x.className = "properties_input";
     x.id = "x";
-    x.value = parseInt(image.style.left, 10);
-    $(x).change(function() {elements[index].left = image.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
+    x.value = parseInt(element.style.left, 10);
+    $(x).change(function() {elements[index].left = element.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
+    wrapper.appendChild(x);
+    
+    label = document.createElement("div");
+    label.id = "coordinates_times";
+    label.className = "times";
+    label.innerHTML = "x";
+    wrapper.appendChild(label);
     
     // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
     var y = document.createElement("input");
     y.type = "text";
     y.className = "properties_input";
     y.id = "y";
-    y.value = parseInt(image.style.top, 10);
-    $(y).change(function() {elements[index].top = image.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
+    y.value = parseInt(element.style.top, 10);
+    $(y).change(function() {elements[index].top = element.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
+    wrapper.appendChild(y);
     
-    // Width
-    label = document.createElement("div");
+    form.appendChild(wrapper);
+}
+
+function showOrderSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "order_wrapper";
+        
+    var label = document.createElement("div");
     label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(image.style.width, 10);
-    $(w).change(function() {elements[index].width = image.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
-    form.appendChild(w);
-    
-    // Height
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Height";
-    form.appendChild(label);
-    
-    var h = document.createElement("input");
-    h.type = "text";
-    h.className = "properties_input";
-    h.id = "h";
-    h.value = parseInt(image.style.height, 10);
-    $(h).change(function() {elements[index].height = image.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
-    form.appendChild(h);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
+    label.innerHTML = "Order";
+    wrapper.appendChild(label);
     
     var z = document.createElement("input");
-    z.type = "text";
+    z.type = "number";
     z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(image.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = image.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
+    z.id = "order";
+    z.max = "2147483647";
+    z.min = "-2147483648";
+    z.value = parseInt(element.style.zIndex, 10);
+    $(z).change(function() {elements[index].zIndex = element.style.zIndex = parseInt(z.value, 10);});
+    wrapper.appendChild(z);
+       
+    form.appendChild(wrapper);   
+}
+
+function showSizeSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "size_wrapper";    
     
-    // Animations
-    label = document.createElement("div");
+    var label = document.createElement("div");
     label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
+    label.innerHTML = "Size";
+    wrapper.appendChild(label);
+    
+    // Width    
+    var w = document.createElement("input");
+    w.type = "number";
+    w.className = "properties_input";
+    w.id = "w";
+    w.value = parseInt(element.style.width, 10);
+    $(w).change(function() 
+        {
+            if (index == 0)
+            {
+                width = parseInt(w.value, 10);
+            }
+            elements[index].width = element.style.width = Math.min(parseInt(w.value, 10), width) + "px";
+        });
+    wrapper.appendChild(w);
+        
+    
+    label = document.createElement("div");
+    label.id = "size_times";
+    label.className = "times";
+    label.innerHTML = "x";
+    wrapper.appendChild(label);
+    
+    // Height
+    var h = document.createElement("input");
+    h.type = "number";
+    h.className = "properties_input";
+    h.id = "h";
+    h.value = parseInt(element.style.height, 10);
+    $(h).change(function() 
+        {
+            if (index == 0)
+            {
+                height = parseInt(h.value, 10);
+            }
+            elements[index].height = element.style.height = Math.min(parseInt(h.value, 10), height) + "px";
+        });
+    wrapper.appendChild(h);
+    
+    form.appendChild(wrapper);   
+}
+
+function showContentSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "content_wrapper";    
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Content";
+    wrapper.appendChild(label);
+    
+    var content = document.createElement("textarea");
+    content.type = "text";
+    content.className = "properties_input";
+    content.id = "content";
+    content.value = elements[index].content;
+    
+    $(content).change(function() 
+        {
+            if (element.type == "button")
+            {
+                $(element).val($(content).val()).html(function(index, old) 
+                    { 
+                        return old.replace(/\n/g, '<br />') 
+                    });
+            }
+            else
+            {
+                $(element).text($(content).val()).html(function(index, old) 
+                    { 
+                        return old.replace(/\n/g, '<br />') 
+                    });
+            }                
+             
+            elements[index].content = content.value;
+        });
+    wrapper.appendChild(content);
+    
+    form.appendChild(wrapper);    
+}
+
+function showAnimationSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "animation_wrapper";  
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Animation";
+    wrapper.appendChild(label);
     
     var animation_name = document.createElement("select");
     
@@ -951,293 +927,123 @@ function imageSelect(image, index)
     animation_name.className = "properties_input";
     animation_name.id = "animation_name";
     $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
+    wrapper.appendChild(animation_name);
     
     var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
+    animation_duration.type = "number";
+    animation_duration.min = "0";
+    animation_duration.step = "0.05";
     animation_duration.className = "properties_input";
     animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
+    animation_duration.value = parseFloat(elements[index].animation_duration);
+    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value + "s";});
+    wrapper.appendChild(animation_duration);
     
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
+    var animation_infinite_label = document.createElement("div");
+    animation_infinite_label.className = "properties_label";
+    animation_infinite_label.id = "animation_infinite_label";
+    animation_infinite_label.innerHTML = "infinite";
+    wrapper.appendChild(animation_infinite_label);
     
     var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
+    animation_mode.type = "checkbox";
     animation_mode.className = "properties_input";
     animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
+    wrapper.appendChild(animation_mode);
     
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
+    var animation_count = document.createElement("input");
+    animation_count.style.display = "none";
+    animation_count.type = "number";
+    animation_count.min = "1";
+    animation_count.className = "properties_input";
+    animation_count.id = "animation_count";
+    animation_count.value = parseInt(elements[index].animation_mode);
+    $(animation_count).change(function() {elements[index].animation_mode = animation_count.value;});
+    wrapper.appendChild(animation_count);
     
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(image); deselect();});
-    form.appendChild(del);
+    $(animation_mode).change(function() 
+        {            
+            if (animation_mode.checked == true)
+            {
+                animation_count.style.display = "none";
+                elements[index].animation_mode = "infinite";
+            }
+            else
+            {                
+                animation_count.style.display = "inline-block";
+            }
+        });
     
-    properties.appendChild(form);
+    if (elements[index].animation_mode == "infinite")
+    {
+        animation_count.style.display = "none";
+        animation_mode.checked = true;
+    }
+    else
+    {                
+        animation_count.style.display = "inline-block";
+    }
+    
+    form.appendChild(wrapper);
 }
 
-function videoSelect(video, index)
+function showImageSourceSettings(element, form, index)
 {
-    deselect();
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "source_wrapper"; 
     
-    // Update coords by dragging
-    elements[index].left = video.style.left;
-    elements[index].top = video.style.top;
-    
-    selected = video;
-    video.style.border = "2px solid grey";
-    
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Video item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Src
     var label = document.createElement("div");
     label.className = "properties_label";
     label.innerHTML = "Source";
-    form.appendChild(label);
+    wrapper.appendChild(label);
     
     var source = document.createElement("input");
     source.type = "text";
     source.className = "properties_input";
     source.id = "content";
     source.value = elements[index].src;
-    $(source).change(function() {elements[index].src = video.src = source.value;});
-    form.appendChild(source);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(video.style.left, 10);
-    $(x).change(function() {elements[index].left = video.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(video.style.top, 10);
-    $(y).change(function() {elements[index].top = video.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(video.style.width, 10);
-    $(w).change(function() {elements[index].width = video.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
-    form.appendChild(w);
-    
-    // Height
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Height";
-    form.appendChild(label);
-    
-    var h = document.createElement("input");
-    h.type = "text";
-    h.className = "properties_input";
-    h.id = "h";
-    h.value = parseInt(video.style.height, 10);
-    $(h).change(function() {elements[index].height = video.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
-    form.appendChild(h);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(video.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = video.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
+    $(source).change(function() {elements[index].src = element.src = source.value;});
+    wrapper.appendChild(source);
         
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
-    
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
-    
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
-    
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(video); deselect();});
-    form.appendChild(del);
-    
-    properties.appendChild(form);
+    form.appendChild(wrapper);
 }
 
-function buttonSelect(button, index)
+function showVideoSourceSettings(element, form, index)
 {
-    deselect();
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "source_wrapper"; 
     
-    // Update coords by dragging
-    elements[index].left = button.style.left;
-    elements[index].top = button.style.top;
-    
-    selected = button;
-    button.style.border = "2px solid grey";
-        
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Hyperlink item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Font family
     var label = document.createElement("div");
     label.className = "properties_label";
-    label.innerHTML = "Font";
-    form.appendChild(label);
+    label.innerHTML = "Source";
+    wrapper.appendChild(label);
     
-    var font = document.createElement("input");
-    font.type = "text";
-    font.className = "properties_input";
-    font.id = "font";
-    font.value = button.style.fontFamily;
-    $(font).change(function() {elements[index].font = button.style.fontFamily = font.value;});
-    form.appendChild(font);
+    var source = document.createElement("input");
+    source.type = "text";
+    source.className = "properties_input";
+    source.id = "content";
+    source.value = elements[index].src;
+    $(source).change(function() {elements[index].src = source.value;});
+    wrapper.appendChild(source);
+        
+    form.appendChild(wrapper);
+}
+
+function showTargetSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "source_wrapper"; 
     
-    // Font size
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Font size";
-    form.appendChild(label);
-    
-    var fontsize = document.createElement("input");
-    fontsize.type = "text";
-    fontsize.className = "properties_input";
-    fontsize.id = "fontsize";
-    fontsize.value = button.style.fontSize;
-    $(fontsize).change(function() {elements[index].fontsize = button.style.fontSize = fontsize.value;});
-    form.appendChild(fontsize);
-    
-    // Content
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Content";
-    form.appendChild(label);
-    
-    var content = document.createElement("input");
-    content.type = "text";
-    content.className = "properties_input";
-    content.id = "content";
-    content.value = button.value;
-    $(content).change(function() {elements[index].content = button.value = content.value;});
-    form.appendChild(content);
-    
-    // Target
     var label = document.createElement("div");
     label.className = "properties_label";
     label.innerHTML = "Target";
-    form.appendChild(label);
+    wrapper.appendChild(label);
     
     var target = document.createElement("input");
     target.type = "text";
@@ -1245,403 +1051,22 @@ function buttonSelect(button, index)
     target.id = "target";
     target.value = elements[index].target;
     $(target).change(function() {elements[index].target = target.value;});
-    form.appendChild(target);
-    
-    // Color
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Color";
-    form.appendChild(label);
-    
-    var color = document.createElement("input");
-    color.type = "text";
-    color.className = "properties_input";
-    color.id = "color";
-    color.value = button.style.color;
-    $(color).change(function() {elements[index].color = button.style.color = color.value;});
-    form.appendChild(color);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(button.style.left, 10);
-    $(x).change(function() {elements[index].left = button.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(button.style.top, 10);
-    $(y).change(function() {elements[index].top = button.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(button.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = button.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(button.style.width, 10);
-    $(w).change(function() {elements[index].width = button.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
-    form.appendChild(w);
-    
-    // Height
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Height";
-    form.appendChild(label);
-    
-    var h = document.createElement("input");
-    h.type = "text";
-    h.className = "properties_input";
-    h.id = "h";
-    h.value = parseInt(button.style.height, 10);
-    $(h).change(function() {elements[index].height = button.style.height = Math.min(parseInt(h.value, 10), height) + "px";});
-    form.appendChild(h);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
+    wrapper.appendChild(target);
         
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
-    
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
-    
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
-    
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(button); deselect();});
-    form.appendChild(del);
-    
-    properties.appendChild(form);
+    form.appendChild(wrapper);
 }
 
-function hyperlinkSelect(a, index)
+function showOptionsSettings(element, form, index)
 {
-    deselect();
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "options_wrapper";
     
-    // Update coords by dragging
-    elements[index].left = a.style.left;
-    elements[index].top = a.style.top;
-    
-    selected = a;
-    a.style.border = "2px solid grey";
-        
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Hyperlink item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Font family
-    var label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Font";
-    form.appendChild(label);
-    
-    var font = document.createElement("input");
-    font.type = "text";
-    font.className = "properties_input";
-    font.id = "font";
-    font.value = a.style.fontFamily;
-    $(font).change(function() {elements[index].font = a.style.fontFamily = font.value;});
-    form.appendChild(font);
-    
-    // Font size
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Font size";
-    form.appendChild(label);
-    
-    var fontsize = document.createElement("input");
-    fontsize.type = "text";
-    fontsize.className = "properties_input";
-    fontsize.id = "fontsize";
-    fontsize.value = a.style.fontSize;
-    $(fontsize).change(function() {elements[index].fontsize = a.style.fontSize = fontsize.value;});
-    form.appendChild(fontsize);
-    
-    // Content
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Content";
-    form.appendChild(label);
-    
-    var content = document.createElement("input");
-    content.type = "text";
-    content.className = "properties_input";
-    content.id = "content";
-    content.value = a.innerHTML;
-    $(content).change(function() {elements[index].innerHTML = a.innerHTML = content.value;});
-    form.appendChild(content);
-    
-    // Href
-    var label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Hypertext reference";
-    form.appendChild(label);
-    
-    var href = document.createElement("input");
-    href.type = "text";
-    href.className = "properties_input";
-    href.id = "content";
-    href.value = a.href;
-    $(href).change(function() {elements[index].href = a.href = href.value;});
-    form.appendChild(href);
-    
-    // Color
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Color";
-    form.appendChild(label);
-    
-    var color = document.createElement("input");
-    color.type = "text";
-    color.className = "properties_input";
-    color.id = "color";
-    color.value = a.style.color;
-    $(color).change(function() {elements[index].color = a.style.color = color.value;});
-    form.appendChild(color);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(a.style.left, 10);
-    $(x).change(function() {elements[index].left = a.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(a.style.top, 10);
-    $(y).change(function() {elements[index].top = a.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(a.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = a.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(a.style.width, 10);
-    $(w).change(function() {elements[index].width = a.style.width = Math.min(parseInt(w.value, 10), width) + "px";});
-    form.appendChild(w);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
-        
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
-    
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
-    
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
-    
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(a); deselect();});
-    form.appendChild(del);
-    
-    properties.appendChild(form);
-}
-
-function dropdownSelect(dropdown, index)
-{
-    deselect();
-    
-    // Update coords by dragging
-    elements[index].left = dropdown.style.left;
-    elements[index].top = dropdown.style.top;
-    
-    selected = dropdown;
-    dropdown.style.border = "2px solid grey";
-        
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Dropdown menu item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Options
     var label = document.createElement("div");
     label.className = "properties_label";
     label.innerHTML = "Options";
-    form.appendChild(label);
+    wrapper.appendChild(label);
     
     var options = document.createElement("input");
     options.type = "text";
@@ -1658,9 +1083,9 @@ function dropdownSelect(dropdown, index)
             
             elements[index].options = options.value.split("<>");
             
-            while (dropdown.childNodes.length > 0)
+            while (element.childNodes.length > 0)
             {
-                dropdown.removeChild(dropdown.lastChild);
+                element.removeChild(dropdown.lastChild);
             }
             
             for (var i = 0; i < elements[index].options.length; ++i)
@@ -1668,148 +1093,25 @@ function dropdownSelect(dropdown, index)
                 var option = document.createElement("option");
                 option.setAttribute("value", i);
                 option.innerHTML = elements[index].options[i];
-                dropdown.appendChild(option);
+                element.appendChild(option);
             }
         });
-    form.appendChild(options);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(dropdown.style.left, 10);
-    $(x).change(function() {elements[index].left = dropdown.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(dropdown.style.top, 10);
-    $(y).change(function() {elements[index].top = dropdown.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(dropdown.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = dropdown.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
+    wrapper.appendChild(options);
         
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
-    
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
-    
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
-    
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
-    
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(dropdown); deselect();});
-    form.appendChild(del);
-    
-    properties.appendChild(form);
+    form.appendChild(wrapper);
 }
 
-function gallerySelect(gallery, index)
+function showImagesSettings(element, form, index)
 {
-    deselect();
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "images_wrapper";
     
-    selected = gallery;
-    gallery.style.border = "2px solid grey";
-    
-    // Update coords by dragging
-    elements[index].left = gallery.style.left;
-    elements[index].top = gallery.style.top;
-        
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Gallery item";
-    properties.appendChild(title);
-    
-    
-    var form = document.createElement("form");
-    form.id = "properties_form";
-    
-    // Src
     var label = document.createElement("div");
     label.className = "properties_label";
     label.innerHTML = "Images";
-    form.appendChild(label);
+    wrapper.appendChild(label);
     
     var source = document.createElement("input");
     source.type = "text";
@@ -1829,147 +1131,207 @@ function gallerySelect(gallery, index)
             
             elements[index].src = source.value.split("<>");
 
-            refreshGallery(gallery, index);            
+            refreshGallery(element, index);            
         });
-    form.appendChild(source);
-    
-    // X coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "X";
-    form.appendChild(label);
-    
-    var x = document.createElement("input");
-    x.type = "text";
-    x.className = "properties_input";
-    x.id = "x";
-    x.value = parseInt(gallery.style.left, 10);
-    $(x).change(function() {elements[index].left = gallery.style.left = Math.min(parseInt(x.value, 10), width) + "px";});
-    form.appendChild(x);
-    
-    // Y coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Y";
-    form.appendChild(label);
-    
-    var y = document.createElement("input");
-    y.type = "text";
-    y.className = "properties_input";
-    y.id = "y";
-    y.value = parseInt(gallery.style.top, 10);
-    $(y).change(function() {elements[index].top = gallery.style.top = Math.min(parseInt(y.value, 10), height) + "px";});
-    form.appendChild(y);
-    
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(gallery.style.width, 10);
-    $(w).change(function() {elements[index].width = gallery.style.width = Math.min(parseInt(w.value, 10), width) + "px";refreshGallery(gallery, index);});
-    form.appendChild(w);
-    
-    // Height
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Height";
-    form.appendChild(label);
-    
-    var h = document.createElement("input");
-    h.type = "text";
-    h.className = "properties_input";
-    h.id = "h";
-    h.value = parseInt(gallery.style.height, 10);
-    $(h).change(function() {elements[index].height = gallery.style.height = Math.min(parseInt(h.value, 10), height) + "px";refreshGallery(gallery, index);});
-    form.appendChild(h);
-    
-    // Z coord
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Depth level";
-    form.appendChild(label);
-    
-    var z = document.createElement("input");
-    z.type = "text";
-    z.className = "properties_input";
-    z.id = "z";
-    z.value = parseInt(gallery.style.zIndex, 10);
-    $(z).change(function() {elements[index].zIndex = gallery.style.zIndex = parseInt(z.value, 10);});
-    form.appendChild(z);
-    
-    // Animations
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation name";
-    form.appendChild(label);
-    
-    var animation_name = document.createElement("select");
-    
-    for (var i = 0; i < animations.length; ++i)
-    {
-        var option = document.createElement("option");
-        option.value = option.innerHTML = animations[i];
+    wrapper.appendChild(source);
         
-        if (elements[index].animation_name == animations[i])
-        {
-            option.selected = true;
-        }
-        
-        animation_name.appendChild(option);
-    }
+    form.appendChild(wrapper);
+}
+
+function textSelect(text, index)
+{
+    deselect();
     
-    animation_name.className = "properties_input";
-    animation_name.id = "animation_name";
-    $(animation_name).change(function() {elements[index].animation_name = animation_name.options[animation_name.selectedIndex].text;});
-    form.appendChild(animation_name);
+    // Update coords by dragging
+    elements[index].left = text.style.left;
+    elements[index].top = text.style.top;
     
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation duration";
-    form.appendChild(label);
+    selected = text;
+    text.style.border = "2px solid grey";
+      
+    showTitle(properties, "Text item");
     
-    var animation_duration = document.createElement("input");
-    animation_duration.type = "text";
-    animation_duration.className = "properties_input";
-    animation_duration.id = "animation_duration";
-    animation_duration.value = elements[index].animation_duration;
-    $(animation_duration).change(function() {elements[index].animation_duration = animation_duration.value;});
-    form.appendChild(animation_duration);
+    var form = document.createElement("form");
+    form.id = "properties_form";
     
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Animation mode";
-    form.appendChild(label);
-    
-    var animation_mode = document.createElement("input");
-    animation_mode.type = "text";
-    animation_mode.className = "properties_input";
-    animation_mode.id = "animation_mode";
-    animation_mode.value = elements[index].animation_mode;
-    $(animation_mode).change(function() {elements[index].animation_mode = animation_mode.value;});
-    form.appendChild(animation_mode);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
-    
-    // Delete button    
-    var del = document.createElement("div");
-    del.id = "delete_button";
-    del.innerHTML = "Delete";
-    $(del).click(function() {elements.splice(index, 1); canvas.removeChild(gallery); deselect();});
-    form.appendChild(del);
+    showContentSettings(text, form, index);    
+    showFontSettings(text, form, index);    
+    showColorSettings(text, form, index);    
+    showCoordinatesSettings(text, form, index);    
+    showOrderSettings(text, form, index);    
+    showSizeSettings(text, form, index);    
+    showAnimationSettings(text, form, index);
     
     properties.appendChild(form);
+    
+    showButtonsBar(text, properties, index);
+}
+
+function imageSelect(image, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = image.style.left;
+    elements[index].top = image.style.top;
+    
+    selected = image;
+    image.style.border = "2px solid grey";
+    
+    showTitle(properties, "Image item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showImageSourceSettings(image, form, index);
+    showCoordinatesSettings(image, form, index);
+    showSizeSettings(image, form, index);
+    showOrderSettings(image, form, index);
+    showAnimationSettings(image, form, index);    
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(image, properties, index);
+}
+
+function videoSelect(video, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = video.style.left;
+    elements[index].top = video.style.top;
+    
+    selected = video;
+    video.style.border = "2px solid grey";
+    
+    showTitle(properties, "Video item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showImageSourceSettings(video, form, index);
+    showCoordinatesSettings(video, form, index);
+    showSizeSettings(video, form, index);
+    showOrderSettings(video, form, index);
+    showAnimationSettings(video, form, index);
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(video, properties, index);
+}
+
+function buttonSelect(button, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = button.style.left;
+    elements[index].top = button.style.top;
+    
+    selected = button;
+    button.style.border = "2px solid grey";
+        
+    showTitle(properties, "Button item");
+        
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showFontSettings(button, form, index);
+    showContentSettings(button, form, index);
+    showTargetSettings(button, form, index);
+    showColorSettings(button, form, index);
+    showCoordinatesSettings(button, form, index);
+    showOrderSettings(button, form, index);
+    showSizeSettings(button, form, index);
+    showAnimationSettings(button, form, index);
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(button, properties, index);
+}
+
+function hyperlinkSelect(a, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = a.style.left;
+    elements[index].top = a.style.top;
+    
+    selected = a;
+    a.style.border = "2px solid grey";
+        
+    showTitle(properties, "Hyperlink item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showFontSettings(a, form, index);
+    showContentSettings(a, form, index);
+    showTargetSettings(a, form, index);
+    showColorSettings(a, form, index);
+    showSizeSettings(a, form, index);
+    showOrderSettings(a, form, index);
+    showSizeSettings(a, form, index);
+    showAnimationSettings(a, form, index);
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(a, properties, index);
+}
+
+function dropdownSelect(dropdown, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = dropdown.style.left;
+    elements[index].top = dropdown.style.top;
+    
+    selected = dropdown;
+    dropdown.style.border = "2px solid grey";
+        
+    showTitle(properties, "Dropdown menu item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showOptionsSettings(dropdown, form, index);
+    showSizeSettings(dropdown, form, index);
+    showOrderSettings(dropdown, form, index);
+    showAnimationSettings(dropdown, form, index);
+
+    properties.appendChild(form);
+    
+    showButtonsBar(dropdown, properties, index);
+}
+
+function gallerySelect(gallery, index)
+{
+    deselect();
+    
+    selected = gallery;
+    gallery.style.border = "2px solid grey";
+    
+    // Update coords by dragging
+    elements[index].left = gallery.style.left;
+    elements[index].top = gallery.style.top;
+        
+    showTitle(properties, "Gallery item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showImagesSettings(gallery, form, index);    
+    showCoordinatesSettings(gallery, form, index);
+    showSizeSettings(gallery, form, index);
+    showOrderSettings(gallery, form, index);
+    showAnimationSettings(gallery, form, index);
+       
+    properties.appendChild(form);
+    
+    showButtonsBar(gallery, properties, index);
 }
 
 function refreshGallery(gallery, index)
@@ -2011,66 +1373,17 @@ function canvasSelect()
 {
     deselect();
     
-    // Title
-    var title = document.createElement("div");
-    title.id = "properties_title";
-    title.innerHTML = "Canvas";
-    properties.appendChild(title);
-    
+    showTitle(properties, "Canvas");
     
     var form = document.createElement("form");
     form.id = "properties_form";
     
-    // Width
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Width";
-    form.appendChild(label);
-    
-    var w = document.createElement("input");
-    w.type = "text";
-    w.className = "properties_input";
-    w.id = "w";
-    w.value = parseInt(width, 10);
-    $(w).change(function() {width = parseInt(w.value, 10); elements[0].width = canvas.style.width = parseInt(w.value, 10) + "px";});
-    form.appendChild(w);
-    
-    // Height
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Height";
-    form.appendChild(label);
-    
-    var h = document.createElement("input");
-    h.type = "text";
-    h.className = "properties_input";
-    h.id = "h";
-    h.value = parseInt(height, 10);
-    $(h).change(function() {height = parseInt(h.value, 10); elements[0].height = canvas.style.height = parseInt(h.value, 10) + "px";});
-    form.appendChild(h);
-       
-    // Color
-    label = document.createElement("div");
-    label.className = "properties_label";
-    label.innerHTML = "Color";
-    form.appendChild(label);
-    
-    var color = document.createElement("input");
-    color.type = "text";
-    color.className = "properties_input";
-    color.id = "color";
-    color.value = canvas.style.backgroundColor;
-    $(color).change(function() {elements[0].color = canvas.style.backgroundColor = color.value;});
-    form.appendChild(color);
-    
-    // Apply button    
-    var apply = document.createElement("div");
-    apply.id = "apply_button";
-    apply.innerHTML = "Apply";
-    $(apply).click(function() {/* Getting focus is enough for changes to apply*/});
-    form.appendChild(apply);
+    showSizeSettings(canvas, form, 0);
+    showColorSettings(canvas, form, 0);
     
     properties.appendChild(form);
+    
+    showButtonsBar(canvas, properties, 0);
 }
 
 function deselect()
@@ -2080,7 +1393,7 @@ function deselect()
         selected.style.border = "0px";    
     }
     
-    while (properties.childNodes.length > 2)
+    while (properties.childNodes.length > 0)
     {
         properties.removeChild(properties.lastChild);
     }

@@ -47,7 +47,6 @@
         </div>
        
         <div id="properties">
-            <p class="title">Properties</p>
         </div>
         
     </body>
