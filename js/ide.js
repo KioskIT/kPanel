@@ -724,7 +724,7 @@ function showFontSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -771,7 +771,7 @@ function showColorSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -834,7 +834,7 @@ function showCoordinatesSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -883,7 +883,7 @@ function showOrderSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -961,7 +961,7 @@ function showSizeSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1027,7 +1027,7 @@ function showContentSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1141,7 +1141,7 @@ function showAnimationSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1188,7 +1188,7 @@ function showImageSourceSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1235,7 +1235,7 @@ function showVideoSourceSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1282,7 +1282,7 @@ function showTargetSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1351,7 +1351,7 @@ function showOptionsSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")
@@ -1412,7 +1412,7 @@ function showImagesSettings(element, form, index)
     
     form.appendChild(wrapper);
     
-    $(label).click(function()
+    $(label).add(more_icon).click(function()
     {
         $(inner_wrapper).slideToggle('slow');
         if (more_icon.innerHTML == "[-]")

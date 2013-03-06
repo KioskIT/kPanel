@@ -227,6 +227,8 @@ body
     display:inline-block;
     margin-left:5px;
     color:white;
+    
+    cursor:pointer;
 }
 
 .properties_input
