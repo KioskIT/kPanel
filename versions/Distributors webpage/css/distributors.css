@@ -120,33 +120,6 @@ hr
     cursor:pointer;
 }
 
-.delivered
-{
-    background-color:#660000;
-    
-    border:2px solid #FFFFFF;
-    
-    display:inline-block;
-    
-    color:#FFFFFF;
-    font-family:arial;
-    font-size:21px;
-    padding:5px 16px 12px 16px;
-    text-decoration:none;
-    text-align:center;
-    
-    position:relative;
-    top:0px;
-    
-    min-width:5%;
-    max-width:150px;
-    height:20px;
-    
-    -webkit-user-select: none;
-    
-    cursor:pointer;
-}
-
 #table 
 { 
     position:relative;
@@ -203,7 +176,7 @@ tr:hover
 
 .meal_name_column
 {
-    width:30%;
+    width:40%;
 }
 
 .bed_number_column
@@ -218,15 +191,35 @@ tr:hover
 
 .status_column
 {
-    width:10%;
+    width:40%;
 }
 
-.toggle_status_column
+.pending, .delivering, .delivered
 {
-    width:15%;
-}
-
-.delivered_column
-{
-    width:10%;
+    
+    background-color:#660000;
+    
+    border:2px solid #FFFFFF;
+    
+    display:inline-block;
+    
+    color:#FFFFFF;
+    font-family:arial;
+    font-size:21px;
+    padding:5px 16px 12px 16px;
+    text-decoration:none;
+    text-align:center;
+    
+    position:relative;
+    top:0px;
+    
+    min-width:90px;
+    width:20%;
+    height:20px;
+    
+    -webkit-user-select: none;
+    
+    cursor:pointer;    
+    
+    margin:0px 5px 0px 5px;
 }

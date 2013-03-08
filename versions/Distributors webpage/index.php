@@ -48,8 +48,6 @@
                             <th class="bed_number_column">Bed number</th>
                             <th class="floor_column">Floor</th>
                             <th class="status_column">Status</th>
-                            <th class="toggle_status_column">Toggle status</th>
-                            <th class="delivered_column">Delivered?</th>
                         </tr>
                     </thead>
                     
@@ -76,8 +74,6 @@
                             <th class="bed_number_column">Bed number</th>
                             <th class="floor_column">Floor</th>
                             <th class="status_column">Status</th>
-                            <th class="toggle_status_column">Toggle status</th>
-                            <th class="delivered_column">Delivered?</th>
                         </tr>
                     </thead>
                     
@@ -104,8 +100,6 @@
                             <th class="bed_number_column">Bed number</th>
                             <th class="floor_column">Floor</th>
                             <th class="status_column">Status</th>
-                            <th class="toggle_status_column">Toggle status</th>
-                            <th class="delivered_column">Delivered?</th>
                         </tr>
                     </thead>
                     
@@ -132,8 +126,6 @@
                             <th class="bed_number_column">Bed number</th>
                             <th class="floor_column">Floor</th>
                             <th class="status_column">Status</th>
-                            <th class="toggle_status_column">Toggle status</th>
-                            <th class="delivered_column">Delivered?</th>
                         </tr>
                     </thead>
                     

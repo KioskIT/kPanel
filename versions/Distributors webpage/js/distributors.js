@@ -81,54 +81,54 @@ function showOrders(orders)
                 row.appendChild(value);
                 
                 floor = results[i]["floor"];
-            }
+            }            
+            
+            var value = document.createElement("td");
+            var pending = document.createElement("div");
+            pending.setAttribute("class", "pending");
+            pending.setAttribute("onclick", "setStatus(this)");
+            pending.innerHTML = "pending";
+            value.appendChild(pending);
+            
+            var delivering = document.createElement("div");
+            delivering.setAttribute("class", "delivering");
+            delivering.setAttribute("onclick", "setStatus(this)");
+            delivering.innerHTML = "delivering";
+            value.appendChild(delivering);
+            
+            var delivered = document.createElement("div");
+            delivered.setAttribute("class", "delivered");
+            delivered.setAttribute("onclick", "setStatus(this)");
+            delivered.innerHTML = "delivered";
+            value.appendChild(delivered);
+            
+            row.appendChild(value);
+            
             if (results[i].hasOwnProperty("status"))
-            {
-                var value = document.createElement("td");
-                value.setAttribute("class", "status");
-                value.innerHTML = results[i]["status"];
-                value.style.color = "white";
-                
+            {                
                 if (results[i]["status"] == "pending")
                 {
-                    value.style.backgroundColor = PENDING_COLOR;
+                    pending.style.backgroundColor = PENDING_COLOR;
+                    delivering.style.backgroundColor = "#9c9c9c";
+                    delivered.style.backgroundColor = "#9c9c9c";
                 }
                 else
                 if (results[i]["status"] == "delivering")
                 {
-                    value.style.backgroundColor = DELIVERING_COLOR;
+                    delivering.style.backgroundColor = DELIVERING_COLOR;
+                    pending.style.backgroundColor = "#9c9c9c";
+                    delivered.style.backgroundColor = "#9c9c9c";    
                 }
                 else
                 if (results[i]["status"] == "delivered")
                 {
-                    value.style.backgroundColor = DELIVERED_COLOR;
+                    delivered.style.backgroundColor = DELIVERED_COLOR;
+                    pending.style.backgroundColor = "#9c9c9c";
+                    delivering.style.backgroundColor = "#9c9c9c"; 
                 }
                 
                 row.appendChild(value);
             }
-            
-            var value = document.createElement("td");
-            var toggleStatus = document.createElement("div");
-            toggleStatus.setAttribute("class", "toggle_status");
-            toggleStatus.setAttribute("onclick", "toggleStatus(this)");
-            toggleStatus.innerHTML = "Toggle status";
-            value.appendChild(toggleStatus);
-            row.appendChild(value);
-            
-            value = document.createElement("td");
-            var delivered = document.createElement("div");
-            delivered.setAttribute("class", "delivered");
-            delivered.setAttribute("onclick", "delivered(this)");
-            if (results[i]["status"] == "delivered")
-            {
-                delivered.innerHTML = "Yes";
-            }
-            else
-            {
-                delivered.innerHTML = "No";
-            }
-            value.appendChild(delivered);
-            row.appendChild(value);
             
             if (floor != "")
             {
@@ -138,39 +138,40 @@ function showOrders(orders)
     } 
 }
 
-function toggleStatus(button)
+function setStatus(button)
 {
     var row = button.parentNode.parentNode;
     var id = row.getAttribute("data-id");
-    var status = row.getElementsByClassName("status")[0];
+    var status = button.innerHTML;
     
-    if (status.innerHTML == "pending")
-    {        
-        status.innerHTML = "delivering";
-        status.style.backgroundColor = DELIVERING_COLOR;
-    
-        $.ajax(
-            {
-                type: "POST", 
-                data: "id=" + id + "&status=delivering",
-                url: "tools/change_status.php",
-                success:function(msg) {console.log(msg)}
-            });
+    if (status == "pending")
+    {
+        button.style.backgroundColor = PENDING_COLOR;
+        button.parentNode.getElementsByClassName("delivering")[0].style.backgroundColor = "#9c9c9c";
+        button.parentNode.getElementsByClassName("delivered")[0].style.backgroundColor = "#9c9c9c";
     }
     else
-    if (status.innerHTML == "delivering")
-    {        
-        status.innerHTML = "pending";
-        status.style.backgroundColor = PENDING_COLOR;
-    
-        $.ajax(
-            {
-                type: "POST", 
-                data: "id=" + id + "&status=pending",
-                url: "tools/change_status.php",
-                success:function(msg) {console.log(msg)}
-            });
+    if (status == "delivering")
+    {
+        button.style.backgroundColor = DELIVERING_COLOR;
+        button.parentNode.getElementsByClassName("pending")[0].style.backgroundColor = "#9c9c9c";
+        button.parentNode.getElementsByClassName("delivered")[0].style.backgroundColor = "#9c9c9c";        
     }
+    else
+    if (status == "delivered")
+    {
+        button.style.backgroundColor = DELIVERED_COLOR;
+        button.parentNode.getElementsByClassName("pending")[0].style.backgroundColor = "#9c9c9c";
+        button.parentNode.getElementsByClassName("delivering")[0].style.backgroundColor = "#9c9c9c";        
+    }
+    
+    $.ajax(
+        {
+            type: "POST", 
+            data: "id=" + id + "&status=" + status,
+            url: "tools/change_status.php",
+            success:function(msg) {console.log(msg)}
+        });
 }
 
 function delivered(button)
