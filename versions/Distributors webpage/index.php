@@ -26,7 +26,7 @@
             <a href="#" onclick="scrollTo(document.getElementById('floor3'));" class="button" >Floor 3</a>
             <a href="#" onclick="scrollTo(document.getElementById('floor4'));" class="button" >Floor 4</a>
             
-            <a href="#" id="clear_orders" class="button" onclick="">Clear orders</a>
+            <a href="#" id="clear_orders" class="button" onclick="clearOrders();">Clear orders</a>
             
             <a href="#" class="button" id="toggle_view" onclick="toggleView();">Toggle view</a>
             

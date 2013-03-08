@@ -1,3 +1,5 @@
+var time = new Date().getTime() / 1000;
+
 var PENDING_COLOR = "#660000";
 var DELIVERING_COLOR = "#FA6800";
 var DELIVERED_COLOR = "#25541C";
@@ -41,6 +43,22 @@ function getOrders()
             success: function(orders) {showOrders(orders);}
         });
 }
+
+function get_new_orders()
+{
+    $.ajax(
+    {
+        type: "POST", 
+        data: "time=" + time,
+        url: "tools/refresh_orders.php",
+        success: function(orders) {showOrders(orders);}
+    });
+    
+    time += 10;
+}
+
+get_new_orders();
+setInterval(function (){get_new_orders();}, 10000);
 
 function showOrders(orders)
 {
@@ -209,4 +227,15 @@ function delivered(button)
                 url: "tools/change_status.php"
             });
     }
+}
+
+function clearOrders()
+{
+    $.ajax(
+    {
+        type: "POST",
+        //url: "tools/generate_orders.php"
+        url: "tools/add_order.php"
+        //url: "tools/clear_orders.php"
+    });    
 }
