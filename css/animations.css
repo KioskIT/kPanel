@@ -126,6 +126,14 @@
     }
 }
 
+@-webkit-keyframes small_indent
+{
+    to
+    {
+        margin-left: 103px;
+    }
+}
+
 /* Expand */
 
 @-webkit-keyframes expand

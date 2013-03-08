@@ -246,7 +246,7 @@ function isVersionCompiled(version)
     
     if (request) 
     {
-        request.open("GET", "https://rynx.no-ip.org/kPanel/versions/" + escape(version) + ".html", false);
+        request.open("GET", "versions/" + escape(version) + ".html", false);
         request.send();
         
         if (request.status == 200)
