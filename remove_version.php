@@ -38,5 +38,13 @@
         unlink("versions/" . $_POST["selected_version"] . ".importedversion");
         rrmdir("versions/" . $_POST["selected_version"]);
     }
+    
+    $connection = new MongoClient();
+    
+    $collection = $connection->kioskIt->versions;
+    
+    $collection->remove(array("name" => $_POST["selected_version"]), array("justOne" => true));
+    
+    $connection->close();
 
 ?>

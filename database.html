@@ -21,13 +21,27 @@
     <body>
     
         <div id="top_bar">
-            <div class="button" onclick="getCollection('meal_orders');">Meal orders collection</div>
-            <div class="button" onclick="getCollection('versions');">Versions collection</div>
-            <div class="button" onclick="getCollection('kiosks');">Kiosks collection</div>
+            
+            <div id="collection_selector_wrapper">
+                <span id="collection_selector_label">Select collection</span>
+                <select id="collection_selector" onchange="getCollection(this.value);">
+                    <option value=""></option>
+                    <option value="kiosks">Kiosks</option>
+                    <option value="versions">Versions</option>
+                    <option value="patients">Patients</option>
+                    <option value="patients_kiosks">Patient-kiosk assignments</option>
+                    <option value="current_meal_orders">Current meal orders</option>
+                    <option value="meal_orders">All meal orders</option>
+                    <option value="announcements">Announcements</option>
+                    <option value="survey">Survey results</option>
+                </select>
+            </div>
+            
             <a href="index.html" class="button">Home</a>
         </div>
         
         <div id="results">
+            
             <table id="table">
                 <thead id="thead">
                     
@@ -37,6 +51,7 @@
                     
                 </tbody>
             </table>
+            
         </div>
         
     </body>

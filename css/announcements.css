@@ -23,6 +23,11 @@ html, body
     cursor:pointer;
 }
 
+.destination_choice
+{
+    color:white;
+}
+
 #announcements
 {
     margin-bottom:110px;

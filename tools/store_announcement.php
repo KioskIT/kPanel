@@ -4,6 +4,8 @@
     $collection = $connection->kioskIt->announcements;
 
 	$collection->insert(array(
+      'destinationtype' => $_POST["destinationtype"],
+      'destination' => $_POST["destination"],
       'type' => $_POST["type"],
 	  'message' => $_POST["message"],
       'from' => $_POST["from"],

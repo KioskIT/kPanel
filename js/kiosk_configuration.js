@@ -1,5 +1,5 @@
 var values = new Array();
-var properties = new Array("name", "description", "category", "video_mode", "sync_stream", "ip", "server_ip");
+var properties = new Array("name", "description", "category", "version", "video_mode", "sync_stream", "ip", "server_ip");
 
 var ips_string;
 var ips_array;
@@ -7,6 +7,8 @@ var names_array;
 
 function populateFields(ips, names)
 {   
+    populateVersionsSelect();
+
     names_array = unescape(names).split("|");
     ips_array = ips.split("|");
     
@@ -60,6 +62,35 @@ function populateFields(ips, names)
     }
 }
 
+function populateVersionsSelect()
+{
+     $.ajax(
+        {
+            type: "POST", 
+            url: "get_versions.php",
+            success: function(data) 
+            {
+                var json = JSON.parse(data);
+                
+                var version_selector = document.getElementById("version_input");
+                
+                // Add dummy option
+                var option = document.createElement("option");
+                option.value = "default";
+                option.innerHTML = "default";
+                version_selector.appendChild(option);
+                
+                for (var i = 0; i < json.length; ++i)
+                {
+                    option = document.createElement("option");
+                    option.value = json[i].name;
+                    option.innerHTML = json[i].name;
+                    version_selector.appendChild(option);
+                }
+            }
+        });
+}
+
 function showProperty(property, value)
 {
     var input = document.getElementById(property + "_input");
@@ -67,6 +98,18 @@ function showProperty(property, value)
     
     if (value == "(multiple)")
     {
+        if (property == "version")
+        {
+            // Add (multiple) option
+            var version_selector = document.getElementById("version_input");
+            var option = document.createElement("option");
+            option.value = "(multiple)";
+            option.innerHTML = "(multiple)";
+            version_selector.appendChild(option);      
+            
+            version_selector.value = value;            
+        }
+        
         input.disabled = true;
     }
     

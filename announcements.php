@@ -20,27 +20,6 @@
     
     <body>
    
-        <div id="top_bar">
-                
-            <div class="button" onclick="selectAll();">Select all</div>
-            <div class="button" onclick="deselectAll();">Deselect all</div>
-            <div class="button" onclick="deleteSelected();">Delete selected</div>
-
-        </div>
-   
-        <div id="bottom_bar">
-        
-            <div class="button" onclick="showPopup();">Create announcement</div>           
-            <div class="button" onclick="window.location = 'index.php';">Home</div>
-
-        </div>
-        
-        <div id="announcements">
-            <?PHP
-                require("tools/get_announcements.php");
-            ?>
-        </div>  
-       
         <div id = "popup_bg">
 
             <div id = "popup">
@@ -48,6 +27,55 @@
                 <h1 id="popup_title">New announcement</h1>
                
                 <div id="form">
+                
+                    <h2>Destination</h2>
+                    <div class="destination_choice">
+                        <input id="radio_kiosk" type="radio" name="destination" value="kiosk">Single kiosk
+                        
+                        <select id="kiosk_selector">
+                            <?PHP
+                            
+                                $connection = new MongoClient();
+                                
+                                $collection = $connection->kioskIt->kiosks;
+
+                                $cursor = $collection->find(array(), array("_id" => "1", "name" => "1"));
+                                
+                                while($cursor->hasNext())
+                                {
+                                    $kiosk = $cursor->getNext();
+                                    
+                                    echo "<option value='" . $kiosk["_id"] ."'>" . $kiosk["name"] . "</option>";
+                                }
+                                
+                                $connection->close();
+                                
+                            ?>
+                        </select>
+                    </div>
+                    
+                    <div class="destination_choice">
+                        <input id="radio_category" type="radio" name="destination" value="category">Category of kiosks
+                        
+                        <select id="category_selector">
+                            <?PHP
+                            
+                                $connection = new MongoClient();
+                                
+                                $collection = $connection->kioskIt->kiosks;
+
+                                $categories = $collection->distinct("category", array());
+                                
+                                for ($i = 0; $i < count($categories); $i++)
+                                {   
+                                    echo "<option value='" . $categories[$i] ."'>" . $categories[$i] . "</option>";
+                                }
+                                
+                                $connection->close();
+                                
+                            ?>
+                        </select>
+                    </div>
                     
                     <h2>Type of Message</h2>
                     
@@ -106,6 +134,27 @@
             </div>
             
         </div>
+   
+        <div id="top_bar">
+                
+            <div class="button" onclick="selectAll();">Select all</div>
+            <div class="button" onclick="deselectAll();">Deselect all</div>
+            <div class="button" onclick="deleteSelected();">Delete selected</div>
+
+        </div>
+   
+        <div id="bottom_bar">
+        
+            <div class="button" onclick="showPopup();">Create announcement</div>           
+            <div class="button" onclick="window.location = 'index.html';">Home</div>
+
+        </div>
+        
+        <div id="announcements">
+            <?PHP
+                require("tools/get_announcements.php");
+            ?>
+        </div>  
         
     </body>
     

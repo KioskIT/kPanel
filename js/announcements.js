@@ -69,12 +69,25 @@ function edit(announcement)
 
 function populateFields(rawAnnouncement)
 {
-	//JSON.parse is decoding the array from the JSON format (which was encoded with in the PHP script)
+	// JSON.parse is decoding the array from the JSON format (which was encoded with in the PHP script)
     var announcement = JSON.parse(rawAnnouncement);
     
     // Populate popup fields with values retrieved from the database
     document.getElementById("popup_title").innerHTML = "Edit announcement";
     
+    if (announcement["destinationtype"] == "id")
+    {
+        document.getElementById("radio_kiosk").checked = true;
+        document.getElementById("kiosk_selector").value = announcement["destination"];
+        
+    }
+    else
+    if (announcement["destinationtype"] == "category")
+    {
+        document.getElementById("radio_category").checked = true;
+        document.getElementById("category_selector").value = announcement["destination"];    
+    }
+        
     if (announcement["type"] == "Ticker-Tape")
     {
         document.getElementById("type_selector").selectedIndex = 0;
@@ -111,6 +124,23 @@ function populateFields(rawAnnouncement)
 
 function updateAnnouncement(id)
 {
+    var radio_kiosk = document.getElementById("radio_kiosk");
+    var radio_category = document.getElementById("radio_category");
+    
+    var destinationtype = "";
+    var destination = "";
+    
+    if (radio_kiosk.checked)
+    {
+        destinationtype = "id";
+        destination = document.getElementById("kiosk_selector").value;
+    }
+    else
+    {
+        destinationtype = "category";
+        destination = document.getElementById("category_selector").value;
+    }
+        
 	var type = document.getElementById("type_selector").options[document.getElementById("type_selector").selectedIndex].text;
 	var message_box = document.getElementById("message_box").value;
     var from_date = document.getElementById("from_date").value;
@@ -132,6 +162,8 @@ function updateAnnouncement(id)
             type:"POST",
             url:"tools/update_announcement.php",
 			data:"id=" + id + 
+                 "&destinationtype=" + destinationtype +
+                 "&destination=" + destination +
 				 "&type=" + type + 
 				 "&message=" + message_box + 
 				 "&from=" + from_date + 
@@ -148,38 +180,60 @@ function updateAnnouncement(id)
 
 function addAnnouncement()
 {   
-	var type = document.getElementById("type_selector").options[document.getElementById("type_selector").selectedIndex].text;
-	var message_box = document.getElementById("message_box").value;
-    var from_date = document.getElementById("from_date").value;
-	
-	var to_date; 
-	
-	if(document.getElementById('indefinitely').checked) {
-  		to_date = "indefinitely";
-	}
-	else if(document.getElementById('period').checked) {
- 		to_date = document.getElementById("to_date").value; 
-	}
-
-	var backcolor = document.getElementById("backcolor").value;
-	var forecolor = document.getElementById("forecolor").value;
-	
-	$.ajax(
+    var radio_kiosk = document.getElementById("radio_kiosk");
+    var radio_category = document.getElementById("radio_category");
+    
+    if (radio_kiosk.checked || radio_category.checked)
+    {
+        var destinationtype = "";
+        var destination = "";
+        
+        if (radio_kiosk.checked)
         {
-            type:"POST",
-            url:"tools/store_announcement.php",
-			data:"type=" + type + 
-				 "&message=" + message_box + 
-				 "&from=" + from_date + 
-				 "&to=" + to_date + 
-				 "&backcolor=" + backcolor + 
-				 "&forecolor=" + forecolor,
-				 
-            success:function () 
-            {   
-                location.reload();
-			}
-        });
+            destinationtype = "id";
+            destination = document.getElementById("kiosk_selector").value;
+        }
+        else
+        {
+            destinationtype = "category";
+            destination = document.getElementById("category_selector").value;
+        }
+        
+        var type = document.getElementById("type_selector").options[document.getElementById("type_selector").selectedIndex].text;
+        var message_box = document.getElementById("message_box").value;
+        var from_date = document.getElementById("from_date").value;
+        
+        var to_date; 
+        
+        if(document.getElementById('indefinitely').checked) {
+            to_date = "indefinitely";
+        }
+        else if(document.getElementById('period').checked) {
+            to_date = document.getElementById("to_date").value; 
+        }
+
+        var backcolor = document.getElementById("backcolor").value;
+        var forecolor = document.getElementById("forecolor").value;
+        
+        $.ajax(
+            {
+                type:"POST",
+                url:"tools/store_announcement.php",
+                data:"destinationtype=" + destinationtype +
+                     "&destination=" + destination + 
+                     "&type=" + type + 
+                     "&message=" + message_box + 
+                     "&from=" + from_date + 
+                     "&to=" + to_date + 
+                     "&backcolor=" + backcolor + 
+                     "&forecolor=" + forecolor,
+                     
+                success:function () 
+                {   
+                    location.reload();
+                }
+            });
+    }
 }
 
 function showPopup()

@@ -282,7 +282,8 @@ function sendFile(event)
 
 function uploadDone(msg)
 {
-    location.reload();
+    console.log(msg);
+    //location.reload();
 }
 
 function hideImportPopup()

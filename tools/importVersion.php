@@ -23,6 +23,17 @@
          
         $archiveContents->extractTo("../versions/" . $versionName . "/");
         $archiveContents->close();
+        
+        $connection = new MongoClient();
+    
+        $collection = $connection->kioskIt->versions;
+        
+        $version = array("name" => $versionName);
+
+        $collection->insert($version);
+        
+        $connection->close();
+
     }
     
     unlink("../temp/" . $_POST["name"]);

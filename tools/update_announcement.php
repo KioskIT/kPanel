@@ -5,6 +5,8 @@
 
 	$collection->update(array("_id" => new MongoID($_POST["id"])), 
 	array('$set' => array(
+		'destinationtype' => $_POST["destinationtype"],
+		'destination' => $_POST["destination"],
 		'type' => $_POST["type"],
 		'message' => $_POST["message"],
 		'from' => $_POST["from"],

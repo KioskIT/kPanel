@@ -45,6 +45,13 @@
                 <input type="text" class="input" id="category_input">
             </div>
             
+            <div class="property" id="version">
+                <div class="label" id="version_label">Version</div>
+                <!--<input type="text" class="input" id="version_input">-->
+                <select class="input" id="version_input">
+                </select>
+            </div>
+            
             <div class="property" id="video_mode">
                 <div class="label" id="video_mode_label">Video mode</div>
                 <input type="text" class="input" id="video_mode_input">
