@@ -280,10 +280,9 @@ function sendFile(event)
         }, uploadDone);
 }
 
-function uploadDone(msg)
+function uploadDone()
 {
-    console.log(msg);
-    //location.reload();
+    location.reload();
 }
 
 function hideImportPopup()
