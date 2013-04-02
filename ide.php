@@ -37,8 +37,8 @@
             <div class="toolbarItem" title="Add dropdown menu" onclick="addDropdownMenu()"><img src="images/dropdown_icon.png"></div>
             <div class="toolbarItem" title="Add gallery" onclick="addGallery()"><img src="images/gallery_icon.png"></div>
             <div class="forsurvey spacer"></div>
-            <div class="forsurvey toolbarItem" title="Add question" onclick="addQuestion()"><img src="images/gallery_icon.png"></div>
-            <div class="forsurvey toolbarItem" title="Add submit button" onclick="addSubmitButton()"><img src="images/gallery_icon.png"></div>
+            <div class="forsurvey toolbarItem" title="Add question" onclick="addQuestion()"><img src="images/question_icon.png"></div>
+            <div class="forsurvey toolbarItem" title="Add submit button" onclick="addSubmitButton()"><img src="images/submitbutton_icon.png"></div>
             <div class="spacer"></div>
             <div class="toolbarItem" title="Zoom in" onclick="zoomIn()"><img src="images/zoom_in_icon.png"></div>
             <div class="toolbarItem" title="Zoom out" onclick="zoomOut()"><img src="images/zoom_out_icon.png"></div>
