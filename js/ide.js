@@ -18,6 +18,7 @@ var elements = [];
 
 var selected = null;
 var selected_version = "";
+var isSurvey;
 
 function loadVersion()
 {
@@ -28,6 +29,7 @@ function loadVersion()
         // Default canvas settings
         width = 1024;
         height = 768;
+        isSurvey = false;
         
         canvas.style.backgroundColor = "rgb(255, 255, 255)";
         canvas.style.width = width + "px";
@@ -43,7 +45,8 @@ function loadVersion()
             name: selected_version,
             width: width,
             height: height,
-            color: canvas.style.backgroundColor});   
+            color: canvas.style.backgroundColor,
+            isSurvey: isSurvey});
     }
     else
     {   
@@ -52,6 +55,7 @@ function loadVersion()
         // Load existing settings
         width = parseInt(elements[0].width);
         height = parseInt(elements[0].height);
+        isSurvey = elements[0].isSurvey;
         
         canvas.style.backgroundColor = elements[0].color;
         canvas.style.width = width + "px";
@@ -99,6 +103,33 @@ function loadVersion()
             {
                 loadGallery(i);
             }
+            else
+            if (elements[i].type == "question")
+            {
+                loadQuestion(i);
+            }
+            else
+            if (elements[i].type == "submitbutton")
+            {
+                loadSubmitButton(i);
+            }
+        }
+    }
+    
+    var items = document.getElementsByClassName("forsurvey");
+
+    if (isSurvey)
+    {
+        for (var i = 0; i < items.length; ++i)
+        {
+            items[i].style.display = "inline-block";
+        }
+    }
+    else
+    {
+        for (var i = 0; i < items.length; ++i)
+        {
+            items[i].style.display = "none";
         }
     }
     
@@ -302,6 +333,66 @@ function loadGallery(index)
     $(gallery).click(function() {gallerySelect(gallery, index);});
     $(gallery).bind("dragstart", function(event, ui) {gallerySelect(gallery, index);});
     $(gallery).bind("dragstop", function(event, ui) {gallerySelect(gallery, index);});    
+}
+
+function loadSubmitButton(index)
+{
+    var button = document.createElement("input");
+    button.type = "button";
+    button.style.fontFamily = elements[index].font;
+    button.style.fontSize = elements[index].fontsize;
+    button.style.color = elements[index].color;
+    
+    button.value = elements[index].content;
+    
+    button.style.position = "absolute";
+    button.style.left = elements[index].left;
+    button.style.top = elements[index].top;
+    button.style.height = elements[index].height;
+    button.style.width = elements[index].width;
+    button.style.zIndex = elements[index].zIndex;
+    button.style.webkitUserSelect = "none";
+    
+    canvas.appendChild(button);
+    
+    $(button).draggable({containment: "#canvas", cancel: false});
+    $(button).click(function() {submitButtonSelect(button, index);});
+    $(button).bind("dragstart", function(event, ui) {submitButtonSelect(button, index);});
+    $(button).bind("dragstop", function(event, ui) {submitButtonSelect(button, index);});    
+}
+
+function loadQuestion(index)
+{
+    var wrapper = document.createElement("div");
+    wrapper.style.fontFamily = elements[index].font;
+    wrapper.style.fontSize = elements[index].fontsize;
+    wrapper.style.color = elements[index].color;
+    
+    wrapper.style.cursor = "default";
+    wrapper.style.position = "absolute";
+    wrapper.style.left = elements[index].left;
+    wrapper.style.top = elements[index].top;
+    wrapper.style.width = elements[index].width;
+    wrapper.style.zIndex = elements[index].zIndex;
+    wrapper.style.webkitUserSelect = "none";
+    
+    var question = document.createElement("div");
+    question.innerHTML = elements[index].content;
+    question.style.width = "100%";
+    wrapper.appendChild(question);
+    
+    var answer = document.createElement("input");
+    answer.type = "text";
+    answer.disabled = true;
+    answer.style.width = "100%";
+    wrapper.appendChild(answer);
+    
+    canvas.appendChild(wrapper);
+    
+    $(wrapper).draggable({containment: "#canvas"});
+    $(wrapper).click(function() {questionSelect(wrapper, question, index);});
+    $(wrapper).bind("dragstart", function(event, ui) {questionSelect(wrapper, question, index);});
+    $(wrapper).bind("dragstop", function(event, ui) {questionSelect(wrapper, question, index);});    
 }
 
 function addText()
@@ -600,6 +691,98 @@ function addGallery()
     $(gallery).bind("dragstop", function(event, ui) {gallerySelect(gallery, index);});
 }
 
+function addSubmitButton()
+{
+    var button = document.createElement("input");
+    button.style.fontFamily = DEFAULT_FONT;
+    button.style.fontSize = DEFAULT_FONT_SIZE;
+    button.style.color = "#000000";
+    
+    button.value = "Sample submit button";
+    button.type = "button";
+    
+    button.style.position = "absolute";
+    button.style.left = width / 2 + "px";
+    button.style.top = height / 2 + "px";
+    button.style.width = width > 200 ? "200px" : (width + "px");
+    button.style.webkitUserSelect = "none";
+    button.style.zIndex = "2147483646";
+    
+    canvas.appendChild(button);
+    
+    elements.push({
+        type: "submitbutton",
+        top: button.style.top,
+        left: button.style.left,
+        height: button.style.height,
+        width: button.style.width,
+        zIndex: button.style.zIndex,
+        font: button.style.fontFamily,
+        fontsize: button.style.fontSize,
+        color: button.style.color,
+        content: button.value,
+        target: "about:blank",
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
+    
+    var index = elements.length - 1;
+    $(button).draggable({containment: "#canvas", cancel: false});
+    $(button).click(function() {submitButtonSelect(button, index);});
+    $(button).bind("dragstart", function(event, ui) {submitButtonSelect(button, index);});
+    $(button).bind("dragstop", function(event, ui) {submitButtonSelect(button, index);});   
+}
+
+function addQuestion()
+{
+    var wrapper = document.createElement("div");
+    wrapper.style.fontFamily = DEFAULT_FONT;
+    wrapper.style.fontSize = DEFAULT_FONT_SIZE;
+    wrapper.style.color = "#000000";
+    
+    wrapper.style.cursor = "default";
+    wrapper.style.position = "absolute";
+    wrapper.style.left = width / 2 + "px";
+    wrapper.style.top = height / 2 + "px";
+    wrapper.style.width = width > 300 ? "300px" : (width + "px");
+    wrapper.style.webkitUserSelect = "none";
+    wrapper.style.zIndex = "2147483646";
+    
+    var question = document.createElement("div");
+    question.innerHTML = "Sample question";
+    question.style.width = "100%";
+    wrapper.appendChild(question);
+    
+    var answer = document.createElement("input");
+    answer.type = "text";
+    answer.disabled = true;
+    answer.style.width = "100%";
+    wrapper.appendChild(answer);
+    
+    canvas.appendChild(wrapper);
+    
+    elements.push({
+        type: "question",
+        top: wrapper.style.top,
+        left: wrapper.style.left,
+        width: wrapper.style.width,
+        zIndex: wrapper.style.zIndex,
+        font: wrapper.style.fontFamily,
+        fontsize: wrapper.style.fontSize,
+        color: wrapper.style.color,
+        content: question.innerHTML,
+        animation_name: "none",
+        animation_duration: "0",
+        animation_mode: ""});
+        
+    var index = elements.length - 1;
+    
+    $(wrapper).draggable({containment: "#canvas"});
+    $(wrapper).click(function() {questionSelect(wrapper, question, index);});
+    $(wrapper).bind("dragstart", function(event, ui) {questionSelect(wrapper, question, index);});
+    $(wrapper).bind("dragstop", function(event, ui) {questionSelect(wrapper, question, index);});
+}
+
 function zoomIn()
 {
     if (parseInt(canvas.style.zoom) < 400)
@@ -765,6 +948,53 @@ function showColorSettings(element, form, index)
     color.id = "color";
     color.value = element.style.color;
     $(color).change(function() {elements[index].color = element.style.color = color.value;});
+    inner_wrapper.appendChild(color);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
+    form.appendChild(wrapper);
+    
+    $(label).add(more_icon).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
+}
+
+function showBackgroundColorSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "color_wrapper";
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Color";
+    wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
+    var color = document.createElement("input");
+    color.type = "color";
+    color.className = "properties_input";
+    color.id = "color";
+    color.value = element.style.color;
+    $(color).change(function() {elements[index].color = element.style.backgroundColor = color.value;});
     inner_wrapper.appendChild(color);
            
     wrapper.appendChild(inner_wrapper);       
@@ -1426,6 +1656,74 @@ function showImagesSettings(element, form, index)
     });
 }
 
+function showIsSurveySettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "content_wrapper";    
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Is survey?";
+    wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "properties_input";
+    checkbox.id = "is_survey_checkbox";
+    checkbox.checked = elements[index].isSurvey;
+    
+    $(checkbox).change(function() 
+        {
+            var items = document.getElementsByClassName("forsurvey");
+
+            if (checkbox.checked)
+            {
+                for (var i = 0; i < items.length; ++i)
+                {
+                    items[i].style.display = "inline-block";
+                }
+            }
+            else
+            {
+                for (var i = 0; i < items.length; ++i)
+                {
+                    items[i].style.display = "none";
+                }
+            }
+            
+            elements[index].isSurvey = checkbox.checked;                
+        });
+    inner_wrapper.appendChild(checkbox);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
+    form.appendChild(wrapper);
+    
+    $(label).add(more_icon).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
+}
+
 function textSelect(text, index)
 {
     deselect();
@@ -1657,6 +1955,64 @@ function refreshGallery(gallery, index)
     gallerySelect(gallery, index);
 }
 
+function questionSelect(wrapper, question, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = wrapper.style.left;
+    elements[index].top = wrapper.style.top;
+    
+    selected = wrapper;
+    wrapper.style.border = "2px solid grey";
+      
+    showTitle(properties, "Question item");
+    
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showContentSettings(question, form, index);    
+    showFontSettings(wrapper, form, index);    
+    showColorSettings(wrapper, form, index);
+    showCoordinatesSettings(wrapper, form, index);    
+    showOrderSettings(wrapper, form, index);    
+    showSizeSettings(wrapper, form, index);    
+    showAnimationSettings(wrapper, form, index);
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(wrapper, properties, index);
+}
+
+function submitButtonSelect(button, index)
+{
+    deselect();
+    
+    // Update coords by dragging
+    elements[index].left = button.style.left;
+    elements[index].top = button.style.top;
+    
+    selected = button;
+    button.style.border = "2px solid grey";
+        
+    showTitle(properties, "Submit button item");
+        
+    var form = document.createElement("form");
+    form.id = "properties_form";
+    
+    showFontSettings(button, form, index);
+    showContentSettings(button, form, index);
+    showColorSettings(button, form, index);
+    showCoordinatesSettings(button, form, index);
+    showOrderSettings(button, form, index);
+    showSizeSettings(button, form, index);
+    showAnimationSettings(button, form, index);
+    
+    properties.appendChild(form);
+    
+    showButtonsBar(button, properties, index);
+}
+
 function canvasSelect()
 {
     deselect();
@@ -1667,7 +2023,8 @@ function canvasSelect()
     form.id = "properties_form";
     
     showSizeSettings(canvas, form, 0);
-    showColorSettings(canvas, form, 0);
+    showBackgroundColorSettings(canvas, form, 0);
+    showIsSurveySettings(canvas, form, 0);
     
     properties.appendChild(form);
     

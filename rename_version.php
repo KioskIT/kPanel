@@ -1,4 +1,4 @@
-<?PHPw
+<?PHP
     
     rename("versions/" . $_POST["old_name"] . "." . $_POST["extension"], "versions/" . $_POST["new_name"] . "." . $_POST["extension"]);
     

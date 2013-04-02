@@ -180,6 +180,11 @@ body
     margin:0px 15px 0px 10px;    
 }
 
+.forsurvey
+{
+    display:none;
+}
+
 #gallery
 { 
     width:400px; 

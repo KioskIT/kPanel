@@ -1,11 +1,22 @@
 var html;
 
+var isSurvey;
+
 function compile()
-{    
+{
+    isSurvey = elements[0].isSurvey;
+
     html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\n\t\t<title>kioskIt</title>\n\n\t\t<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>\n\n\t\t<script type="text/javascript" src="../galleria/galleria-1.2.8.js"></script>\n\n\t\t<link href="css/animations.css" type="text/css" rel="stylesheet" />\n\n\t\t<link href="css/global.css" type="text/css" rel="stylesheet" />\n\n\t</head>\n\n\t<body>\n\n\t\t';
     
     // The webpage resides inside a container for centering and setting width
-    html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + '">\n\n\t\t\t';
+    html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px">\n\n\t\t\t';
+    
+    // If the page is flagged as a survey, everything is in a form
+    if (isSurvey)
+    {
+        html += '<form action="../tools/submit_survey.php">\n\n\t\t\t';
+        html += '<input type="hidden" name="collection" value="survey_' + elements[0].name.replace(/\s+/g, " ") + '">\n\n\t\t\t';
+    }
     
     for (var i = 1; i < elements.length; ++i)
     {
@@ -36,14 +47,30 @@ function compile()
         else
         if (elements[i].type == "dropdown")
         {
-            createDropdown(i);            
+            createDropdown(i);
         }
         else
         if (elements[i].type == "gallery")
         {
-            createGallery(i);            
+            createGallery(i);
         }
-    }        
+        else
+        if (elements[i].type == "question")
+        {
+            createQuestion(i);
+        }
+        else
+        if (elements[i].type == "submitbutton")
+        {
+            createSubmitButton(i);
+        }
+    }     
+
+    // Close potential form
+    if (isSurvey)
+    {
+        html += '</form>\n\n\t\t\t';
+    }    
                 
     html += '\n\t\t</div>\n\n\t</body>\n\n\n</html>';
       
@@ -222,4 +249,54 @@ function createGallery(index)
     
     // Run Galleria
     html += '<script type="text/javascript">Galleria.loadTheme("../galleria/themes/classic/galleria.classic.min.js"); Galleria.run("#' + index + '");</script>\n\n\t\t\t';
+}
+
+function createSubmitButton(index)
+{ 
+    // Parameters
+    html += '<input type="submit" ' +
+            'value="' + elements[index].content + '" ' +
+            'style="' +
+            'position:absolute; ' +
+            'top:' + elements[index].top + '; ' +
+            'left:' + elements[index].left + '; ' +
+            'height:' + elements[index].height + '; ' +
+            'width:' + elements[index].width + '; ' +
+            'z-index:' + elements[index].zIndex + '; ' +
+            'font-family:' + elements[index].font + '; ' +
+            'font-size:' + elements[index].fontsize + '; ' +
+            'color:' + elements[index].color + '; ' +
+            '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '">\n\n\t\t\t';
+            
+    // Closing tag
+    html += '</input>\n\n\t\t\t';    
+}
+
+function createQuestion(index)
+{
+    // Parameters
+    html += '<div ' + 
+            'style="' +
+            'position:absolute; ' +
+            'top:' + elements[index].top + '; ' +
+            'left:' + elements[index].left + '; ' +
+            'width:' + elements[index].width + '; ' +
+            'z-index:' + elements[index].zIndex + '; ' +
+            'font-family:' + elements[index].font + '; ' +
+            'font-size:' + elements[index].fontsize + '; ' +
+            'color:' + elements[index].color + '; ' +
+            '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '">\n\n\t\t\t\t';
+    
+    // Content
+    
+    // Question
+    html += '<div>' + elements[index].content + '</div>\n\n\t\t\t\t';
+    
+    // Answer
+    html += '<input type="text" name="' + elements[index].content + '">\n\n\t\t\t';
+            
+    // Closing tag
+    html += '</div>\n\n\t\t\t';     
 }
