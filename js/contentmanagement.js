@@ -123,7 +123,7 @@ function view()
 {
     if (selected.getAttribute("data-extension") == "version")
     {
-        window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + ".html";
+        window.location = "versions/" + selected.getElementsByClassName("versionName")[0].innerHTML + ".php";
     }
     else
     if (selected.getAttribute("data-extension") == "importedversion")
@@ -246,7 +246,7 @@ function isVersionCompiled(version)
     
     if (request) 
     {
-        request.open("GET", "versions/" + escape(version) + ".html", false);
+        request.open("GET", "versions/" + escape(version) + ".php", false);
         request.send();
         
         if (request.status == 200)

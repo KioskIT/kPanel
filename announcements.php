@@ -94,6 +94,7 @@
                     <h3>From</h3>
                     
                     <input id="from_date" class="field" type="date" />
+                    <input id="from_time" class="field" type="time" />
                     
                     <h3>To</h3>
                     
@@ -103,7 +104,7 @@
                     <span class="radio_label">Period</span> <br/>
                     
                     <input id="to_date" class="field" type="date" />
-                    
+                    <input id="to_time" class="field" type="time" />
                     
                     <h2>Colors</h2>
                 

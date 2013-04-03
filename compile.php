@@ -1,6 +1,6 @@
 <?PHP
 
-    $file = fopen("versions/" . $_POST["selected_version"] . ".html", "w");
+    $file = fopen("versions/" . $_POST["selected_version"] . ".php", "w");
     
     fwrite($file, $_POST["html"]);
     

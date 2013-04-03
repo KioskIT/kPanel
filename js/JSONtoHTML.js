@@ -6,7 +6,11 @@ function compile()
 {
     isSurvey = elements[0].isSurvey;
 
-    html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\n\t\t<title>kioskIt</title>\n\n\t\t<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>\n\n\t\t<script type="text/javascript" src="../galleria/galleria-1.2.8.js"></script>\n\n\t\t<link href="css/animations.css" type="text/css" rel="stylesheet" />\n\n\t\t<link href="css/global.css" type="text/css" rel="stylesheet" />\n\n\t</head>\n\n\t<body>\n\n\t\t';
+    html = '<!DOCTYPE HTML>\n\n<html>\n\n\n\t<head>\n\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\n\n\t\t<title>kioskIt</title>\n\n\t\t<script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>\n\n\t\t<script type="text/javascript" src="js/query_announcements.js"></script>\n\n\t\t<script type="text/javascript" src="../galleria/galleria-1.2.8.js"></script>\n\n\t\t<link href="css/animations.css" type="text/css" rel="stylesheet" />\n\n\t\t<link href="css/global.css" type="text/css" rel="stylesheet" />\n\n\t</head>\n\n\t<body>\n\n\t\t';
+    
+    html += '<script type="text/javascript">var server_ip = "https://<?PHP echo $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"]; ?>";</script>\n\n\t\t';
+    
+    html += '<div id="tickertape" onclick="hideAnnouncement(\'tickertape\')"></div>\n\n\t\t<div id="modalmessage" onclick="hideAnnouncement(\'modalmessage\')"></div>\n\n\t\t';
     
     // The webpage resides inside a container for centering and setting width
     html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px">\n\n\t\t\t';

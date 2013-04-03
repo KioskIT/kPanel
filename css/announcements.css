@@ -263,7 +263,7 @@ h3
     border: 0px;
 }
 
-#to_date
+#to_date, #to_time
 {
     display:none;
 }

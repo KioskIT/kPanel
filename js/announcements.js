@@ -99,9 +99,11 @@ function populateFields(rawAnnouncement)
     }     
     
     document.getElementById("message_box").value = announcement["message"];
-    document.getElementById("from_date").value = announcement["from"];
+    var from_temp = new Date(parseInt(announcement["from"]) * 1000);
+    document.getElementById("from_date").value = from_temp.getFullYear() + "-" + ((from_temp.getMonth() + 1) < 10 ? "0" + (from_temp.getMonth() + 1) : (from_temp.getMonth() + 1)) + "-" + (from_temp.getDate() < 10 ? "0" + from_temp.getDate() : from_temp.getDate());
+    document.getElementById("from_time").value = from_temp.getHours() + ":" + from_temp.getMinutes();
     
-    if (announcement["to"] == "Indefinitely")
+    if (announcement["to"] == "indefinitely")
     {
         document.getElementById("indefinitely").checked = true;
         hideToDate();
@@ -111,7 +113,10 @@ function populateFields(rawAnnouncement)
         document.getElementById("period").checked = true;
         
         showToDate();
-        document.getElementById("to_date").value = announcement["to"];
+        var to_temp = new Date(parseInt(announcement["to"]) * 1000);
+        document.getElementById("to_date").value = to_temp.getFullYear() + "-" + ((to_temp.getMonth() + 1) < 10 ? "0" + (to_temp.getMonth() + 1) : (to_temp.getMonth() + 1)) + "-" + (to_temp.getDate() < 10 ? "0" + to_temp.getDate() : to_temp.getDate());
+        document.getElementById("to_time").value = to_temp.getHours() + ":" + to_temp.getMinutes();
+    
     }
     
     document.getElementById("backcolor").value = announcement["background"];
@@ -119,6 +124,44 @@ function populateFields(rawAnnouncement)
     document.getElementById("popup_submit_button").value = "Update announcement";
 	document.getElementById("popup_submit_button").setAttribute("onclick", "updateAnnouncement('" + announcement["_id"]["$id"] + "');");
 	
+    if (announcement["status"] == "shown")
+    {
+        document.getElementById("radio_kiosk").disabled = true;
+        document.getElementById("kiosk_selector").disabled = true;
+        document.getElementById("radio_category").disabled = true;
+        document.getElementById("category_selector").disabled = true;
+        document.getElementById("type_selector").disabled = true;
+        document.getElementById("message_box").disabled = true;
+        document.getElementById("from_date").disabled = true;
+        document.getElementById("from_time").disabled = true;
+        document.getElementById("indefinitely").disabled = true;
+        document.getElementById("period").disabled = true;
+        document.getElementById("to_date").disabled = true;
+        document.getElementById("to_time").disabled = true;
+        document.getElementById("backcolor_value").disabled = true;
+        document.getElementById("forecolor_value").disabled = true;
+        document.getElementById("popup_submit_button").style.display = "none";
+    }
+    else
+    if (announcement["status"] == "not shown")
+    {
+        document.getElementById("radio_kiosk").disabled = false;
+        document.getElementById("kiosk_selector").disabled = false;
+        document.getElementById("radio_category").disabled = false;
+        document.getElementById("category_selector").disabled = false;
+        document.getElementById("type_selector").disabled = false;
+        document.getElementById("message_box").disabled = false;
+        document.getElementById("from_date").disabled = false;
+        document.getElementById("from_time").disabled = false;
+        document.getElementById("indefinitely").disabled = false;
+        document.getElementById("period").disabled = false;
+        document.getElementById("to_date").disabled = false;
+        document.getElementById("to_time").disabled = false;
+        document.getElementById("backcolor_value").disabled = false;
+        document.getElementById("forecolor_value").disabled = false;
+        document.getElementById("popup_submit_button").style.display = "inline";
+    }
+    
     showPopup();
 }
 
@@ -143,7 +186,7 @@ function updateAnnouncement(id)
         
 	var type = document.getElementById("type_selector").options[document.getElementById("type_selector").selectedIndex].text;
 	var message_box = document.getElementById("message_box").value;
-    var from_date = document.getElementById("from_date").value;
+        var from_date = new Date(document.getElementById("from_date").value + " " + document.getElementById("from_time").value).getTime() / 1000;
 	
 	var to_date; 
 	
@@ -151,11 +194,11 @@ function updateAnnouncement(id)
   		to_date = "indefinitely";
 	}
 	else if(document.getElementById('period').checked) {
- 		to_date = document.getElementById("to_date").value; 
+        to_date = new Date(document.getElementById("to_date").value + " " + document.getElementById("to_time").value).getTime() / 1000;
 	}
 
-	var backcolor = document.getElementById("backcolor").value;
-	var forecolor = document.getElementById("forecolor").value;
+	var backcolor = document.getElementById("backcolor_value").value;
+	var forecolor = document.getElementById("forecolor_value").value;
 	
 	$.ajax(
         {
@@ -201,7 +244,7 @@ function addAnnouncement()
         
         var type = document.getElementById("type_selector").options[document.getElementById("type_selector").selectedIndex].text;
         var message_box = document.getElementById("message_box").value;
-        var from_date = document.getElementById("from_date").value;
+        var from_date = new Date(document.getElementById("from_date").value + " " + document.getElementById("from_time").value).getTime() / 1000;
         
         var to_date; 
         
@@ -209,11 +252,11 @@ function addAnnouncement()
             to_date = "indefinitely";
         }
         else if(document.getElementById('period').checked) {
-            to_date = document.getElementById("to_date").value; 
+            to_date = new Date(document.getElementById("to_date").value + " " + document.getElementById("to_time").value).getTime() / 1000;
         }
 
-        var backcolor = document.getElementById("backcolor").value;
-        var forecolor = document.getElementById("forecolor").value;
+        var backcolor = document.getElementById("backcolor_value").value;
+        var forecolor = document.getElementById("forecolor_value").value;
         
         $.ajax(
             {
@@ -263,14 +306,32 @@ function resetPopup()
     document.getElementById("forecolor").value = "rgb(0, 0, 0)";
     document.getElementById("popup_submit_button").value = "Add announcement";
 	document.getElementById("popup_submit_button").setAttribute("onclick", "addAnnouncement();");	
+        
+    document.getElementById("radio_kiosk").disabled = false;
+    document.getElementById("kiosk_selector").disabled = false;
+    document.getElementById("radio_category").disabled = false;
+    document.getElementById("category_selector").disabled = false;
+    document.getElementById("type_selector").disabled = false;
+    document.getElementById("message_box").disabled = false;
+    document.getElementById("from_date").disabled = false;
+    document.getElementById("from_time").disabled = false;
+    document.getElementById("indefinitely").disabled = false;
+    document.getElementById("period").disabled = false;
+    document.getElementById("to_date").disabled = false;
+    document.getElementById("to_time").disabled = false;
+    document.getElementById("backcolor_value").disabled = false;
+    document.getElementById("forecolor_value").disabled = false;
+    document.getElementById("popup_submit_button").style.display = "inline";
 }
 
 function showToDate()
 {
     document.getElementById('to_date').style.display='-webkit-inline-flex';
+    document.getElementById('to_time').style.display='-webkit-inline-flex';
 }
 
 function hideToDate()
 {
     document.getElementById('to_date').style.display='none';
+    document.getElementById('to_time').style.display='none';
 }
