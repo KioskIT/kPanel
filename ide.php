@@ -14,7 +14,6 @@
         <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/underscore.js"></script>
-        <script type="text/javascript" src="js/json2.js"></script>
         <script type="text/javascript" src="js/underscore.observable.js"></script>
         <script type="text/javascript" src="galleria/galleria-1.2.8.js"></script>
         <script type="text/javascript" src="js/ide.js"></script>
