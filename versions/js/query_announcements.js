@@ -6,7 +6,7 @@ function queryAnnouncements()
     {
         type:"POST",
         url:server_ip + "/kPanel/tools/query_announcements.php",
-        success:function(data){console.log(data);checkData(data);}
+        success:function(data){checkData(data);}
     });
 }
 

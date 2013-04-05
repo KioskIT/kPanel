@@ -46,6 +46,7 @@ function loadVersion()
             width: width,
             height: height,
             color: canvas.style.backgroundColor,
+            advancedCSS: "",
             isSurvey: isSurvey});
     }
     else
@@ -66,6 +67,7 @@ function loadVersion()
         canvas.style.top = ((viewportHeight - height) / 2) + "px";
         canvas.style.left = ((viewportWidth - 150 - 300 - width) / 2 + 150) + "px";
         canvas.style.webkitUserSelect = "none";
+        canvas.setAttribute("style", canvas.getAttribute("style") + elements[0].advancedCSS + ";");
         
         for (var i = 1; i < elements.length; ++i)
         {
@@ -172,6 +174,7 @@ function loadText(index)
     text.style.width = elements[index].width;
     text.style.zIndex = elements[index].zIndex;
     text.style.webkitUserSelect = "none";
+    text.setAttribute("style", text.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(text);
     
@@ -193,6 +196,7 @@ function loadImage(index)
     image.style.top = elements[index].top;
     image.style.zIndex = elements[index].zIndex;
     image.style.webkitUserSelect = "none";
+    image.setAttribute("style", image.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(image);
     
@@ -215,6 +219,7 @@ function loadVideo(index)
     video.style.top = elements[index].top;
     video.style.zIndex = elements[index].zIndex;
     video.style.webkitUserSelect = "none";
+    video.setAttribute("style", video.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(video);
     
@@ -241,6 +246,7 @@ function loadButton(index)
     button.style.width = elements[index].width;
     button.style.zIndex = elements[index].zIndex;
     button.style.webkitUserSelect = "none";
+    button.setAttribute("style", button.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(button);
     
@@ -267,6 +273,7 @@ function loadHyperlink(index)
     a.style.width = elements[index].width;
     a.style.zIndex = elements[index].zIndex;
     a.style.webkitUserSelect = "none";
+    a.setAttribute("style", a.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(a);
     
@@ -287,6 +294,7 @@ function loadDropdown(index)
     dropdown.style.fontFamily = elements[index].font;
     dropdown.style.fontSize = elements[index].fontsize;
     dropdown.style.webkitUserSelect = "none";
+    dropdown.setAttribute("style", dropdown.getAttribute("style") + elements[index].advancedCSS + ";");
     
     for (var i = 0; i < elements[index].options.length; ++i)
     {        
@@ -316,6 +324,7 @@ function loadGallery(index)
     gallery.style.width = elements[index].width;
     gallery.style.height = elements[index].height;
     gallery.style.webkitUserSelect = "none";
+    gallery.setAttribute("style", gallery.getAttribute("style") + elements[index].advancedCSS + ";");
     
     for (var i = 0; i < elements[index].src.length; ++i)
     {
@@ -352,6 +361,7 @@ function loadSubmitButton(index)
     button.style.width = elements[index].width;
     button.style.zIndex = elements[index].zIndex;
     button.style.webkitUserSelect = "none";
+    button.setAttribute("style", button.getAttribute("style") + elements[index].advancedCSS + ";");
     
     canvas.appendChild(button);
     
@@ -375,6 +385,7 @@ function loadQuestion(index)
     wrapper.style.width = elements[index].width;
     wrapper.style.zIndex = elements[index].zIndex;
     wrapper.style.webkitUserSelect = "none";
+    wrapper.setAttribute("style", wrapper.getAttribute("style") + elements[index].advancedCSS + ";");
     
     var question = document.createElement("div");
     question.innerHTML = elements[index].content;
@@ -426,7 +437,8 @@ function addText()
         content: text.innerHTML,
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
         
     var index = elements.length - 1;
     
@@ -461,7 +473,8 @@ function addImage()
         src: image.src,
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
         
     var index = elements.length - 1;
     
@@ -497,7 +510,8 @@ function addVideo()
         src: video.src,
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
     
@@ -540,7 +554,8 @@ function addButton()
         target: "about:blank",
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
     $(button).draggable({containment: "#canvas", cancel: false});
@@ -582,7 +597,8 @@ function addHyperlink()
         target: "about:blank",
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
     
@@ -631,7 +647,8 @@ function addDropdownMenu()
         options: ["option1", "option2", "option3"],
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
     
@@ -681,7 +698,8 @@ function addGallery()
         src: ["images/image_sample.png", "images/image_sample.png", "images/image_sample.png"],
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
       
@@ -724,7 +742,8 @@ function addSubmitButton()
         target: "about:blank",
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
     
     var index = elements.length - 1;
     $(button).draggable({containment: "#canvas", cancel: false});
@@ -773,7 +792,8 @@ function addQuestion()
         content: question.innerHTML,
         animation_name: "none",
         animation_duration: "0",
-        animation_mode: ""});
+        animation_mode: "",
+        advancedCSS: ""});
         
     var index = elements.length - 1;
     
@@ -1724,6 +1744,59 @@ function showIsSurveySettings(element, form, index)
     });
 }
 
+function showAdvancedCSSSettings(element, form, index)
+{
+    // Wrapper
+    var wrapper = document.createElement("div");
+    wrapper.className = "wrapper";
+    wrapper.id = "content_wrapper";    
+    
+    var label = document.createElement("div");
+    label.className = "properties_label";
+    label.innerHTML = "Advanced CSS";
+    wrapper.appendChild(label);
+    
+    var more_icon = document.createElement("div");
+    more_icon.className = "more_icon";
+    more_icon.innerHTML = "[-]";
+    wrapper.appendChild(more_icon);
+    
+    // Inner wrapper
+    var inner_wrapper = document.createElement("div");
+    inner_wrapper.className = "inner_wrapper";
+    
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "properties_input";
+    input.id = "advanced_css";
+    input.value = elements[index].advancedCSS;
+    
+    $(input).change(function() 
+        {
+            element.setAttribute("style", element.getAttribute("style") + input.value + ";");
+            
+            elements[index].advancedCSS = input.value;
+        });
+    inner_wrapper.appendChild(input);
+           
+    wrapper.appendChild(inner_wrapper);       
+    
+    form.appendChild(wrapper);
+    
+    $(label).add(more_icon).click(function()
+    {
+        $(inner_wrapper).slideToggle('slow');
+        if (more_icon.innerHTML == "[-]")
+        {
+            more_icon.innerHTML = "[+]";            
+        }
+        else
+        {
+            more_icon.innerHTML = "[-]";
+        }
+    });
+}
+
 function textSelect(text, index)
 {
     deselect();
@@ -1747,6 +1820,7 @@ function textSelect(text, index)
     showOrderSettings(text, form, index);    
     showSizeSettings(text, form, index);    
     showAnimationSettings(text, form, index);
+    showAdvancedCSSSettings(text, form, index);
     
     properties.appendChild(form);
     
@@ -1774,6 +1848,7 @@ function imageSelect(image, index)
     showSizeSettings(image, form, index);
     showOrderSettings(image, form, index);
     showAnimationSettings(image, form, index);    
+    showAdvancedCSSSettings(image, form, index);
     
     properties.appendChild(form);
     
@@ -1801,6 +1876,7 @@ function videoSelect(video, index)
     showSizeSettings(video, form, index);
     showOrderSettings(video, form, index);
     showAnimationSettings(video, form, index);
+    showAdvancedCSSSettings(video, form, index);
     
     properties.appendChild(form);
     
@@ -1831,6 +1907,7 @@ function buttonSelect(button, index)
     showOrderSettings(button, form, index);
     showSizeSettings(button, form, index);
     showAnimationSettings(button, form, index);
+    showAdvancedCSSSettings(button, form, index);
     
     properties.appendChild(form);
     
@@ -1861,6 +1938,7 @@ function hyperlinkSelect(a, index)
     showOrderSettings(a, form, index);
     showSizeSettings(a, form, index);
     showAnimationSettings(a, form, index);
+    showAdvancedCSSSettings(a, form, index);
     
     properties.appendChild(form);
     
@@ -1887,6 +1965,7 @@ function dropdownSelect(dropdown, index)
     showSizeSettings(dropdown, form, index);
     showOrderSettings(dropdown, form, index);
     showAnimationSettings(dropdown, form, index);
+    showAdvancedCSSSettings(dropdown, form, index);
 
     properties.appendChild(form);
     
@@ -1914,6 +1993,7 @@ function gallerySelect(gallery, index)
     showSizeSettings(gallery, form, index);
     showOrderSettings(gallery, form, index);
     showAnimationSettings(gallery, form, index);
+    showAdvancedCSSSettings(gallery, form, index);
        
     properties.appendChild(form);
     
@@ -1978,6 +2058,7 @@ function questionSelect(wrapper, question, index)
     showOrderSettings(wrapper, form, index);    
     showSizeSettings(wrapper, form, index);    
     showAnimationSettings(wrapper, form, index);
+    showAdvancedCSSSettings(wrapper, form, index);
     
     properties.appendChild(form);
     
@@ -2007,6 +2088,7 @@ function submitButtonSelect(button, index)
     showOrderSettings(button, form, index);
     showSizeSettings(button, form, index);
     showAnimationSettings(button, form, index);
+    showAdvancedCSSSettings(button, form, index);
     
     properties.appendChild(form);
     
@@ -2024,6 +2106,7 @@ function canvasSelect()
     
     showSizeSettings(canvas, form, 0);
     showBackgroundColorSettings(canvas, form, 0);
+    showAdvancedCSSSettings(canvas, form, 0);
     showIsSurveySettings(canvas, form, 0);
     
     properties.appendChild(form);

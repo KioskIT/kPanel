@@ -13,7 +13,7 @@ function compile()
     html += '<div id="tickertape" onclick="hideAnnouncement(\'tickertape\')"></div>\n\n\t\t<div id="modalmessage" onclick="hideAnnouncement(\'modalmessage\')"></div>\n\n\t\t';
     
     // The webpage resides inside a container for centering and setting width
-    html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px">\n\n\t\t\t';
+    html += '<div id="container" style="position:relative; color:' + elements[0].color + '; margin-left:auto; margin-right:auto; width:' + elements[0].width + 'px; ' + elements[0].advancedCSS + ';">\n\n\t\t\t';
     
     // If the page is flagged as a survey, everything is in a form
     if (isSurvey)
@@ -105,6 +105,7 @@ function createText(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t\t';
     
     // Content
@@ -116,6 +117,7 @@ function createText(index)
 
 function createImage(index)
 {
+    console.log(elements[index].advancedCSS + '; ');
     // Parameters
     html += '<img alt="" ' +
             'src="' + elements[index].src + '" ' +
@@ -127,6 +129,7 @@ function createImage(index)
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';    
 }
 
@@ -143,6 +146,7 @@ function createVideo(index)
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
             
     // Closing tag
@@ -166,6 +170,7 @@ function createButton(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
 }
 
@@ -184,6 +189,7 @@ function createHyperlink(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
     
     // Content
@@ -205,6 +211,7 @@ function createDropdown(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
     
     // Content
@@ -232,6 +239,7 @@ function createGallery(index)
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
     
     // Content
@@ -265,6 +273,7 @@ function createSubmitButton(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';    
 }
 
@@ -282,6 +291,7 @@ function createQuestion(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t\t';
     
     // Content
