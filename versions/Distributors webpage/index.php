@@ -11,7 +11,6 @@
         
         <link rel=stylesheet type="text/css" href="css/distributors.css">
         <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/distributors.js"></script>
         
     </head>

@@ -45,7 +45,7 @@
 
 			<input type="submit" value="Sample submit button" style="position:absolute; top:456px; left:502px; height:; width:200px; z-index:2147483646; font-family:arial; font-size:95%; color:rgb(0, 0, 0); -webkit-animation:none 0 ; ">
 
-			</input>
+			<img alt=""src="https://localhost/kpanel/images/image_sample.png" style="position:absolute; top:384px; left:512px; width:400px; height:300px; z-index:2147483646; -webkit-animation:none 0 ; ">
 
 			</form>
 

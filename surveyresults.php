@@ -11,7 +11,6 @@
                 
         <link href="css/animations.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
         <link href="css/surveyresults.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="js/surveyresults.js"></script>
     

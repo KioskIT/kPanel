@@ -117,7 +117,7 @@ function createText(index)
 function createImage(index)
 {
     // Parameters
-    html += '<img ' +
+    html += '<img alt="" ' +
             'src="' + elements[index].src + '" ' +
             'style="' +
             'position:absolute; ' +
@@ -127,10 +127,7 @@ function createImage(index)
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
-            '">\n\n\t\t\t';
-            
-    // Closing tag
-    html += '</img>\n\n\t\t\t';      
+            '">\n\n\t\t\t';    
 }
 
 function createVideo(index)
@@ -170,9 +167,6 @@ function createButton(index)
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '">\n\n\t\t\t';
-            
-    // Closing tag
-    html += '</input>\n\n\t\t\t';    
 }
 
 function createHyperlink(index)
@@ -271,10 +265,7 @@ function createSubmitButton(index)
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
-            '">\n\n\t\t\t';
-            
-    // Closing tag
-    html += '</input>\n\n\t\t\t';    
+            '">\n\n\t\t\t';    
 }
 
 function createQuestion(index)

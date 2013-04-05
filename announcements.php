@@ -12,7 +12,6 @@
         <link rel="stylesheet" type="text/css" href="css/animations.css" />        
         <link rel="stylesheet" type="text/css" href="css/announcements.css" />       
         <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script> 
         <script type="text/javascript" src="js/announcements.js"></script>
       
 	</head>
@@ -160,4 +159,4 @@
     </body>
     
     
-</html
+</html>

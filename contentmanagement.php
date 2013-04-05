@@ -12,7 +12,6 @@
         <link href="css/animations.css" type="text/css" rel="stylesheet" />
         <link href="css/contentmanagement.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/contentmanagement.js"></script>
         
     </head>
@@ -44,7 +43,7 @@
                     
                     <h3>In order to successfully upload a version, the file must be a valid zip archive of the contents of the root folder of your version. The archive must contain an "index.php" file. Uploading a version with an already existing name will overwrite matching files.</h3>
                         
-                    <input id="uploader" name="versionArchive" type="file" accept=".zip" />
+                    <input id="uploader" name="versionArchive" type="file" accept="application/zip" />
                     
                     <div id="form_buttons_bar">
                     

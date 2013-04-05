@@ -26,7 +26,7 @@
         <div id="top_bar">
         </div>
                
-        <img id="logo" src=""></img>
+        <img id="logo" src="" alt="Logo">
         
         <div id="properties">
             
