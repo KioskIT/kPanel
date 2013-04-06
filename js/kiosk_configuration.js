@@ -1,5 +1,5 @@
 var values = new Array();
-var properties = new Array("name", "description", "category", "version", "video_mode", "sync_stream", "ip", "server_ip");
+var properties = new Array("name", "description", "category", "version", "video_mode", "sync_version", "ip", "server_ip");
 
 var ips_string;
 var ips_array;
@@ -83,7 +83,16 @@ function populateVersionsSelect()
                 for (var i = 0; i < json.length; ++i)
                 {
                     option = document.createElement("option");
-                    option.value = json[i].name;
+                    
+                    if (json[i].type == "imported")
+                    {
+                        option.value = json[i].name + "/index.php";
+                    }
+                    else
+                    {
+                        option.value = json[i].name + ".php";
+                    }
+                    
                     option.innerHTML = json[i].name;
                     version_selector.appendChild(option);
                 }
@@ -94,7 +103,7 @@ function populateVersionsSelect()
 function showProperty(property, value)
 {
     var input = document.getElementById(property + "_input");
-    input.setAttribute("value", value);
+    input.value = value;
     
     if (value == "(multiple)")
     {
@@ -188,9 +197,11 @@ function applyChanges()
 {
     for (i = 0; i < properties.length; ++i)
     {
+        console.log(getProperty(properties[i]));
         if (getProperty(properties[i]) != values[properties[i]])
         {
             values[properties[i]] = getProperty(properties[i]);
+            
             $.ajax(
                 {
                     type: "POST", 
@@ -207,7 +218,7 @@ function applyChanges()
                             toastr.error(message);
                         }
                     }
-                });        
+                });            
         }
     }
 }

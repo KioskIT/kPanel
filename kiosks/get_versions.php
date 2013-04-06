@@ -4,7 +4,7 @@
     
     $collection = $connection->kioskIt->versions;
     
-    $cursor = $collection->find(array(), array("name" => "1"));
+    $cursor = $collection->find();
     
     $temp = array();
     $i = 0;

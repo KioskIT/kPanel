@@ -10,7 +10,7 @@
     
     $collection = $connection->kioskIt->versions;
     
-    $version = array("name" => $time);
+    $version = array("name" => $time, "type" => "default");
 
     $collection->insert($version);
     

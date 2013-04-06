@@ -25,7 +25,7 @@
     
         $collection = $connection->kioskIt->versions;
         
-        $version = array("name" => $versionName);
+        $version = array("name" => $versionName, "type" => "imported");
 
         $collection->insert($version);
         
