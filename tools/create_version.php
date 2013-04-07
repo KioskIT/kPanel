@@ -2,7 +2,7 @@
 
     $time = round(microtime(true) * 1000);
     
-    $file = fopen("versions/" . $time . ".version", "w");
+    $file = fopen("../versions/" . $time . ".version", "w");
     
     fclose($file);
     
@@ -10,7 +10,7 @@
     
     $collection = $connection->kioskIt->versions;
     
-    $version = array("name" => $time, "type" => "default");
+    $version = array("name" => strval($time), "type" => "default");
 
     $collection->insert($version);
     

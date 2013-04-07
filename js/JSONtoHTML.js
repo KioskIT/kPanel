@@ -117,7 +117,6 @@ function createText(index)
 
 function createImage(index)
 {
-    console.log(elements[index].advancedCSS + '; ');
     // Parameters
     html += '<img alt="" ' +
             'src="' + elements[index].src + '" ' +

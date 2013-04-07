@@ -1,17 +1,20 @@
 <?PHP
     
-    rename("versions/" . $_POST["old_name"] . "." . $_POST["extension"], "versions/" . $_POST["new_name"] . "." . $_POST["extension"]);
+    rename("../versions/" . $_POST["old_name"] . "." . $_POST["extension"], "../versions/" . $_POST["new_name"] . "." . $_POST["extension"]);
     
     if ($_POST["extension"] == "version")
     {
         // Rename respective HTML file
-        rename("versions/" . $_POST["old_name"] . ".html", "versions/" . $_POST["new_name"] . ".html");
+        if (is_file("../versions/" . $_POST["old_name"] . ".php"))
+        {
+            rename("../versions/" . $_POST["old_name"] . ".php", "versions/" . $_POST["new_name"] . ".php");
+        }
     }
     else
     if ($_POST["extension"] == "importedversion")
     {
         // Rename respective folder
-        rename("versions/" . $_POST["old_name"], "versions/" . $_POST["new_name"]);
+        rename("../versions/" . $_POST["old_name"], "versions/" . $_POST["new_name"]);
     }
     
     $connection = new MongoClient();

@@ -19,6 +19,10 @@ html, body
 	
 	display:none;
     -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
     
     cursor:pointer;
 }
@@ -53,7 +57,11 @@ html, body
 
     margin-bottom:2px;
 
-    -webkit-user-select: none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 
     cursor:default;
 }
@@ -77,14 +85,25 @@ html, body
     display: inline;
     font-weight: bold;
     -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .announcement:hover .message
 {
     color:white;
     
+    animation:small_indent 0.2s, fade_in 0.3s;
     -webkit-animation:small_indent 0.2s, fade_in 0.3s;
+    -o-animation:small_indent 0.2s, fade_in 0.3s;
+    -moz-animation:small_indent 0.2s, fade_in 0.3s;
+    
+    animation-fill-mode:forwards;
+    -o-animation-fill-mode:forwards;
     -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
 }
 	
 .button
@@ -110,7 +129,11 @@ html, body
 	
     margin:0px 30px 0px 30px;
 	
-	-webkit-user-select: none;
+	-webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 }
 
 .button:hover
@@ -137,8 +160,13 @@ html, body
 	
 	text-align:center;
     
-    -webkit-user-select: none;
-    -webkit-box-shadow: 0px 0px 20px 5px #000000;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    
+    box-shadow: 0px 0px 20px 5px #000000;
 }
 
 #bottom_bar
@@ -155,8 +183,13 @@ html, body
 	
 	text-align:center;
     
-    -webkit-user-select: none;
-    -webkit-box-shadow: 0px 0px 20px 5px #000000;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    
+    box-shadow: 0px 0px 20px 5px #000000;
 }
 
 #popup_bg 
@@ -174,6 +207,9 @@ html, body
     
 	background:rgba(0, 0, 0, 0.5);
     
+    animation: fade_in 0.5s;
+    -o-animation: fade_in 0.5s;
+    -moz-animation: fade_in 0.5s;
     -webkit-animation: fade_in 0.5s;
 }
 
@@ -188,7 +224,11 @@ html, body
 	padding:1%;
 	border:2px solid white;
     box-shadow: 0px 0px 50px 20px #000000;
-    -webkit-user-select: none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 }
 
 #message_box
@@ -289,7 +329,11 @@ h3
     width: 200px;
     height: 26px;
     margin: 10px 30px 50px 30px;
-    -webkit-user-select: none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
     cursor: pointer;
 }
 

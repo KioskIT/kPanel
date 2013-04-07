@@ -29,14 +29,14 @@
     
     if ($_POST["extension"] == "version")
     {
-        unlink("versions/" . $_POST["selected_version"] . ".version");
-        unlink("versions/" . $_POST["selected_version"] . ".php");
+        unlink("../versions/" . $_POST["selected_version"] . ".version");
+        unlink("../versions/" . $_POST["selected_version"] . ".php");
     }
     else
     if ($_POST["extension"] == "importedversion")
     {
-        unlink("versions/" . $_POST["selected_version"] . ".importedversion");
-        rrmdir("versions/" . $_POST["selected_version"]);
+        unlink("../versions/" . $_POST["selected_version"] . ".importedversion");
+        rrmdir("../versions/" . $_POST["selected_version"]);
     }
     
     $connection = new MongoClient();

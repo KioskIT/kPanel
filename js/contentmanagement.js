@@ -9,7 +9,7 @@ function getVersions()
     $.ajax(
         {
             type: "POST", 
-            url: "get_versions.php",
+            url: "tools/get_versions.php",
             success: function(rawVersionsList) {populateVersionsList(rawVersionsList);}
         });
 }
@@ -148,7 +148,7 @@ function rename()
         {
             type: "POST",
             data: "old_name=" + old_name + "&new_name=" + new_name + "&extension=" + selected.getAttribute("data-extension"),
-            url: "rename_version.php"
+            url: "tools/rename_version.php"
         });
     }
 }
@@ -170,7 +170,7 @@ function copy()
     $.ajax(
         {
             type: "POST", 
-            url: "copy_version.php",
+            url: "tools/copy_version.php",
             data: "selected_version=" + selected.getElementsByClassName("versionName")[0].innerHTML,
             success: function()
             {
@@ -203,7 +203,7 @@ function createNewVersion()
     $.ajax(
         {
             type: "POST", 
-            url: "create_version.php",
+            url: "tools/create_version.php",
             success: function(name){version.innerHTML = '<p class="versionName">' + name + '</p><div class="edit" onclick="edit()">Edit version</div><div class="edit" onclick="rename()">Rename version</div><div class="edit" onclick="copy()">Copy version</div><div class="edit" onclick="removeVersion()">Delete version</div><div class="disabledEdit">View version</div>';}
         });
 }
@@ -219,7 +219,7 @@ function removeVersion()
             $.ajax(
                 {
                     type: "POST", 
-                    url: "remove_version.php",
+                    url: "tools/remove_version.php",
                     data: "selected_version=" + selected.getElementsByClassName("versionName")[0].innerHTML + "&extension=" + selected.getAttribute("data-extension"),
                     success: function(message)
                     {

@@ -1,6 +1,6 @@
 <?PHP
 
-    $handle = opendir("versions");
+    $handle = opendir("../versions");
 
     // Skip . ..
     $entry = readdir($handle);

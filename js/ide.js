@@ -150,7 +150,7 @@ function initializeCanvas()
     $.ajax(
             {
                 type: "POST", 
-                url: "load_version.php",
+                url: "tools/load_version.php",
                 data: "selected_version=" + selected_version,
                 success: function(array){elements = $.parseJSON(array); loadVersion();}
             });
@@ -2136,7 +2136,7 @@ function saveCanvas()
         $.ajax(
             {
                 type: "POST", 
-                url: "save_version.php",
+                url: "tools/save_version.php",
                 data: "elements=" + encodeURIComponent(JSON.stringify(elements)),
                 success: function(message){disableSave();}
             });
