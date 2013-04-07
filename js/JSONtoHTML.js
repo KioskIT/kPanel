@@ -104,6 +104,9 @@ function createText(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t\t';
@@ -127,6 +130,9 @@ function createImage(index)
             'width:' + elements[index].width + '; ' +
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';    
@@ -144,6 +150,9 @@ function createVideo(index)
             'width:' + elements[index].width + '; ' +
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
@@ -168,6 +177,9 @@ function createButton(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
@@ -187,6 +199,9 @@ function createHyperlink(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
@@ -209,6 +224,9 @@ function createDropdown(index)
             'z-index:' + elements[index].zIndex + '; ' +
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
@@ -237,6 +255,9 @@ function createGallery(index)
             'width:' + elements[index].width + '; ' +
             'height:' + elements[index].height + '; ' +
             'z-index:' + elements[index].zIndex + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';
@@ -271,6 +292,9 @@ function createSubmitButton(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t';    
@@ -289,6 +313,9 @@ function createQuestion(index)
             'font-family:' + elements[index].font + '; ' +
             'font-size:' + elements[index].fontsize + '; ' +
             'color:' + elements[index].color + '; ' +
+            'animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-o-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
+            '-moz-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             '-webkit-animation:' + elements[index].animation_name + ' ' + elements[index].animation_duration + ' ' + elements[index].animation_mode + '; ' +
             elements[index].advancedCSS + '; ' +
             '">\n\n\t\t\t\t';
