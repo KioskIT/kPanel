@@ -20,20 +20,6 @@ function scrollTo(element)
     $(element).scrollView();
 }
 
-function toggleView()
-{
-    if (document.getElementById("map").style.display == "none")
-    {
-        document.getElementById("list").style.display = "none";
-        document.getElementById("map").style.display = "block";
-    }
-    else
-    {
-        document.getElementById("list").style.display = "block";
-        document.getElementById("map").style.display = "none";
-    }
-}
-
 function getOrders()
 {
     $.ajax(
@@ -235,7 +221,7 @@ function clearOrders()
     {
         type: "POST",
         //url: "tools/generate_orders.php"
-        url: "tools/add_order.php"
-        //url: "tools/clear_orders.php"
+        //url: "tools/add_order.php"
+        url: "tools/clear_orders.php"
     });    
 }

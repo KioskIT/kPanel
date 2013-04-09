@@ -27,8 +27,6 @@
             
             <a href="#" id="clear_orders" class="button" onclick="clearOrders();">Clear orders</a>
             
-            <a href="#" class="button" id="toggle_view" onclick="toggleView();">Toggle view</a>
-            
         </div>
         
         <div id="list">
@@ -135,10 +133,6 @@
                 
             </div>
             
-        </div>
-        
-        <div id="map">
-            <img src="images/floor-plan.png" height="800" width="1200" onload="document.getElementById('map').style.display = 'none';" > 
         </div>
         
     </body>
