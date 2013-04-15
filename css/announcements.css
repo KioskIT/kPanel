@@ -27,6 +27,11 @@ html, body
     cursor:pointer;
 }
 
+.red_text
+{
+    color:red;
+}
+
 .destination_choice
 {
     color:white;
