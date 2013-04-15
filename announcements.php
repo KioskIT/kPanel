@@ -27,7 +27,7 @@
                
                 <div id="form">
                 
-                    <h2>Destination</h2>
+                    <h2>Destination (*)</h2>
                     <div class="destination_choice">
                         <input id="radio_kiosk" type="radio" name="destination" value="kiosk">Single kiosk
                         
@@ -76,26 +76,26 @@
                         </select>
                     </div>
                     
-                    <h2>Type of Message</h2>
+                    <h2>Type of Message (*)</h2>
                     
                     <select id="type_selector" class="field" name="">
                         <option value="Ticker-Tape">Ticker-Tape</option>
                         <option value="Modal Message">Modal Message</option>
                     </select>                    
                     
-                    <h2>Message</h2>
+                    <h2>Message (*)</h2>
                     
                     <input id="message_box" class="field" type="text" />
                     
                     
                     <h2>Schedule</h2>
                     
-                    <h3>From</h3>
+                    <h3>From (*)</h3>
                     
                     <input id="from_date" class="field" type="date" />
                     <input id="from_time" class="field" type="time" />
                     
-                    <h3>To</h3>
+                    <h3>To (*)</h3>
                     
                     <input id="indefinitely" type="radio" name="type" value="0" checked onclick="hideToDate();"/>
                     <span class="radio_label">Indefinitely</span>
@@ -105,7 +105,7 @@
                     <input id="to_date" class="field" type="date" />
                     <input id="to_time" class="field" type="time" />
                     
-                    <h2>Colors</h2>
+                    <h2>Colors (*)</h2>
                 
                     <div id="backcolor">
 
