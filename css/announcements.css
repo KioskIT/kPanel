@@ -30,6 +30,7 @@ html, body
 .destination_choice
 {
     color:white;
+    display:inline;
 }
 
 #announcements
@@ -216,7 +217,7 @@ html, body
 #popup 
 {
 	position:relative;
-    top:50px;
+    top:20px;
 	min-width:600px;
     max-width:40%;
 	background:#094AB2;
@@ -256,7 +257,7 @@ h2
     font-size:14px;
 	margin:0;
 	color:white;
-	margin-top:30px;
+	margin-top:15px;
 	margin-bottom:1%;
 }
 
