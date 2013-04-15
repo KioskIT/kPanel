@@ -47,7 +47,7 @@
                 </select>
             </div>
             
-            <a href="statistics.php" class="button">Back</a>
+            <a href="index.html" class="button">Home</a>
         </div>
         
         <div id="results">
