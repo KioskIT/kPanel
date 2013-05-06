@@ -1,0 +1,72 @@
+	 html,body
+	 {
+		width:100%;
+		height:100%;
+		margin:0;
+		overflow:hidden;
+	 }
+	 #content
+	 {
+		border:1px solid black;
+		height:100%;
+	 }
+	 .pane{
+		float:left;
+		width:100%;
+	 }
+	 #tools
+	 {
+		height:6%;
+		background:#996666;
+		padding-left:2%;
+	 }
+	 #back-button
+	 {
+		color:white;
+		font-size:3.2em;
+		text-decoration:none;
+		border-right:5px solid white;
+		border-left:5px solid white;
+		padding-left:1%;
+		padding-right:1%;
+		height:100%;
+		margin:0;
+	 }
+	 #menu
+	 {
+		height:86%;
+	 }
+	 
+	 #menu h1{
+				text-align:center;
+				font-size:2.0em;
+				color:white;
+				font-weight:bold;
+				background-color:#660000;
+				margin:0;
+	 }
+	 
+	 #orders{
+		height:95%;
+		overflow-y:auto;
+	 }
+	 
+	 #edit-button
+	 {
+		cursor:pointer;
+		height:7%;
+		font-size:2.2em;
+		padding:0.5%;
+		font-weight:bold;
+		text-align:center;
+		color:white;
+		background:green;
+	 }
+	
+	.item
+	{
+		font-size:2.5em;
+		padding:0.5%;
+		border:2px solid white;
+	}
+	 

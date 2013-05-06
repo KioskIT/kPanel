@@ -1,0 +1,10 @@
+1-Soup
+2-Bread/Biscuits
+3-Sandwich
+4-Salad
+5-Fruits
+6-Juice
+7-Vegetable
+8-Main
+9-Dessert
+

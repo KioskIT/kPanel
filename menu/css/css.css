@@ -1,0 +1,361 @@
+			html,body
+			{
+				margin:0;
+				height:100%;
+				width:100%;
+				overflow:hidden;
+			}
+			
+			#content
+			{
+				height:100%;
+				width:100%;
+			}
+			.label
+			{
+				text-align:center;
+				font-size:1.5em;
+				color:white;
+				font-weight:bold;
+				background-color:#660000;
+				padding-top:1%;
+				padding-bottom:1%;
+			}
+			
+			.tools
+			{
+				padding-top:0.2%;
+				height:4%;
+				background:#996666;
+			}
+			.tools ul
+			{
+				margin:0;
+				list-style:none;
+				width:100;
+				padding:0;
+			}
+
+			.tools li
+			{
+				margin:0;
+				display:inline;
+				margin-left:2%;
+				font-size:1.2em;
+			}
+			
+			.tools li:hover
+			{
+				border-bottom:3px solid white;
+			}
+			
+			.tools a
+			{
+				text-decoration:none;
+				font-size:1.5em;
+				color:white;
+				font-weight:bold;
+				cursor:pointer;
+			}
+
+			.sub-tools
+			{
+				padding-top:0.2%;
+				background:#996666;
+				padding-bottom:0.2%;
+			}
+			.sub-tools ul
+			{
+				margin:0;
+				list-style:none;
+				width:100;
+				padding:0;
+			}
+
+			.sub-tools li
+			{
+				margin:0;
+				display:inline;
+				margin-left:2%;
+				font-size:0.95em;
+			}
+			
+			.sub-tools li:hover
+			{
+				border-bottom:3px solid white;
+			}
+			
+			.sub-tools a
+			{
+				text-decoration:none;
+				font-size:1.5em;
+				color:white;
+				font-weight:bold;
+				cursor:pointer;
+			}
+			
+			#footer
+			{
+				background:#996666;
+			}
+			
+
+
+			#menu-list
+			{
+				border-right:3px solid #996666;
+			}
+			.pane
+			{
+				position:relative;
+				height:90%;
+				width:30%;
+				float:left;
+				overflow-y:auto;
+			}
+			
+			.cycle-pane
+			{
+				position:relative;
+				border:1px solid black;
+				height:100%;
+				width:14.85%;
+				float:left;
+				overflow-y:auto;
+			}
+			
+			.menu-button
+			{
+				width:100%;
+				border:3px solid #660000;
+				padding:2%;
+				width:90%;
+				margin:0 auto;
+				margin-top:1%;
+				cursor:pointer;
+				-webkit-user-select:none;
+				color:#660000;
+			}
+			.menu-name
+			{
+				font-weight:bold;
+				text-align:center;
+				
+			}
+			.header
+			{
+				background:#996666;
+				color:white;
+				font-weight:bold;
+				font-size:1.8em;
+				text-align:center;
+			}
+			.sub-header
+			{
+				background:red;
+				color:white;
+				font-weight:bold;
+				font-size:1.5em;
+				text-align:center;
+				height:22%;
+			}
+			.day-box
+			{
+				height:12%;
+				font-size:2.0em;
+				padding-left:2%;
+				border-top:2px solid #996666;
+				font-weight:bold;
+				color:#996666;
+				background:#CEFFCD;		
+			}
+			.box
+			{
+				height:12%;
+				border-top:2px solid #660000;
+				
+			}
+			.box-content
+			{
+				height:88%;
+				background:white;
+				
+			}
+				.form
+				{
+					position:relative;
+					width:50%;
+					margin:0 auto;
+					background:#996666;
+					padding:1%;
+					height:100%;
+				}
+				
+				.form h1
+				{
+					margin:0;
+					color:white;
+				}
+				.form h2
+				{
+					margin:0;
+					margin-top:1%;
+					color:white;
+					padding-bottom:0.5%;
+				}
+				
+				.form hr
+				{
+					border:2px solid white;
+				}
+				.txtbox
+				{
+					font-size:1.3em;
+					padding:0.5%;
+					width:40%;
+					font-weight:bold;
+					background:none;
+					color:white;
+					border:none;
+					border-bottom:2px solid white;
+				}
+				.drop-down-box
+				{
+					font-size:1.3em;
+					padding:0.5%;
+					width:40%;
+					font-weight:bold;
+					background:none;
+					color:#660000;
+					border:none;
+					border-bottom:2px solid white;
+				}
+				.num-txtbox
+				{
+					font-size:1.3em;
+					padding:0.5%;
+					width:10%;
+					font-weight:bold;
+					background:none;
+					border:none;
+					border-bottom:2px solid white;
+					color:white;
+				}
+				.submit-button
+				{
+					font-size:1.5em;
+					padding:1%;
+					border:3px solid white;
+					background:green;
+					color:white;
+					font-weight:bold;
+					float:right;
+					cursor:pointer;
+					min-width:20%;
+				}
+				
+				.msgbox
+				{
+					font-weight:bold;
+					border-top:2px solid white;
+					border-bottom:2px solid white;
+					margin-top:1%%;
+					margin-bottom:1%;
+					padding-top:0.5%;
+					padding-bottom:0.5%;
+					color:white;
+					font-weight:bold;
+					font-size:1.5em;
+					text-align:center;
+					
+				}
+				
+				#menu-items-msgbox
+				{
+					background:#996666;
+					font-size:1.5em;
+					color:white;
+					font-weight:bold;
+					padding:0.5%;
+					text-align:center;
+					width:80%;
+					margin:0 auto;
+					border-bottom-left-radius:20px;
+					border-bottom-right-radius:20px;
+					border-top:2px solid white;
+					margin-bottom:0.2%;
+				
+				}
+				
+				#menu-details-form
+				{
+					font-size:1.5em; 
+					color:#660000;
+					font-weight:bold;
+					border-top:2px solid #996666;
+					border-bottom:2px solid #996666;
+					margin-top:1%;
+					margin-bottom:1%;
+					padding-top:0.2%;
+					padding-bottom:0.2%;
+					padding-left:5%;
+					
+				}
+				
+				#txtbox-edit-menu-name
+				{
+					font-size:1.1em;
+					border:none;
+					border-bottom:2px solid #660000;
+					color:#660000;
+
+				}
+				.overlay
+				{
+					position:absolute;top:0%;height:100%;width:100%;background:rgba(0,0,0,0.8);
+				}
+				.food-items
+				{
+					font-size:1.8em;
+					padding-left:5%;
+					padding-top:0.2%;
+					padding-bottom:0.2%;
+					color:#660000;
+				}
+				.button
+				{
+					background-color:green;
+					color:white;
+					font-size:1em;
+					width:10%;
+					border:1px solid white;
+					padding:0.5%;
+					cursor:pointer;
+					text-align:center;
+				}
+				.food-button
+				{
+					float:right;background:green;color:white;margin-left:1%;width:10%;text-align:center;cursor:pointer;font-size:0.9em;height:100%;		
+				}
+				
+				#food-suggestion
+				{
+					margin-left:1%;
+					color:white;
+					font-weight:bold;
+					font-size:1.5em;
+					width:100%;
+					border:3px solid white;
+				
+				}
+				
+				.suggested-food-item
+				{
+					cursor:pointer;padding-left:5%;padding-top:0.5%;padding-bottom:0.5%;font-weight:bold;color:white;font-size:1.5em;
+				}
+				
+				.suggested-food-item:hover
+				{
+					background:white;
+					color:black;
+				}

@@ -1,0 +1,65 @@
+html,body
+{
+	width:100%;
+	overflow:hidden;
+	margin:0;
+}
+.form h1
+{
+	margin:0;
+	color:white;
+}
+.form h2
+{
+	margin:0;
+	margin-top:1%;
+	color:white;
+	padding-bottom:0.5%;
+}
+.submit-button
+{
+	font-size:1.5em;
+	padding:1%;
+	border:3px solid white;
+	background:green;
+	color:white;
+	font-weight:bold;
+	float:right;
+	cursor:pointer;
+	min-width:20%;
+}
+.form hr
+{
+	border:2px solid white;
+}
+.overlay
+{
+	position:absolute;top:0%;height:100%;width:100%;background:rgba(0,0,0,0.8);
+}
+.form
+{
+	position:relative;
+	width:50%;
+	margin:0 auto;
+	background:#996666;
+	padding:1%;
+	height:100%;
+}
+.txtbox
+{
+	font-size:1.3em;
+	padding:0.5%;
+	width:40%;
+	font-weight:bold;
+	background:none;
+	color:white;
+	border:none;
+	border-bottom:2px solid white;
+}
+p
+{
+	font-weight:bold;
+	font-size:1.5em;
+	text-align:center;
+	color:white;
+}
