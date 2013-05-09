@@ -20,7 +20,7 @@
     $collection->insert($kiosk);
     
     
-    /*
+    
     $ssh = new Net_SSH2($_POST["ip"], 22, 2);
     if ($ssh->login('pi', 'raspberry'))
     {        
@@ -31,7 +31,7 @@
         
         echo $ssh->exec('./kioskIt/kiosk_refresh');
     }
-    */
+    
     
     $connection->close();
     

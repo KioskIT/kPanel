@@ -15,7 +15,7 @@
         
         if ($_POST["property"] == "video_mode" || $_POST["property"] == "version" || $_POST["property"] == "server_ip")
         {
-            /*
+            
             $ssh = new Net_SSH2($ip, 22, 2);
             if ($ssh->login('pi', 'raspberry'))
             {
@@ -34,7 +34,6 @@
                 echo $ssh->exec('./kioskIt/kiosk_refresh');
                 $collection->update(array("ip" => $ip), array('$set' => array($_POST["property"] => $_POST["value"])));
             }
-            */
         }
     }
     
